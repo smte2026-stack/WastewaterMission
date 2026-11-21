@@ -177,7 +177,7 @@
                     <!-- Score Counter -->
                     <div class="flex items-center gap-1.5 text-amber-400 font-extrabold text-xs md:text-sm">
                         <i class="fa-solid fa-star text-amber-300 animate-pulse"></i>
-                        <span id="hud-score" class="text-yellow-300 font-black text-sm md:text-base">0</span>
+                        <span id="hud-score" class="text-yellow-300 font-black text-sm md:text-base">0 / 100</span>
                         <span class="text-[10px] text-slate-300">คะแนน</span>
                     </div>
                     <div class="h-5 w-[2px] bg-slate-700"></div>
@@ -247,9 +247,9 @@
                             <li>• 🎮 <strong>การควบคุม:</strong> ลูกศร <span class="text-cyan-300">Left/Right/Up</span> หรือ <span class="text-cyan-300">A/D/Space</span> (รองรับปุ่มสัมผัสบนมือถือ)</li>
                             <li>• ❤️ <strong>หัวใจ & เกาะพัก:</strong> เริ่มต้น 3 ดวง ชนศัตรู -1 ดวง <em>(ตอบคำถามกล่องปริศนาจะไม่แจกหัวใจ สุ่มหัวใจ +1 ได้เฉพาะตามเกาะพัก!)</em></li>
                             <li>• 👾 <strong>ศัตรูประจำด่าน:</strong> สไลม์โคลนเน่า, หนูขยะถุงพลาสติก, ยุงพิษ และถังขยะปีศาจ</li>
-                            <li>• 📦 <strong>คำถามสุ่มระบบกายภาพ (10 ข้อ):</strong> ความยาวตัวเลือกเท่ากันทุกข้อ สุ่มตำแหน่ง ก, ข, ค, ง ไม่ซ้ำ
-                                <br><span class="text-emerald-400">🌱 ง่าย: +1 คะแนน (-1 ผิด)</span> | <span class="text-cyan-300">⚡ ปานกลาง: +2 คะแนน (-1 ผิด)</span>
-                                <br><span class="text-amber-400">🔥 ยาก: +3 คะแนน (-1 ผิด)</span> | <span class="text-rose-400 font-bold">💀 ข้อ 10 ฝันร้าย (ม.3): +5 คะแนน (ตอบผิด GAME OVER ทันที + เพลงบิ้วอารมณ์!)</span>
+                            <li>• 📦 <strong>คำถามสุ่มระบบกายภาพ (10 ข้อ):</strong> ความยาวตัวเลือกเท่ากันทุกข้อ สุ่มตำแหน่ง ก, ข, ค, ง ไม่ซ้ำ <em>(คำนวณเทียบเต็ม 100 คะแนน)</em>
+                                <br><span class="text-emerald-400">🌱 ง่าย: +1 แต้ม (-1 ผิด)</span> | <span class="text-cyan-300">⚡ ปานกลาง: +2 แต้ม (-1 ผิด)</span>
+                                <br><span class="text-amber-400">🔥 ยาก: +3 แต้ม (-1 ผิด)</span> | <span class="text-rose-400 font-bold">💀 ข้อ 10 ฝันร้าย (ม.3): +5 แต้ม (ตอบผิด GAME OVER ทันที + เพลงบิ้วอารมณ์!)</span>
                             </li>
                             <li>• 🏁 <strong>การเข้าเส้นชัย:</strong> ต้องตอบคำถามกล่องปริศนาให้ครบทั้ง 10 ข้อก่อนข้ามเส้นชัย!</li>
                         </ul>
@@ -758,6 +758,11 @@
         let hearts = 3;
         const MAX_HEARTS = 5;
         let score = 0;
+        const MAX_RAW_SCORE_G1 = 23;
+        function getScaledScore(raw) {
+            const clamped = Math.max(0, raw);
+            return Math.min(100, Math.round((clamped / MAX_RAW_SCORE_G1) * 100));
+        }
         let answeredBoxesCount = 0;
         let activeBoxIndex = -1;
         let currentQuestion = null;
@@ -1448,7 +1453,7 @@
             let heartStr = "";
             for (let i = 0; i < hearts; i++) heartStr += "❤️ ";
             document.getElementById('hud-hearts').textContent = heartStr.trim();
-            document.getElementById('hud-score').textContent = score;
+            document.getElementById('hud-score').textContent = `${getScaledScore(score)} / 100`;
             document.getElementById('hud-quiz-counter').textContent = `${answeredBoxesCount} / ${mysteryBoxes.length}`;
         }
 
@@ -1562,9 +1567,10 @@
 
             const mins = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
             const secs = (timerSeconds % 60).toString().padStart(2, '0');
+            const scaledScore = getScaledScore(score);
 
             document.getElementById('gameover-reason').textContent = reasonText || "หัวใจหมดลง! ลองใหม่อีกครั้งเพื่อฟื้นฟูลำธาร Stinky Creek";
-            document.getElementById('gameover-score').textContent = score;
+            document.getElementById('gameover-score').textContent = `${scaledScore} / 100`;
             document.getElementById('gameover-time').textContent = `${mins}:${secs}`;
             document.getElementById('gameover-screen').classList.remove('hidden');
         }
@@ -1576,8 +1582,9 @@
 
             const mins = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
             const secs = (timerSeconds % 60).toString().padStart(2, '0');
+            const scaledScore = getScaledScore(score);
 
-            document.getElementById('victory-score').textContent = score;
+            document.getElementById('victory-score').textContent = `${scaledScore} / 100`;
             document.getElementById('victory-time').textContent = `${mins}:${secs}`;
 
             let heartStr = "";
@@ -1585,20 +1592,20 @@
             document.getElementById('victory-hearts').textContent = heartStr;
 
             let badgeText = "🏆 ผู้เชี่ยวชาญการบำบัดน้ำเสียทางกายภาพ ม.3";
-            if (score >= 18) badgeText = "🌟 ดร. บำบัดน้ำเสียทางกายภาพขั้นเซียน ม.3 (Score 18+)";
-            else if (score >= 12) badgeText = "🏆 ผู้เชี่ยวชาญการบำบัดน้ำเสียทางกายภาพ ม.3";
+            if (scaledScore >= 80) badgeText = "🌟 ดร. บำบัดน้ำเสียทางกายภาพขั้นเซียน ม.3 (80+ คะแนน)";
+            else if (scaledScore >= 55) badgeText = "🏆 ผู้เชี่ยวชาญการบำบัดน้ำเสียทางกายภาพ ม.3";
             else badgeText = "🌱 ผู้ช่วยนักวิทยาศาสตร์ฟื้นฟูลำธาร";
             document.getElementById('victory-badge').textContent = badgeText;
 
             document.getElementById('victory-screen').classList.remove('hidden');
 
-            // ส่งผลคะแนนกลับไปยังหน้าหลัก (index.html) เพื่อบันทึกความก้าวหน้าและอัปเดต Top 5
+            // ส่งผลคะแนนเต็ม 100 กลับไปยังหน้าหลัก (index.html) เพื่อบันทึกความก้าวหน้าและอัปเดต Top 5
             if (window.parent && window.parent !== window) {
                 window.parent.postMessage({
                     type: "SCIENCE_GAME_RESULT",
                     gameId: 1,
                     gameName: "Stinky Creek",
-                    score: score,
+                    score: scaledScore,
                     completed: true,
                     timeUsed: timerSeconds
                 }, "*");
@@ -1691,6 +1698,21 @@
             initLevel();
             gameState = 'PLAYING';
         };
+
+        // ตรวจสอบโควตาการเล่นจาก URL (?attempt=X&max=3) เมื่อเปิดผ่านหน้าหลัก index.html
+        (function checkAttemptQuota() {
+            const params = new URLSearchParams(window.location.search);
+            const attempt = Number(params.get('attempt') || 1);
+            const maxPlays = Number(params.get('max') || 3);
+            if (attempt >= maxPlays) {
+                const btnVictoryRestart = document.getElementById('btn-victory-restart');
+                if (btnVictoryRestart) {
+                    btnVictoryRestart.disabled = true;
+                    btnVictoryRestart.classList.add('opacity-50', 'cursor-not-allowed');
+                    btnVictoryRestart.innerHTML = '<i class="fa-solid fa-lock"></i> เล่นครบ 3/3 ครั้งแล้ว (กดกลับหน้าหลักด้านบน)';
+                }
+            }
+        })();
 
         // Top-Right HUD Navigation Buttons (รีเซ็ตด่าน, เลือกตัวละคร, หน้าแรก)
         document.getElementById('btn-hud-reset-level').onclick = () => {
