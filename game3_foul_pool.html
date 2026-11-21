@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เกมจับคู่: การบำบัดน้ำเสียทางชีวภาพ (Visual Cartoon Edition)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Mali', 'Sarabun', cursive, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Bright Water World Theme Gradient */
+        .cute-bg {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 35%, #c7d2fe 75%, #fbcfe8 100%);
+        }
+
+        /* Glassmorphic Translucent Panels */
+        .glass-cute {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+        }
+
+        /* Large Visual Cute Cards */
+        .cute-card {
+            transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: center;
+        }
+
+        .cute-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 16px 25px -5px rgba(14, 165, 233, 0.3);
+        }
+
+        .card-selected {
+            border-color: #38bdf8 !important;
+            background-color: #f0f9ff !important;
+            box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.45), 0 12px 24px rgba(14, 165, 233, 0.25);
+            transform: scale(1.04) translateY(-3px);
+            animation: bounceLittle 0.45s ease infinite alternate;
+        }
+
+        .card-correct {
+            border-color: #4ade80 !important;
+            background-color: #f0fdf4 !important;
+            box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.4);
+            transform: scale(1);
+        }
+
+        .card-wrong {
+            border-color: #f87171 !important;
+            background-color: #fef2f2 !important;
+            animation: shakeCute 0.45s ease-in-out;
+        }
+
+        @keyframes bounceLittle {
+            0% { transform: translateY(-3px) scale(1.04); }
+            100% { transform: translateY(-7px) scale(1.04); }
+        }
+
+        @keyframes shakeCute {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px) rotate(-2deg); }
+            40%, 80% { transform: translateX(8px) rotate(2deg); }
+        }
+
+        @keyframes pulseCute {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        .pulse-mascot {
+            animation: pulseCute 2.5s ease-in-out infinite;
+        }
+
+        /* SVG Line Connection Overlay Canvas */
+        #svg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 15;
+        }
+
+        /* Dashed Animated SVG Flow Lines */
+        .connection-line {
+            stroke-dasharray: 10, 10;
+            animation: dashFlow 1.2s linear infinite;
+        }
+
+        @keyframes dashFlow {
+            from { stroke-dashoffset: 40; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        .speech-bubble-tail::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 30px;
+            border-width: 10px 10px 0 10px;
+            border-style: solid;
+            border-color: #ffffff transparent transparent transparent;
+        }
+
+        #bubble-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="cute-bg min-h-screen text-slate-800 flex flex-col justify-between relative overflow-x-hidden">
+
+    <!-- Background Floating Water Bubbles -->
+    <canvas id="bubble-canvas"></canvas>
+
+    <!-- Header Navigation & Stats -->
+    <header class="w-full bg-white/90 shadow-md sticky top-0 z-30 backdrop-blur-md border-b-4 border-cyan-300">
+        <div class="max-w-6xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+            
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-gradient-to-tr from-cyan-400 to-sky-300 rounded-2xl flex items-center justify-center shadow-lg border-2 border-white transform hover:rotate-6 transition">
+                    <svg class="w-8 h-8 text-white drop-shadow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold text-sky-800 flex items-center gap-1.5">
+                        <span>การบำบัดน้ำเสียทางชีวภาพ</span>
+                        <span class="bg-pink-400 text-white text-xs px-2.5 py-0.5 rounded-full shadow-sm font-semibold">ม.3</span>
+                    </h1>
+                    <p class="text-xs text-sky-600 font-medium">Matching Game: Visual Biological Wastewater Treatment 🎨</p>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="flex items-center space-x-2 md:space-x-3">
+                <div class="bg-amber-100 border-2 border-amber-300 px-3 py-1 rounded-2xl flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-star text-amber-500 text-base animate-bounce"></i>
+                    <span class="text-xs text-amber-800 font-bold">คะแนน:</span>
+                    <span id="score-text" class="text-amber-600 font-black text-sm md:text-base">0</span>
+                </div>
+
+                <div class="bg-sky-100 border-2 border-sky-300 px-3 py-1 rounded-2xl flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-stopwatch text-sky-500 text-base"></i>
+                    <span id="timer-text" class="text-sky-700 font-black text-sm md:text-base font-mono">00:00</span>
+                </div>
+
+                <div class="bg-orange-100 border-2 border-orange-300 px-3 py-1 rounded-2xl flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-fire-flame-curved text-orange-500 text-base"></i>
+                    <span id="combo-text" class="text-orange-600 font-black text-sm md:text-base">x1</span>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="flex items-center space-x-2">
+                <button id="audio-toggle-btn" class="w-9 h-9 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl border-2 border-slate-300 flex items-center justify-center transition shadow-sm" title="เปิด/ปิดเสียง">
+                    <i id="audio-icon" class="fa-solid fa-volume-high"></i>
+                </button>
+                <button id="glossary-btn" class="px-3 py-2 bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-500 hover:to-emerald-500 text-white text-xs md:text-sm font-bold rounded-xl shadow-md border-2 border-white transition flex items-center gap-1.5 transform hover:scale-105">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>ศัพท์น่ารู้ 📖</span>
+                </button>
+                <button id="reset-btn" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs md:text-sm font-bold rounded-xl shadow border-2 border-white transition flex items-center gap-1">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    <span>เริ่มใหม่</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl w-full mx-auto p-3 md:p-5 flex-grow relative z-10 flex flex-col justify-between space-y-4">
+
+        <!-- Water Cleansing Progress Bar -->
+        <div class="w-full bg-white/85 p-2.5 rounded-2xl border-2 border-sky-200 shadow-sm flex items-center gap-3">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-sky-700 shrink-0">
+                <i class="fa-solid fa-hand-holding-droplet text-sky-500 text-base"></i>
+                <span>ระดับความสะอาดของน้ำ:</span>
+            </div>
+            <div class="w-full bg-slate-200 h-4 rounded-full overflow-hidden p-0.5 border border-slate-300">
+                <div id="clean-progress-bar" class="bg-gradient-to-r from-sky-400 via-teal-400 to-emerald-400 h-full rounded-full transition-all duration-500 w-0"></div>
+            </div>
+            <span id="progress-percent" class="text-xs font-bold text-teal-600 shrink-0">0%</span>
+        </div>
+
+        <!-- Cute Mascot & Speech Bubble Banner -->
+        <div class="flex items-end gap-3 bg-white/75 p-3 rounded-2xl border-2 border-cyan-200 shadow-sm relative">
+            <div class="relative shrink-0 pulse-mascot">
+                <svg id="mascot-svg" class="w-16 h-16 md:w-20 md:h-20 drop-shadow-md" viewBox="0 0 100 100">
+                    <path d="M50 10 C50 10, 85 55, 85 70 A35 35 0 0 1 15 70 C15 55, 50 10, 50 10 Z" fill="#38bdf8" stroke="#0284c7" stroke-width="4"/>
+                    <path d="M35 45 C35 45, 25 60, 25 70" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+                    <ellipse cx="40" cy="62" rx="4" ry="6" fill="#0f172a"/>
+                    <ellipse cx="60" cy="62" rx="4" ry="6" fill="#0f172a"/>
+                    <circle cx="38" cy="60" r="1.5" fill="#ffffff"/>
+                    <circle cx="58" cy="60" r="1.5" fill="#ffffff"/>
+                    <ellipse cx="32" cy="68" rx="5" ry="3" fill="#f43f5e" opacity="0.4"/>
+                    <ellipse cx="68" cy="68" rx="5" ry="3" fill="#f43f5e" opacity="0.4"/>
+                    <path id="mascot-mouth" d="M 45 72 Q 50 78 55 72" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <div class="bg-white p-3 rounded-2xl border-2 border-sky-300 shadow-sm text-xs md:text-sm text-slate-700 flex-grow relative speech-bubble-tail">
+                <div class="flex items-center justify-between font-bold text-sky-800 mb-0.5">
+                    <span class="flex items-center gap-1">
+                        <span>น้อง Aqua-chan</span>
+                        <span class="text-xs bg-sky-100 text-sky-600 px-2 py-0.2 rounded-full">ผู้ช่วยการเรียนรู้</span>
+                    </span>
+                    <span class="text-xs text-slate-400 font-normal">สังเกตรูปภาพการ์ตูนแล้วจับคู่ได้เลย!</span>
+                </div>
+                <p id="mascot-speech" class="text-slate-600 font-medium">
+                    สวัสดีจ้า! มาดูภาพการ์ตูนเครื่องมือบำบัดน้ำเสียฝั่ง A แล้วจับคู่กับภาพกระบวนการทำงานฝั่ง B ให้ถูกต้องกันเถอะ~ 💧✨
+                </p>
+            </div>
+        </div>
+
+        <!-- Main Game Interactive Board -->
+        <div id="game-board" class="relative grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-14 items-start my-auto">
+            
+            <svg id="svg-canvas"></svg>
+
+            <!-- Column A: Left side -->
+            <div class="flex flex-col space-y-3 z-20">
+                <div class="flex items-center justify-between bg-gradient-to-r from-sky-400 to-cyan-400 text-white px-4 py-2 rounded-2xl font-bold shadow border-2 border-white text-sm md:text-base">
+                    <span class="flex items-center gap-2">
+                        <i class="fa-solid fa-gears"></i>
+                        <span>ฝั่ง A: กระบวนการบำบัดน้ำเสีย</span>
+                    </span>
+                    <span class="bg-white/30 text-xs px-2.5 py-0.5 rounded-full">5 เครื่องมือ</span>
+                </div>
+                <div id="col-a-container" class="flex flex-col space-y-3">
+                    <!-- Cards populated via JS -->
+                </div>
+            </div>
+
+            <!-- Column B: Right side -->
+            <div class="flex flex-col space-y-3 z-20">
+                <div class="flex items-center justify-between bg-gradient-to-r from-teal-400 to-emerald-400 text-white px-4 py-2 rounded-2xl font-bold shadow border-2 border-white text-sm md:text-base">
+                    <span class="flex items-center gap-2">
+                        <i class="fa-solid fa-vial-circle-check"></i>
+                        <span>ฝั่ง B: หน้าที่และผลลัพธ์</span>
+                    </span>
+                    <span class="bg-white/30 text-xs px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-shuffle mr-1"></i>สลับตำแหน่ง</span>
+                </div>
+                <div id="col-b-container" class="flex flex-col space-y-3">
+                    <!-- Cards populated via JS -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scientific Glossary Modal -->
+    <div id="glossary-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col border-4 border-teal-200 overflow-hidden animate-in fade-in zoom-in duration-200">
+            <div class="bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-400 text-white px-6 py-4 flex items-center justify-between border-b-2 border-white">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-xl">📖</div>
+                    <div>
+                        <h3 class="font-bold text-lg">คลังคำศัพท์น่ารู้ (Scientific Glossary)</h3>
+                        <p class="text-xs text-teal-50">สรุปหลักการบำบัดน้ำเสียทางชีวภาพ ม.3</p>
+                    </div>
+                </div>
+                <button id="close-glossary-btn" class="w-8 h-8 bg-white/20 hover:bg-white/30 text-white rounded-full font-bold flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="p-5 overflow-y-auto space-y-3.5 text-xs md:text-sm">
+                <div class="bg-sky-50 p-3.5 rounded-2xl border border-sky-200 flex items-start gap-3">
+                    <div class="text-3xl">🧪</div>
+                    <div>
+                        <span class="font-bold text-sky-800 text-sm">1. ค่า DO (Dissolved Oxygen)</span>
+                        <p class="text-slate-600 mt-1">ปริมาณออกซิเจนที่ละลายอยู่ในน้ำ น้ำดีจะมีค่า DO สูง ซึ่งแบคทีเรียต้องการใช้ DO ในการย่อยสลายสารอินทรีย์สิ่งปฏิกูล</p>
+                    </div>
+                </div>
+
+                <div class="bg-emerald-50 p-3.5 rounded-2xl border border-emerald-200 flex items-start gap-3">
+                    <div class="text-3xl">🦠</div>
+                    <div>
+                        <span class="font-bold text-emerald-800 text-sm">2. จุลินทรีย์ และ Sludge (เลนตะกอน)</span>
+                        <p class="text-slate-600 mt-1">กลุ่มแบคทีเรียที่คอยย่อยขยะในน้ำ เมื่อกินสารอินทรีย์จนอิ่มจะรวมตัวกันหนักขึ้นและจมลงสู่ก้นถังเป็น Sludge ตะกอนเลน</p>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 p-3.5 rounded-2xl border border-amber-200 flex items-start gap-3">
+                    <div class="text-3xl">⚙️</div>
+                    <div>
+                        <span class="font-bold text-amber-800 text-sm">3. เครื่องเติมอากาศ & กังหันน้ำชัยพัฒนา</span>
+                        <p class="text-slate-600 mt-1">นวัตกรรมช่วยวิดน้ำให้สัมผัสอากาศอย่างรวดเร็ว เพื่อเพิ่มปริมาณค่า DO ให้แหล่งน้ำเน่าเสียกลับมามีชีวิตชีวา</p>
+                    </div>
+                </div>
+
+                <div class="bg-purple-50 p-3.5 rounded-2xl border border-purple-200 flex items-start gap-3">
+                    <div class="text-3xl">☀️</div>
+                    <div>
+                        <span class="font-bold text-purple-800 text-sm">4. การฆ่าเชื้อด้วย UV และคลอรีน</span>
+                        <p class="text-slate-600 mt-1">การบำบัดขั้นสุดท้ายเพื่อทำลายโครงสร้างของแบคทีเรียและไวรัสก่อโรค ทำให้น้ำบริสุทธิ์ปลอดภัยก่อนปล่อยลงแหล่งน้ำธรรมชาติ</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 p-3 text-center border-t border-slate-100">
+                <button id="close-glossary-bottom-btn" class="px-6 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-xl font-bold shadow-md transition transform hover:scale-105">
+                    เข้าใจแล้วจ้า! ✨
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Victory End Modal -->
+    <div id="end-modal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden border-4 border-cyan-300 animate-in fade-in zoom-in duration-300">
+            <div class="bg-gradient-to-br from-cyan-400 via-sky-400 to-indigo-400 text-white p-6 text-center relative border-b-4 border-white">
+                <div class="w-24 h-24 bg-white/20 rounded-3xl flex items-center justify-center mx-auto mb-2 backdrop-blur-md border-2 border-white/50 shadow-inner">
+                    <i class="fa-solid fa-trophy text-5xl text-amber-300 drop-shadow-md animate-bounce"></i>
+                </div>
+                <h2 class="text-2xl font-bold">สุดยอดเลยนักเรียน ม.3! 🎉</h2>
+                <p class="text-sky-100 text-xs mt-1">คุณเก่งมากในการจับคู่กระบวนการบำบัดน้ำเสียทางชีวภาพ</p>
+            </div>
+
+            <div class="p-5 space-y-4">
+                <div class="flex justify-center space-x-2 text-4xl" id="stars-container">
+                    <!-- Dynamic Stars -->
+                </div>
+
+                <div class="grid grid-cols-3 gap-2 bg-sky-50 p-3.5 rounded-2xl border border-sky-100 text-center">
+                    <div>
+                        <span class="block text-xs text-slate-500 font-bold">คะแนนรวม</span>
+                        <span id="final-score" class="text-lg font-black text-sky-600">100</span>
+                    </div>
+                    <div class="border-x border-sky-200">
+                        <span class="block text-xs text-slate-500 font-bold">เวลาที่ใช้</span>
+                        <span id="final-time" class="text-lg font-black text-teal-600">01:15</span>
+                    </div>
+                    <div>
+                        <span class="block text-xs text-slate-500 font-bold">ความแม่นยำ</span>
+                        <span id="final-accuracy" class="text-lg font-black text-emerald-600">100%</span>
+                    </div>
+                </div>
+
+                <div class="bg-teal-50 p-3 rounded-2xl border border-teal-200 text-xs text-slate-700 space-y-1">
+                    <div class="font-bold text-teal-800 flex items-center gap-1">
+                        <span>🎓 สรุปการเรียนรู้วิทยาศาสตร์:</span>
+                    </div>
+                    <p class="leading-relaxed text-slate-600">
+                        กระบวนการบำบัดน้ำเสียเริ่มจากดักขยะ เติมแก๊สออกซิเจนให้แบคทีเรียย่อยสารอินทรีย์ เพิ่มค่า DO ตกตะกอน Sludge และจบด้วยการฆ่าเชื้อด้วย UV/คลอรีน เพื่อรักษาสิ่งแวดล้อมอย่างยั่งยืน!
+                    </p>
+                </div>
+
+                <button id="replay-btn" class="w-full py-3.5 bg-gradient-to-r from-sky-400 to-teal-400 hover:from-sky-500 hover:to-teal-500 text-white font-bold rounded-2xl shadow-lg border-2 border-white transition transform hover:scale-102 flex items-center justify-center gap-2 text-base">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>เล่นใหม่อีกครั้ง ✨</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <footer class="w-full text-center py-2 text-xs text-slate-500 bg-white/60 backdrop-blur-sm border-t border-sky-200 relative z-10">
+        <p>© 2026 สื่อการเรียนรู้วิทยาศาสตร์ ม.3 | Visual Educational Matching Game</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        // Exact 5 Dataset Pairs with Large Vivid Cartoon SVG Visuals
+        const gamePairs = [
+            {
+                id: 1,
+                colA: "ตะแกรงดักขยะ",
+                colB: "ดักเศษขยะ ถุงพลาสติก กิ่งไม้",
+                svgA: `
+                    <svg class="w-24 h-20 md:w-28 md:h-24 drop-shadow-md" viewBox="0 0 100 80">
+                        <rect x="10" y="10" width="80" height="60" rx="12" fill="#38bdf8" stroke="#0284c7" stroke-width="4"/>
+                        <rect x="16" y="16" width="68" height="48" rx="8" fill="#e0f2fe"/>
+                        <!-- Heavy Screen Bars -->
+                        <line x1="30" y1="16" x2="30" y2="64" stroke="#0284c7" stroke-width="5" stroke-linecap="round"/>
+                        <line x1="50" y1="16" x2="50" y2="64" stroke="#0284c7" stroke-width="5" stroke-linecap="round"/>
+                        <line x1="70" y1="16" x2="70" y2="64" stroke="#0284c7" stroke-width="5" stroke-linecap="round"/>
+                        <!-- Cute Eyes on Screen Frame -->
+                        <circle cx="42" cy="26" r="3" fill="#0f172a"/>
+                        <circle cx="58" cy="26" r="3" fill="#0f172a"/>
+                        <circle cx="41" cy="25" r="1" fill="#fff"/>
+                        <circle cx="57" cy="25" r="1" fill="#fff"/>
+                        <path d="M 45 32 Q 50 36 55 32" stroke="#0f172a" stroke-width="2.5" fill="none"/>
+                    </svg>`,
+                svgB: `
+                    <svg class="w-24 h-20 md:w-28 md:h-24 drop-shadow-md" viewBox="0 0 100 80">
+                        <!-- Plastic bag cartoon -->
+                        <path d="M 20 25 C 20 15, 35 15, 35 25 L 45 30 C 50 20, 65 25, 60 40 C 60 55, 30 60, 20 45 Z" fill="#fbcfe8" stroke="#db2777" stroke-width="3"/>
+                        <circle cx="32" cy="32" r="2.5" fill="#0f172a"/>
+                        <circle cx="42" cy="32" r="2.5" fill="#0f172a"/>
+                        <!-- Floating Branch / Wood -->
+                        <path d="M 45 45 L 85 35 Q 88 40 80 48 L 50 55 Z" fill="#b45309" stroke="#78350f" stroke-width="3"/>
+                        <!-- Trash Crumple -->
+                        <circle cx="75" cy="25" r="8" fill="#fef08a" stroke="#ca8a04" stroke-width="2.5"/>
+                    </svg>`,
+                hint: "ตะแกรงเหล็กดักขยะช่วยดักเศษขยะ ถุงพลาสติก หรือกิ่งไม้ชิ้นใหญ่ๆ ไม่ให้ไหลเข้าไปอุดตันปั๊มน้ำจ้า!"
+            },
+            {
+                id: 2,
+                colA: "ถังเติมอากาศ",
+                colB: "ใส่แก๊สออกซิเจนให้แบคทีเรียใช้ย่อยสารอินทรีย์",
+                svgA: `
+                    <svg class="w-24 h-20 md:w-28 md:h-24 drop-shadow-md" viewBox="0 0 100 80">
+                        <rect x="15" y="15" width="70" height="55" rx="12" fill="#ccfbf1" stroke="#0d9488" stroke-width="4"/>
+                        <!-- Oxygen Bubbles Cartoon -->
+                        <circle cx="35" cy="45" r="7" fill="#38bdf8" opacity="0.8" stroke="#0284c7" stroke-width="2"/>
+                        <circle cx="55" cy="35" r="9" fill="#38bdf8" opacity="0.8" stroke="#0284c7" stroke-width="2"/>
+                        <circle cx="68" cy="52" r="6" fill="#38bdf8" opacity="0.8" stroke="#0284c7" stroke-width="2"/>
+                        <!-- Shiny Highlight on bubbles -->
+                        <circle cx="33" cy="43" r="2" fill="#fff"/>
+                        <circle cx="52" cy="32" r="2.5" fill="#fff"/>
+                        <!-- Air Pump Pipe -->
+                        <path d="M 50 15 L 50 65" stroke="#14b8a6" stroke-width="4" stroke-dasharray="4,4"/>
+                    </svg>`,
+                svgB: `
+                    <svg class="w-24 h-20 md:w-28 md:h-24 drop-shadow-md" viewBox="0 0 100 80">
+                        <!-- Happy Bacteria Blob Eating Waste -->
+                        <circle cx="50" cy="40" r="28" fill="#86efac" stroke="#16a34a" stroke-width="4"/>
+                        <!-- Eye details -->
+                        <circle cx="38" cy="32" r="4" fill="#0f172a"/>
+                        <circle cx="62" cy="32" r="4" fill="#0f172a"/>
+                        <circle cx="36" cy="30" r="1.5" fill="#fff"/>
+                        <circle cx="60" cy="30" r="1.5" fill="#fff"/>
+                        <!-- Big Yummy Mouth -->
+                        <path d="M 38 45 Q 50 58 62 45 Z" fill="#dc2626"/>
+                        <!-- O2 Gas Bubbles around -->
+                        <span class="font-bold text-xs">
+                            <circle cx="20" cy="20" r="10" fill="#38bdf8" stroke="#0284c7" stroke-width="2"/>
+                            <text x="14" y="24" fill="#fff" font-size="10" font-weight="bold">O₂</text>
+                            <circle cx="80" cy="25" r="10" fill="#38bdf8" stroke="#0284c7" stroke-width="2"/>
+                            <text x="74" y="29" fill="#fff" font-size="10" font-weight="bold">O₂</text>
+                        </span>
+                    </svg>`,
+                hint: "ถังเติมอากาศจะให้ออกซิเจนแก่แบคทีเรียยิ้มแฉ่ง เพื่อให้น้องๆ ใช้ย่อยสลายสารอินทรีย์สิ่งปฏิกูล!"
+            },
+            {
+                id: 3,
+                colA: "กังหันน้ำชัยพัฒนา / เครื่องเติมอากาศ",
+                colB: "เพิ่มปริมาณค่า DO (ออกซิเจนที่ละลายในน้ำ) ในแหล่งน้ำธรรมชาติ",
+                svgA: `
+                    <svg class="w-24 h-20 md:w-28 md:h-24 drop-shadow-md" viewBox="0 0 100 80">
+                        <!-- Chaipattana Aerator Wheel -->
+                        <circle cx="50" cy="40" r="28" fill="#fef08a" stroke="#ca8a04" stroke-width="4"/>
+                        <!-- Blades -->
+                        <line x1="50" y1="12" x2="50" y2="68" stroke="#ca8a04" stroke-width="4"/>
+                        <line x1="22" y1="40" x2="78" y2="40" stroke="#ca8a04" stroke-width="4"/>
+                        <line x1="30" y1="20" x2="70" y2="60" stroke="#ca8a04" stroke-width="3"/>
+                        <line x1="30" y1="60" x2="70" y2="20" stroke="#ca8a04" stroke-width="3"/>
+                        <circle cx="50" cy="40" r="10" fill="#fff" stroke="#ca8a04" stroke-width="3"/>
+                        <!-- Water Splashes -->
+                        <path d="M 12 55 Q 22 45 15 35" stroke="#38bdf8" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        <path d="M 88 55 Q 78 45 85 35" stroke="#38bdf8" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    </svg>`,
+                svgB: `
+                    <svg class="w-24 h-20 md:w-28 md:h-24 drop-shadow-md" viewBox="0 0 100 80">
+                        <!-- Pure Blue Water Wave -->
+                        <path d="M 10 50 Q 30 35 50 50 T 90 50 L 90 70 L 10 70 Z" fill="#7dd3fc" stroke="#0284c7" stroke-width="3"/>
+                        <!-- Dissolved Oxygen DO Badges floating -->
+                        <g transform="translate(20, 15)">
+                            <rect x="0" y="0" width="28" height="20" rx="6" fill="#38bdf8" stroke="#0284c7" stroke-width="2"/>
+                            <text x="6" y="14" fill="#ffffff" font-size="11" font-weight="bold">DO</text>
+                        </g>
+                        <g transform="translate(52, 22)">
+                            <rect x="0" y="0" width="28" height="20" rx="6" fill="#38bdf8" stroke="#0284c7" stroke-width="2"/>
+                            <text x="6" y="14" fill="#ffffff" font-size="11" font-weight="bold">DO</text>
+                        </g>
+                        <path d="M 25 38 L 25 45 M 58 45 L 58 52" stroke="#38bdf8" stroke-width="2" stroke-dasharray="2,2"/>
+                    </svg>`,
+                hint: "กังหันน้ำชัยพัฒนาช่วยวิดน้ำให้หมุนสัมผัสอากาศ เพื่อเพิ่มปริมาณค่า DO (ออกซิเจนละลายในน้ำ) ในลำคลองจ้า!"
+            },
+            {
+                id: 4,
+                colA: "ถังตกตะกอน",
+                colB: "แยกกลุ่มจุลินทรีย์ ออกจากน้ำที่บำบัดแล้ว",
+                svgA: `
+                    <svg class="w-24 h-20 md:w-28 md:h-24 drop-shadow-md" viewBox="0 0 100 80">
+                        <!-- Sedimentation Cone Tank -->
+                        <polygon points="20,15 80,15 65,65 35,65" fill="#fed7aa" stroke="#ea580c" stroke-width="4"/>
+                        <!-- Water line inside -->
+                        <line x1="24" y1="30" x2="76" y2="30" stroke="#fdba74" stroke-width="3"/>
+                        <!-- Settling arrows downwards -->
+                        <path d="M 42 36 L 42 50 M 58 36 L 58 50" stroke="#ea580c" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M 39 47 L 42 52 L 45 47 M 55 47 L 58 52 L 61 47" fill="none" stroke="#ea580c" stroke-width="2.5"/>
+                    </svg>`,
+                svgB: `
+                    <svg class="w-24 h-20 md:w-28 md:h-24 drop-shadow-md" viewBox="0 0 100 80">
+                        <!-- Layer 1: Clean Clear Water Top -->
+                        <rect x="15" y="12" width="70" height="28" rx="6" fill="#bae6fd" stroke="#0284c7" stroke-width="2.5"/>
+                        <text x="25" y="30" fill="#0369a1" font-size="10" font-weight="bold">น้ำใสบำบัดแล้ว</text>
+                        <!-- Layer 2: Sludge Microbes Bottom -->
+                        <rect x="15" y="42" width="70" height="26" rx="6" fill="#78350f" stroke="#451a03" stroke-width="2.5"/>
+                        <!-- Microbe Sludge eyes cartoon -->
+                        <circle cx="30" cy="55" r="2" fill="#fff"/>
+                        <circle cx="45" cy="55" r="2" fill="#fff"/>
+                        <circle cx="60" cy="55" r="2" fill="#fff"/>
+                        <text x="22" y="64" fill="#fef3c7" font-size="9" font-weight="bold">กลุ่มจุลินทรีย์ (Sludge)</text>
+                    </svg>`,
+                hint: "ถังตกตะกอนปล่อยให้น้ำนิ่ง เพื่อแยกกลุ่มจุลินทรีย์ (Sludge ตะกอนเลน) จมลงก้นถัง แยกออกจากน้ำใส!"
+            },
+            {
+                id: 5,
+                colA: "การใส่คลอรีน / แสง UV",
+                colB: "ฆ่าเชื้อโรคก่อนปล่อยสู่ธรรมชาติ",
+                svgA: `
+                    <svg class="w-24 h-20 md:w-28 md:h-24 drop-shadow-md" viewBox="0 0 100 80">
+                        <!-- UV Light Bulb Neon -->
+                        <rect x="35" y="10" width="30" height="55" rx="8" fill="#e0e7ff" stroke="#4f46e5" stroke-width="3.5"/>
+                        <path d="M 42 20 L 42 50 M 58 20 L 58 50" stroke="#818cf8" stroke-width="3"/>
+                        <!-- Glow rays -->
+                        <line x1="15" y1="20" x2="28" y2="25" stroke="#a5b4fc" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="15" y1="45" x2="28" y2="40" stroke="#a5b4fc" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="85" y1="20" x2="72" y2="25" stroke="#a5b4fc" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="85" y1="45" x2="72" y2="40" stroke="#a5b4fc" stroke-width="3" stroke-linecap="round"/>
+                        <text x="40" y="75" fill="#3730a3" font-size="10" font-weight="bold">UV / Cl</text>
+                    </svg>`,
+                svgB: `
+                    <svg class="w-24 h-20 md:w-28 md:h-24 drop-shadow-md" viewBox="0 0 100 80">
+                        <!-- Germ Virus Cartoon getting destroyed -->
+                        <circle cx="50" cy="40" r="22" fill="#f43f5e" opacity="0.85" stroke="#be123c" stroke-width="3"/>
+                        <!-- Virus Spikes -->
+                        <line x1="50" y1="12" x2="50" y2="18" stroke="#be123c" stroke-width="3"/>
+                        <line x1="50" y1="62" x2="50" y2="68" stroke="#be123c" stroke-width="3"/>
+                        <line x1="22" y1="40" x2="28" y2="40" stroke="#be123c" stroke-width="3"/>
+                        <line x1="72" y1="40" x2="78" y2="40" stroke="#be123c" stroke-width="3"/>
+                        <!-- Cross out Death Eyes -->
+                        <path d="M 40 32 L 48 40 M 48 32 L 40 40" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M 52 32 L 60 40 M 60 32 L 52 40" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+                        <!-- Sparkles Clean -->
+                        <path d="M 78 15 L 82 22 L 89 24 L 83 29 L 85 36 L 78 32 L 72 36 L 74 29 L 68 24 L 75 22 Z" fill="#fef08a"/>
+                    </svg>`,
+                hint: "ขั้นตอนสุดท้าย! แสง UV และคลอรีนช่วยฆ่าเชื้อโรคอันตราย ทำให้น้ำบริสุทธิ์ก่อนปล่อยสู่ธรรมชาติอย่างปลอดภัย!"
+            }
+        ];
+
+        let selectedA = null;
+        let selectedB = null;
+        let matches = [];
+        let score = 0;
+        let combo = 1;
+        let totalAttempts = 0;
+        let timerSeconds = 0;
+        let timerInterval = null;
+        let isAudioMuted = false;
+        let shuffledB = [];
+
+        // Web Audio Chiptune Synthesizer
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (isAudioMuted) return;
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(420, now);
+                osc.frequency.exponentialRampToValueAtTime(840, now + 0.08);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                osc.start(now);
+                osc.stop(now + 0.08);
+            } else if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now);
+                osc.frequency.setValueAtTime(659.25, now + 0.08);
+                osc.frequency.setValueAtTime(783.99, now + 0.16);
+                osc.frequency.setValueAtTime(1046.50, now + 0.24);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                osc.start(now);
+                osc.stop(now + 0.4);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(280, now);
+                osc.frequency.exponentialRampToValueAtTime(130, now + 0.22);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            } else if (type === 'win') {
+                const notes = [523.25, 659.25, 783.99, 1046.50, 880, 1046.50];
+                notes.forEach((freq, idx) => {
+                    const noteOsc = audioCtx.createOscillator();
+                    const noteGain = audioCtx.createGain();
+                    noteOsc.connect(noteGain);
+                    noteGain.connect(audioCtx.destination);
+                    noteOsc.type = 'sine';
+                    noteOsc.frequency.setValueAtTime(freq, now + idx * 0.1);
+                    noteGain.gain.setValueAtTime(0.18, now + idx * 0.1);
+                    noteGain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.1 + 0.25);
+                    noteOsc.start(now + idx * 0.1);
+                    noteOsc.stop(now + idx * 0.1 + 0.25);
+                });
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initBubbleCanvas();
+            initGame();
+
+            document.getElementById('reset-btn').addEventListener('click', () => {
+                playSound('click');
+                initGame();
+            });
+
+            document.getElementById('replay-btn').addEventListener('click', () => {
+                playSound('click');
+                document.getElementById('end-modal').classList.add('hidden');
+                initGame();
+            });
+
+            document.getElementById('glossary-btn').addEventListener('click', () => {
+                playSound('click');
+                document.getElementById('glossary-modal').classList.remove('hidden');
+            });
+
+            document.getElementById('close-glossary-btn').addEventListener('click', () => {
+                playSound('click');
+                document.getElementById('glossary-modal').classList.add('hidden');
+            });
+
+            document.getElementById('close-glossary-bottom-btn').addEventListener('click', () => {
+                playSound('click');
+                document.getElementById('glossary-modal').classList.add('hidden');
+            });
+
+            document.getElementById('audio-toggle-btn').addEventListener('click', () => {
+                isAudioMuted = !isAudioMuted;
+                const icon = document.getElementById('audio-icon');
+                if (isAudioMuted) {
+                    icon.className = 'fa-solid fa-volume-xmark text-rose-500';
+                } else {
+                    icon.className = 'fa-solid fa-volume-high text-slate-600';
+                    playSound('click');
+                }
+            });
+
+            window.addEventListener('resize', redrawLines);
+        });
+
+        function initGame() {
+            selectedA = null;
+            selectedB = null;
+            matches = [];
+            score = 0;
+            combo = 1;
+            totalAttempts = 0;
+            timerSeconds = 0;
+
+            updateHUD();
+            updateProgressBar();
+            clearCanvas();
+
+            setMascotState('normal', "สวัสดีจ้า! มาดูภาพการ์ตูนเครื่องมือบำบัดน้ำเสียฝั่ง A แล้วจับคู่กับภาพกระบวนการทำงานฝั่ง B ให้ถูกต้องกันเถอะ~ 💧✨");
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+                const secs = String(timerSeconds % 60).padStart(2, '0');
+                document.getElementById('timer-text').innerText = `${mins}:${secs}`;
+            }, 1000);
+
+            // Shuffle Right Side Column B
+            shuffledB = [...gamePairs].sort(() => Math.random() - 0.5);
+
+            renderBoard();
+        }
+
+        function renderBoard() {
+            const containerA = document.getElementById('col-a-container');
+            const containerB = document.getElementById('col-b-container');
+
+            containerA.innerHTML = '';
+            containerB.innerHTML = '';
+
+            gamePairs.forEach(pair => {
+                containerA.appendChild(createVisualCard('A', pair));
+            });
+
+            shuffledB.forEach(pair => {
+                containerB.appendChild(createVisualCard('B', pair));
+            });
+        }
+
+        function createVisualCard(type, pair) {
+            const card = document.createElement('div');
+            card.id = `card-${type}-${pair.id}`;
+            card.dataset.id = pair.id;
+            card.dataset.type = type;
+
+            const isColA = type === 'A';
+            const titleText = isColA ? pair.colA : pair.colB;
+            const svgGraphic = isColA ? pair.svgA : pair.svgB;
+
+            card.className = "cute-card glass-cute p-3 md:p-3.5 rounded-3xl border-2 border-white shadow-md cursor-pointer relative flex flex-col items-center justify-between text-center select-none hover:border-sky-300 min-h-[145px]";
+
+            card.innerHTML = `
+                <!-- Large Visual Cartoon Header -->
+                <div class="my-auto py-1 flex items-center justify-center transform hover:scale-105 transition">
+                    ${svgGraphic}
+                </div>
+                
+                <!-- Text Label Below Cartoon -->
+                <div class="w-full bg-white/80 py-1.5 px-2 rounded-2xl border border-sky-100 mt-1 shadow-inner flex items-center justify-between gap-1">
+                    <span class="font-bold text-slate-700 text-xs md:text-xs leading-snug w-full text-center">${titleText}</span>
+                    <div class="card-status-icon text-slate-300 shrink-0">
+                        <i class="fa-regular fa-circle text-base"></i>
+                    </div>
+                </div>
+            `;
+
+            card.addEventListener('click', () => {
+                playSound('click');
+                handleCardSelect(type, pair.id);
+            });
+
+            // Drag and Drop Logic
+            card.draggable = true;
+            card.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', JSON.stringify({ type, id: pair.id }));
+            });
+            card.addEventListener('dragover', (e) => e.preventDefault());
+            card.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+                if (data.type !== type) {
+                    if (data.type === 'A') {
+                        selectedA = data.id;
+                        selectedB = pair.id;
+                    } else {
+                        selectedB = data.id;
+                        selectedA = pair.id;
+                    }
+                    evaluateMatch();
+                }
+            });
+
+            return card;
+        }
+
+        function handleCardSelect(type, id) {
+            if (matches.includes(id)) return;
+
+            if (type === 'A') {
+                selectedA = (selectedA === id) ? null : id;
+            } else {
+                selectedB = (selectedB === id) ? null : id;
+            }
+
+            updateCardStyles();
+
+            if (selectedA !== null && selectedB !== null) {
+                evaluateMatch();
+            }
+        }
+
+        function updateCardStyles() {
+            gamePairs.forEach(pair => {
+                ['A', 'B'].forEach(type => {
+                    const card = document.getElementById(`card-${type}-${pair.id}`);
+                    if (!card) return;
+
+                    const isMatched = matches.includes(pair.id);
+                    const isSelected = (type === 'A' && selectedA === pair.id) || (type === 'B' && selectedB === pair.id);
+
+                    card.classList.remove('card-selected', 'card-correct', 'card-wrong');
+
+                    if (isMatched) {
+                        card.classList.add('card-correct', 'opacity-90');
+                        card.querySelector('.card-status-icon').innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500 text-lg"></i>`;
+                        card.style.pointerEvents = 'none';
+                    } else if (isSelected) {
+                        card.classList.add('card-selected');
+                        card.querySelector('.card-status-icon').innerHTML = `<i class="fa-solid fa-sparkles text-sky-500 text-base"></i>`;
+                    } else {
+                        card.querySelector('.card-status-icon').innerHTML = `<i class="fa-regular fa-circle text-slate-300 text-base"></i>`;
+                    }
+                });
+            });
+        }
+
+        function evaluateMatch() {
+            totalAttempts++;
+
+            if (selectedA === selectedB) {
+                const matchedId = selectedA;
+                matches.push(matchedId);
+
+                score += 20 * combo;
+                combo++;
+                playSound('correct');
+
+                const item = gamePairs.find(p => p.id === matchedId);
+                setMascotState('happy', `ถูกต้องแล้วจ้า! 🎉 "${item.colA}" ตรงกับภาพ "${item.colB}" พอดีเลย! (+${20 * (combo - 1)} คะแนน)`);
+
+                selectedA = null;
+                selectedB = null;
+
+                updateHUD();
+                updateProgressBar();
+                updateCardStyles();
+                redrawLines();
+
+                if (matches.length === gamePairs.length) {
+                    setTimeout(endGame, 750);
+                }
+            } else {
+                playSound('wrong');
+                combo = 1;
+
+                const cardA = document.getElementById(`card-A-${selectedA}`);
+                const cardB = document.getElementById(`card-B-${selectedB}`);
+
+                cardA?.classList.add('card-wrong');
+                cardB?.classList.add('card-wrong');
+
+                const itemA = gamePairs.find(p => p.id === selectedA);
+                setMascotState('sad', `ลองดูอีกทีนะจ๊ะ~ 💡 คำใบ้สำหรับ "${itemA.colA}": ${itemA.hint}`);
+
+                updateHUD();
+
+                setTimeout(() => {
+                    selectedA = null;
+                    selectedB = null;
+                    updateCardStyles();
+                }, 950);
+            }
+        }
+
+        function setMascotState(state, speechText) {
+            const speech = document.getElementById('mascot-speech');
+            const mouth = document.getElementById('mascot-mouth');
+            speech.innerText = speechText;
+
+            if (state === 'happy') {
+                mouth.setAttribute('d', 'M 40 68 Q 50 82 60 68');
+            } else if (state === 'sad') {
+                mouth.setAttribute('d', 'M 42 74 Q 50 68 58 74');
+            } else {
+                mouth.setAttribute('d', 'M 45 72 Q 50 78 55 72');
+            }
+        }
+
+        function updateProgressBar() {
+            const percent = Math.round((matches.length / gamePairs.length) * 100);
+            document.getElementById('clean-progress-bar').style.width = `${percent}%`;
+            document.getElementById('progress-percent').innerText = `${percent}%`;
+        }
+
+        function redrawLines() {
+            const svg = document.getElementById('svg-canvas');
+            const board = document.getElementById('game-board');
+            const boardRect = board.getBoundingClientRect();
+
+            svg.setAttribute('width', boardRect.width);
+            svg.setAttribute('height', boardRect.height);
+            svg.style.width = `${boardRect.width}px`;
+            svg.style.height = `${boardRect.height}px`;
+
+            svg.innerHTML = '';
+
+            matches.forEach(id => {
+                const cardA = document.getElementById(`card-A-${id}`);
+                const cardB = document.getElementById(`card-B-${id}`);
+
+                if (cardA && cardB) {
+                    const rectA = cardA.getBoundingClientRect();
+                    const rectB = cardB.getBoundingClientRect();
+
+                    const startX = rectA.right - boardRect.left;
+                    const startY = rectA.top + (rectA.height / 2) - boardRect.top;
+                    const endX = rectB.left - boardRect.left;
+                    const endY = rectB.top + (rectB.height / 2) - boardRect.top;
+
+                    const controlOffset = Math.abs(endX - startX) * 0.45;
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    const d = `M ${startX} ${startY} C ${startX + controlOffset} ${startY}, ${endX - controlOffset} ${endY}, ${endX} ${endY}`;
+
+                    path.setAttribute('d', d);
+                    path.setAttribute('stroke', '#38bdf8');
+                    path.setAttribute('stroke-width', '6');
+                    path.setAttribute('fill', 'none');
+                    path.setAttribute('stroke-linecap', 'round');
+                    path.setAttribute('class', 'connection-line drop-shadow-sm');
+
+                    svg.appendChild(path);
+                }
+            });
+        }
+
+        function clearCanvas() {
+            document.getElementById('svg-canvas').innerHTML = '';
+        }
+
+        function updateHUD() {
+            document.getElementById('score-text').innerText = score;
+            document.getElementById('combo-text').innerText = `x${combo}`;
+        }
+
+        function endGame() {
+            clearInterval(timerInterval);
+            playSound('win');
+
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 140,
+                    spread: 85,
+                    origin: { y: 0.6 }
+                });
+            }
+
+            const accuracy = totalAttempts > 0 ? Math.round((gamePairs.length / totalAttempts) * 100) : 100;
+            const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+            const secs = String(timerSeconds % 60).padStart(2, '0');
+
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('final-time').innerText = `${mins}:${secs}`;
+            document.getElementById('final-accuracy').innerText = `${accuracy}%`;
+
+            const starsContainer = document.getElementById('stars-container');
+            let starsCount = 1;
+            if (accuracy >= 80 && timerSeconds <= 90) {
+                starsCount = 3;
+            } else if (accuracy >= 60) {
+                starsCount = 2;
+            }
+
+            starsContainer.innerHTML = '';
+            for (let i = 0; i < 3; i++) {
+                if (i < starsCount) {
+                    starsContainer.innerHTML += `<i class="fa-solid fa-star text-amber-400 drop-shadow-md animate-pulse"></i>`;
+                } else {
+                    starsContainer.innerHTML += `<i class="fa-regular fa-star text-slate-300"></i>`;
+                }
+            }
+
+            document.getElementById('end-modal').classList.remove('hidden');
+        }
+
+        function initBubbleCanvas() {
+            const canvas = document.getElementById('bubble-canvas');
+            const ctx = canvas.getContext('2d');
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            const bubbles = Array.from({ length: 24 }, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height + canvas.height,
+                radius: Math.random() * 14 + 6,
+                speed: Math.random() * 1.3 + 0.5,
+                opacity: Math.random() * 0.4 + 0.2
+            }));
+
+            function animateBubbles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                bubbles.forEach(b => {
+                    b.y -= b.speed;
+                    if (b.y < -20) {
+                        b.y = canvas.height + 20;
+                        b.x = Math.random() * canvas.width;
+                    }
+
+                    ctx.beginPath();
+                    ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(186, 230, 253, ${b.opacity})`;
+                    ctx.fill();
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${b.opacity + 0.25})`;
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+                });
+
+                requestAnimationFrame(animateBubbles);
+            }
+            animateBubbles();
+        }
+    </script>
+</body>
+</html>

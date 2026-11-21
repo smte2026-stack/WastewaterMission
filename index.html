@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ศูนย์รวมเกมวิทยาศาสตร์ & สิ่งแวดล้อม ม.3</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Kanit', sans-serif; }
+    body {
+      background: linear-gradient(135deg, #ecfdf5 0%, #e0f2fe 50%, #f0fdf4 100%);
+      min-height: 100vh;
+    }
+  </style>
+</head>
+<body class="text-slate-800">
+
+  <!-- ==================== 1. หน้าลงทะเบียน / เข้าสู่ระบบ ==================== -->
+  <div id="auth-view" class="min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border-4 border-teal-200 p-6 md:p-8">
+      <div class="text-center mb-6">
+        <div class="w-16 h-16 bg-gradient-to-tr from-teal-500 to-sky-500 text-white rounded-2xl flex items-center justify-center text-3xl mx-auto mb-3 shadow-lg">
+          <i class="fa-solid fa-flask-vial"></i>
+        </div>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-teal-900">Science Quest M.3</h1>
+        <p class="text-sm text-slate-500 mt-1">ตะลุย 5 ภารกิจเกมวิทยาศาสตร์และการจัดการสิ่งแวดล้อม</p>
+      </div>
+
+      <!-- แถบสลับโหมด เข้าสู่ระบบ / ลงทะเบียนใหม่ -->
+      <div class="grid grid-cols-2 bg-slate-100 p-1 rounded-2xl mb-5">
+        <button id="tab-login" onclick="switchAuthMode('login')" class="py-2 rounded-xl font-bold text-sm bg-white text-teal-700 shadow transition">
+          เข้าสู่ระบบเดิม
+        </button>
+        <button id="tab-register" onclick="switchAuthMode('register')" class="py-2 rounded-xl font-bold text-sm text-slate-500 hover:text-slate-700 transition">
+          ลงทะเบียนใหม่
+        </button>
+      </div>
+
+      <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-sm font-bold text-slate-700 mb-1">ชื่อเล่น (Nickname)</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+              <i class="fa-solid fa-user"></i>
+            </span>
+            <input type="text" id="input-nickname" required maxlength="20" placeholder="เช่น น้องน้ำใส, กัปตันวิทย์"
+              class="w-full pl-10 pr-4 py-3 rounded-xl border-2 border-slate-200 focus:border-teal-500 focus:outline-none font-medium">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-bold text-slate-700 mb-1">รหัสผ่านตัวเลข 5 หลัก (PIN)</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+              <i class="fa-solid fa-key"></i>
+            </span>
+            <input type="password" id="input-pin" required maxlength="5" pattern="\d{5}" inputmode="numeric" placeholder="กรอกตัวเลข 5 หลัก เช่น 12345"
+              class="w-full pl-10 pr-12 py-3 rounded-xl border-2 border-slate-200 focus:border-teal-500 focus:outline-none font-bold tracking-widest text-lg">
+            <button type="button" onclick="togglePinVisibility()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
+              <i id="pin-eye-icon" class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">* ใช้รหัสผ่าน 5 หลักนี้เพื่อเข้ากลับมาเล่นต่อได้ตลอดเวลา</p>
+        </div>
+
+        <div id="auth-error" class="hidden bg-rose-50 border border-rose-200 text-rose-600 text-xs font-bold p-3 rounded-xl"></div>
+
+        <button type="submit" id="auth-submit-btn" class="w-full py-3.5 bg-gradient-to-r from-teal-500 to-sky-500 hover:from-teal-600 hover:to-sky-600 text-white font-extrabold rounded-xl shadow-lg transition transform active:scale-95 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          <span id="auth-submit-text">เข้าสู่ระบบและเริ่มเล่นเกม</span>
+        </button>
+      </form>
+
+      <div id="connection-badge" class="mt-5 pt-4 border-t border-slate-100 text-center text-xs text-slate-500"></div>
+    </div>
+  </div>
+
+  <!-- ==================== 2. หน้าหลัก (แดชบอร์ด + 5 เกม + Top 5) ==================== -->
+  <div id="dashboard-view" class="hidden max-w-6xl mx-auto p-4 md:p-6 space-y-6">
+    
+    <!-- Header Bar -->
+    <header class="bg-white rounded-3xl p-4 md:p-5 shadow-md border-2 border-teal-100 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 bg-teal-500 text-white rounded-2xl flex items-center justify-center text-2xl shadow">
+          <i class="fa-solid fa-gamepad"></i>
+        </div>
+        <div>
+          <h1 class="text-xl md:text-2xl font-extrabold text-teal-900">ศูนย์รวมเกมวิทยาศาสตร์ ม.3</h1>
+          <p class="text-xs md:text-sm text-slate-500">สวัสดีคุณ <span id="user-display-name" class="font-bold text-teal-700"></span> • เข้าเล่นและบันทึกความก้าวหน้าอัตโนมัติ</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button onclick="refreshData()" class="px-3.5 py-2 bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold text-xs md:text-sm rounded-xl border border-sky-200 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-rotate"></i> รีเฟรชข้อมูล
+        </button>
+        <button onclick="logout()" class="px-3.5 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs md:text-sm rounded-xl border border-rose-200 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-right-from-bracket"></i> ออกจากระบบ
+        </button>
+      </div>
+    </header>
+
+    <!-- รายงานความก้าวหน้าของผู้เล่น & สถิติ Top 5 -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- รายงานความก้าวหน้าส่วนบุคคล (7 คอลัมน์) -->
+      <section class="lg:col-span-7 bg-white rounded-3xl p-5 md:p-6 shadow-md border-2 border-teal-100 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-extrabold text-teal-900 flex items-center gap-2">
+              <i class="fa-solid fa-chart-line text-teal-500"></i> รายงานความก้าวหน้าของคุณ
+            </h2>
+            <span id="last-played-text" class="text-xs text-slate-400">เล่นล่าสุด: -</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-3 mb-5">
+            <div class="bg-teal-50 p-3.5 rounded-2xl border border-teal-200 text-center">
+              <span class="text-xs text-teal-700 font-bold block">คะแนนรวมสะสม</span>
+              <span id="stat-total-score" class="text-2xl md:text-3xl font-black text-teal-700">0</span>
+            </div>
+            <div class="bg-sky-50 p-3.5 rounded-2xl border border-sky-200 text-center">
+              <span class="text-xs text-sky-700 font-bold block">ผ่านภารกิจแล้ว</span>
+              <span id="stat-completed-count" class="text-2xl md:text-3xl font-black text-sky-700">0 / 5</span>
+            </div>
+            <div class="bg-amber-50 p-3.5 rounded-2xl border border-amber-200 text-center">
+              <span class="text-xs text-amber-700 font-bold block">ความสำเร็จรวม</span>
+              <span id="stat-percent" class="text-2xl md:text-3xl font-black text-amber-600">0%</span>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
+              <span>แถบความก้าวหน้าการเรียนรู้ครบทั้ง 5 เกม</span>
+              <span id="bar-label">0%</span>
+            </div>
+            <div class="w-full h-4 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
+              <div id="overall-progress-bar" class="h-full bg-gradient-to-r from-teal-400 via-emerald-400 to-sky-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- สรุปสถานะรายเกมแบบย่อ -->
+        <div id="mini-progress-list" class="space-y-2 pt-3 border-t border-slate-100 text-xs"></div>
+      </section>
+
+      <!-- สถิติผู้เล่นคะแนนสูงสุด 5 อันดับ (5 คอลัมน์) -->
+      <section class="lg:col-span-5 bg-white rounded-3xl p-5 md:p-6 shadow-md border-2 border-amber-200">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-extrabold text-amber-800 flex items-center gap-2">
+            <i class="fa-solid fa-trophy text-amber-500"></i> ผู้เล่นคะแนนสูงสุด 5 อันดับ
+          </h2>
+          <span class="text-xs bg-amber-100 text-amber-800 font-bold px-2.5 py-1 rounded-full">Top 5</span>
+        </div>
+
+        <div id="leaderboard-container" class="space-y-2.5">
+          <div class="text-center text-sm text-slate-400 py-8">กำลังโหลดอันดับคะแนน...</div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- รายการเกมทั้ง 5 เกม -->
+    <section>
+      <h2 class="text-xl font-extrabold text-slate-800 mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-layer-group text-teal-600"></i> เลือกด่านเกมวิทยาศาสตร์ทั้ง 5 เกม
+      </h2>
+      <div id="games-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    </section>
+
+  </div>
+
+  <!-- ==================== 3. หน้าต่างเล่นเกม (Modal Iframe เต็มจอ) ==================== -->
+  <div id="game-player-modal" class="hidden fixed inset-0 z-50 bg-slate-950 flex flex-col">
+    <div class="bg-slate-900 text-white px-4 py-2.5 flex items-center justify-between border-b border-slate-700">
+      <div class="flex items-center gap-3">
+        <button onclick="closeGameModal()" class="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs md:text-sm rounded-xl transition flex items-center gap-1.5">
+          <i class="fa-solid fa-arrow-left"></i> กลับหน้าหลัก & ดูความก้าวหน้า
+        </button>
+        <span id="active-game-title" class="font-bold text-sm md:text-base text-cyan-300 truncate">กำลังเล่นเกม...</span>
+      </div>
+      <div class="text-xs text-slate-300 hidden sm:block">
+        ผู้เล่น: <span id="modal-player-name" class="font-bold text-emerald-400"></span>
+      </div>
+    </div>
+    <iframe id="game-iframe" src="" class="w-full flex-1 border-0 bg-white"></iframe>
+  </div>
+
+  <!-- แจ้งเตือนเมื่อบันทึกคะแนนสำเร็จ -->
+  <div id="save-toast" class="hidden fixed bottom-5 right-5 z-50 bg-emerald-600 text-white px-5 py-3 rounded-2xl shadow-2xl font-bold text-sm flex items-center gap-2">
+    <i class="fa-solid fa-circle-check text-xl"></i>
+    <span id="save-toast-text">บันทึกคะแนนลง Google Sheet เรียบร้อยแล้ว!</span>
+  </div>
+
+  <script>
+    // =========================================================================
+    // ใส่ URL ของ Google Apps Script Web App ที่ Deploy แล้วตรงนี้:
+    const GAS_WEB_APP_URL = ""; 
+    // =========================================================================
+
+    const GAMES_CONFIG = [
+      {
+        id: 1,
+        title: "1. Stinky Creek (บำบัดน้ำเสียทางกายภาพ)",
+        desc: "ผจญภัยเก็บกล่องคำถาม 10 ข้อ ตะลุยด่านฟื้นฟูลำธารน้ำเสียทางกายภาพ ม.3",
+        file: "game1_stinky_creek.html",
+        maxScore: 23,
+        icon: "🌊",
+        color: "from-cyan-500 to-teal-600"
+      },
+      {
+        id: 2,
+        title: "2. Dirty Drop (แยกสารแขวนลอย)",
+        desc: "ห้องแล็บพาสเทล ลากสารแขวนลอยทั้ง 6 ชนิดลงอุปกรณ์แยกสารที่ถูกต้อง",
+        file: "game2_dirty_drop.html",
+        maxScore: 6,
+        icon: "🧪",
+        color: "from-teal-400 to-emerald-500"
+      },
+      {
+        id: 3,
+        title: "3. Foul Pool (บำบัดน้ำเสียทางชีวภาพ)",
+        desc: "จับคู่กระบวนการและเครื่องมือบำบัดน้ำเสียทางชีวภาพพร้อมภาพประกอบ",
+        file: "game3_foul_pool.html",
+        maxScore: 300,
+        icon: "🦠",
+        color: "from-sky-400 to-indigo-500"
+      },
+      {
+        id: 4,
+        title: "4. Bin It Right (คัดแยกขยะรักษ์โลก)",
+        desc: "คัดแยกขยะ 20 ชิ้นลงถังขยะ 4 ประเภทให้ถูกต้องภายในเวลา 100 วินาที",
+        file: "game4_bin_it_right.html",
+        maxScore: 200,
+        icon: "♻️",
+        color: "from-amber-400 to-orange-500"
+      },
+      {
+        id: 5,
+        title: "5. Bio-Waste to Compost (เปลี่ยนขยะเป็นปุ๋ย)",
+        desc: "ภารกิจ 3 ขั้นตอน: ตักสาหร่าย ให้อาหารไก่ และหมักปุ๋ยชีวภาพ",
+        file: "game5_bio.html",
+        maxScore: 100,
+        icon: "🌱",
+        color: "from-lime-500 to-green-600"
+      }
+    ];
+
+    let authMode = "login";
+    let currentPlayer = null;
+    let leaderboardData = [];
+
+    window.addEventListener("DOMContentLoaded", () => {
+      updateConnectionBadge();
+      const savedSession = localStorage.getItem("sci_hub_current_user");
+      if (savedSession) {
+        currentPlayer = JSON.parse(savedSession);
+        showDashboard();
+        refreshData();
+      } else {
+        fetchLeaderboardOnly();
+      }
+    });
+
+    function updateConnectionBadge() {
+      const badge = document.getElementById("connection-badge");
+      if (GAS_WEB_APP_URL && GAS_WEB_APP_URL.startsWith("http")) {
+        badge.innerHTML = `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-cloud-check"></i> เชื่อมต่อฐานข้อมูล Google Sheet พร้อมใช้งาน</span>`;
+      } else {
+        badge.innerHTML = `<span class="text-amber-600 font-bold"><i class="fa-solid fa-triangle-exclamation"></i> โหมดทดสอบในเครื่อง (กรุณาใส่ GAS_WEB_APP_URL เพื่อซิงก์ Google Sheet)</span>`;
+      }
+    }
+
+    function switchAuthMode(mode) {
+      authMode = mode;
+      const tabLogin = document.getElementById("tab-login");
+      const tabReg = document.getElementById("tab-register");
+      const btnText = document.getElementById("auth-submit-text");
+      document.getElementById("auth-error").classList.add("hidden");
+
+      if (mode === "login") {
+        tabLogin.className = "py-2 rounded-xl font-bold text-sm bg-white text-teal-700 shadow transition";
+        tabReg.className = "py-2 rounded-xl font-bold text-sm text-slate-500 hover:text-slate-700 transition";
+        btnText.textContent = "เข้าสู่ระบบและเริ่มเล่นเกม";
+      } else {
+        tabReg.className = "py-2 rounded-xl font-bold text-sm bg-white text-teal-700 shadow transition";
+        tabLogin.className = "py-2 rounded-xl font-bold text-sm text-slate-500 hover:text-slate-700 transition";
+        btnText.textContent = "ลงทะเบียนใหม่และเริ่มเล่นเกม";
+      }
+    }
+
+    function togglePinVisibility() {
+      const input = document.getElementById("input-pin");
+      const icon = document.getElementById("pin-eye-icon");
+      if (input.type === "password") {
+        input.type = "text";
+        icon.className = "fa-solid fa-eye-slash";
+      } else {
+        input.type = "password";
+        icon.className = "fa-solid fa-eye";
+      }
+    }
+
+    async function apiCall(payload) {
+      // หากใส่ URL ของ Google Apps Script แล้ว ให้ส่งข้อมูลไปที่ Google Sheet
+      if (GAS_WEB_APP_URL && GAS_WEB_APP_URL.startsWith("http")) {
+        const res = await fetch(GAS_WEB_APP_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+        return await res.json();
+      }
+
+      // Fallback: โหมดจำลองใน LocalStorage กรณียังไม่ได้ใส่ลิงก์ Google Sheet
+      return localFallbackApi(payload);
+    }
+
+    function localFallbackApi(payload) {
+      const db = JSON.parse(localStorage.getItem("sci_hub_local_db") || "{}");
+      const now = new Date().toLocaleString("th-TH");
+
+      if (payload.action === "register") {
+        const key = payload.nickname.toLowerCase();
+        if (db[key]) return { status: "error", message: "ชื่อเล่นนี้มีผู้ใช้งานแล้ว กรุณาใช้ชื่ออื่นหรือกดเข้าสู่ระบบ" };
+        db[key] = {
+          nickname: payload.nickname,
+          pin: payload.pin,
+          games: [1, 2, 3, 4, 5].map(id => ({ id, bestScore: 0, completed: false })),
+          totalScore: 0,
+          completedCount: 0,
+          lastPlayed: now
+        };
+        localStorage.setItem("sci_hub_local_db", JSON.stringify(db));
+        return { status: "ok", player: db[key], leaderboard: buildLocalTop5(db) };
+      }
+
+      if (payload.action === "login") {
+        const key = payload.nickname.toLowerCase();
+        const user = db[key];
+        if (!user) return { status: "error", message: "ไม่พบชื่อเล่นนี้ในระบบ กรุณาลงทะเบียนใหม่" };
+        if (user.pin !== payload.pin) return { status: "error", message: "รหัสผ่าน 5 หลักไม่ถูกต้อง" };
+        return { status: "ok", player: user, leaderboard: buildLocalTop5(db) };
+      }
+
+      if (payload.action === "save_progress") {
+        const key = payload.nickname.toLowerCase();
+        const user = db[key];
+        if (!user) return { status: "error", message: "ไม่พบข้อมูลผู้เล่น" };
+        const g = user.games.find(x => x.id === Number(payload.gameId));
+        if (g) {
+          if (Number(payload.score) > g.bestScore) g.bestScore = Number(payload.score);
+          if (payload.completed) g.completed = true;
+        }
+        user.totalScore = user.games.reduce((sum, x) => sum + x.bestScore, 0);
+        user.completedCount = user.games.filter(x => x.completed).length;
+        user.lastPlayed = now;
+        localStorage.setItem("sci_hub_local_db", JSON.stringify(db));
+        return { status: "ok", player: user, leaderboard: buildLocalTop5(db) };
+      }
+    }
+
+    function buildLocalTop5(db) {
+      return Object.values(db)
+        .map(u => ({ nickname: u.nickname, totalScore: u.totalScore, completedCount: u.completedCount }))
+        .sort((a, b) => b.totalScore - a.totalScore || b.completedCount - a.completedCount)
+        .slice(0, 5);
+    }
+
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const nickname = document.getElementById("input-nickname").value.trim();
+      const pin = document.getElementById("input-pin").value.trim();
+      const errBox = document.getElementById("auth-error");
+      const btn = document.getElementById("auth-submit-btn");
+
+      errBox.classList.add("hidden");
+
+      if (!/^\d{5}$/.test(pin)) {
+        errBox.textContent = "รหัสผ่านต้องเป็นตัวเลข 5 หลักเท่านั้น";
+        errBox.classList.remove("hidden");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.classList.add("opacity-70");
+
+      try {
+        const res = await apiCall({ action: authMode, nickname, pin });
+        if (res.status === "ok") {
+          currentPlayer = res.player;
+          currentPlayer.pin = pin;
+          leaderboardData = res.leaderboard || [];
+          localStorage.setItem("sci_hub_current_user", JSON.stringify(currentPlayer));
+          showDashboard();
+        } else {
+          errBox.textContent = res.message || "เกิดข้อผิดพลาด กรุณาลองใหม่";
+          errBox.classList.remove("hidden");
+        }
+      } catch (err) {
+        errBox.textContent = "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้: " + err.message;
+        errBox.classList.remove("hidden");
+      } finally {
+        btn.disabled = false;
+        btn.classList.remove("opacity-70");
+      }
+    }
+
+    async function refreshData() {
+      if (!currentPlayer) return;
+      try {
+        const res = await apiCall({
+          action: "login",
+          nickname: currentPlayer.nickname,
+          pin: currentPlayer.pin
+        });
+        if (res.status === "ok") {
+          const pin = currentPlayer.pin;
+          currentPlayer = res.player;
+          currentPlayer.pin = pin;
+          leaderboardData = res.leaderboard || [];
+          localStorage.setItem("sci_hub_current_user", JSON.stringify(currentPlayer));
+          renderDashboard();
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function fetchLeaderboardOnly() {
+      if (GAS_WEB_APP_URL && GAS_WEB_APP_URL.startsWith("http")) {
+        try {
+          const res = await fetch(GAS_WEB_APP_URL + "?action=leaderboard");
+          const data = await res.json();
+          if (data.status === "ok") leaderboardData = data.leaderboard;
+        } catch (e) {}
+      }
+    }
+
+    function showDashboard() {
+      document.getElementById("auth-view").classList.add("hidden");
+      document.getElementById("dashboard-view").classList.remove("hidden");
+      renderDashboard();
+    }
+
+    function logout() {
+      localStorage.removeItem("sci_hub_current_user");
+      currentPlayer = null;
+      document.getElementById("dashboard-view").classList.add("hidden");
+      document.getElementById("auth-view").classList.remove("hidden");
+      document.getElementById("input-pin").value = "";
+    }
+
+    function renderDashboard() {
+      if (!currentPlayer) return;
+      document.getElementById("user-display-name").textContent = currentPlayer.nickname;
+      document.getElementById("last-played-text").textContent = "อัปเดตล่าสุด: " + (currentPlayer.lastPlayed || "-");
+
+      const totalScore = currentPlayer.totalScore || 0;
+      const completedCount = currentPlayer.completedCount || 0;
+      const percent = Math.round((completedCount / 5) * 100);
+
+      document.getElementById("stat-total-score").textContent = totalScore;
+      document.getElementById("stat-completed-count").textContent = `${completedCount} / 5`;
+      document.getElementById("stat-percent").textContent = `${percent}%`;
+      document.getElementById("bar-label").textContent = `${percent}%`;
+      document.getElementById("overall-progress-bar").style.width = `${percent}%`;
+
+      // รายการความก้าวหน้าย่อ 5 เกม
+      const miniList = document.getElementById("mini-progress-list");
+      miniList.innerHTML = GAMES_CONFIG.map(g => {
+        const pGame = (currentPlayer.games || []).find(x => x.id === g.id) || { bestScore: 0, completed: false };
+        const statusBadge = pGame.completed
+          ? `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> ผ่านแล้ว</span>`
+          : (pGame.bestScore > 0
+              ? `<span class="text-amber-600 font-bold"><i class="fa-solid fa-spinner"></i> กำลังเล่น</span>`
+              : `<span class="text-slate-400">ยังไม่เริ่ม</span>`);
+        return `
+          <div class="flex items-center justify-between py-1 px-2 rounded-lg bg-slate-50">
+            <span class="font-semibold text-slate-700 truncate pr-2">${g.title}</span>
+            <div class="flex items-center gap-3 shrink-0">
+              <span class="font-bold text-teal-700">${pGame.bestScore} คะแนน</span>
+              ${statusBadge}
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      // ตาราง Top 5
+      const lbContainer = document.getElementById("leaderboard-container");
+      if (!leaderboardData || leaderboardData.length === 0) {
+        lbContainer.innerHTML = `<div class="text-center text-sm text-slate-400 py-6">ยังไม่มีข้อมูลสถิติคะแนน</div>`;
+      } else {
+        const medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"];
+        lbContainer.innerHTML = leaderboardData.map((row, idx) => {
+          const isMe = row.nickname.toLowerCase() === currentPlayer.nickname.toLowerCase();
+          return `
+            <div class="flex items-center justify-between p-3 rounded-2xl border ${isMe ? 'bg-amber-50 border-amber-400 shadow-sm' : 'bg-slate-50 border-slate-100'}">
+              <div class="flex items-center gap-3">
+                <span class="text-xl">${medals[idx] || idx + 1}</span>
+                <div>
+                  <div class="font-bold text-sm text-slate-800">
+                    ${row.nickname} ${isMe ? '<span class="text-xs bg-teal-600 text-white px-2 py-0.5 rounded-full ml-1">คุณ</span>' : ''}
+                  </div>
+                  <div class="text-xs text-slate-500">ผ่านแล้ว ${row.completedCount}/5 เกม</div>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-black text-base text-amber-600">${row.totalScore}</span>
+                <span class="text-xs text-slate-400 block">คะแนน</span>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      // การ์ดเลือกเล่นทั้ง 5 เกม
+      const grid = document.getElementById("games-grid");
+      grid.innerHTML = GAMES_CONFIG.map(g => {
+        const pGame = (currentPlayer.games || []).find(x => x.id === g.id) || { bestScore: 0, completed: false };
+        return `
+          <div class="bg-white rounded-3xl shadow-md border-2 ${pGame.completed ? 'border-emerald-300' : 'border-slate-100'} overflow-hidden flex flex-col justify-between hover:shadow-xl transition">
+            <div>
+              <div class="bg-gradient-to-r ${g.color} p-4 text-white flex items-center justify-between">
+                <span class="text-3xl bg-white/20 w-12 h-12 rounded-2xl flex items-center justify-center">${g.icon}</span>
+                ${pGame.completed
+                  ? '<span class="bg-white text-emerald-700 text-xs font-extrabold px-3 py-1 rounded-full shadow"><i class="fa-solid fa-check"></i> ผ่านด่านแล้ว</span>'
+                  : '<span class="bg-black/20 text-white text-xs font-bold px-3 py-1 rounded-full">รอพิชิตภารกิจ</span>'}
+              </div>
+              <div class="p-5">
+                <h3 class="font-extrabold text-base text-slate-800 mb-1">${g.title}</h3>
+                <p class="text-xs text-slate-500 leading-relaxed mb-4">${g.desc}</p>
+                <div class="bg-slate-50 rounded-xl p-2.5 flex justify-between items-center text-xs border border-slate-100">
+                  <span class="text-slate-500 font-semibold">คะแนนสูงสุดของคุณ:</span>
+                  <span class="font-black text-teal-700 text-sm">${pGame.bestScore} / ${g.maxScore}</span>
+                </div>
+              </div>
+            </div>
+            <div class="px-5 pb-5">
+              <button onclick="openGame(${g.id})" class="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white font-extrabold text-sm rounded-xl shadow transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-play"></i> ${pGame.completed ? 'เล่นซ้ำเพื่อทำสถิติใหม่' : 'เข้าเล่นเกมนี้'}
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function openGame(gameId) {
+      const game = GAMES_CONFIG.find(g => g.id === gameId);
+      if (!game) return;
+      document.getElementById("active-game-title").textContent = game.title;
+      document.getElementById("modal-player-name").textContent = currentPlayer.nickname;
+      document.getElementById("game-iframe").src = game.file;
+      document.getElementById("game-player-modal").classList.remove("hidden");
+    }
+
+    function closeGameModal() {
+      document.getElementById("game-iframe").src = "";
+      document.getElementById("game-player-modal").classList.add("hidden");
+      refreshData();
+    }
+
+    // รับผลคะแนนที่ส่งมาจากไฟล์เกมทั้ง 5 ไฟล์ผ่าน postMessage
+    window.addEventListener("message", async (event) => {
+      const msg = event.data;
+      if (!msg || msg.type !== "SCIENCE_GAME_RESULT" || !currentPlayer) return;
+
+      try {
+        const res = await apiCall({
+          action: "save_progress",
+          nickname: currentPlayer.nickname,
+          gameId: msg.gameId,
+          gameName: msg.gameName,
+          score: msg.score,
+          completed: msg.completed,
+          timeUsed: msg.timeUsed || 0
+        });
+
+        if (res.status === "ok") {
+          const pin = currentPlayer.pin;
+          currentPlayer = res.player;
+          currentPlayer.pin = pin;
+          leaderboardData = res.leaderboard || leaderboardData;
+          localStorage.setItem("sci_hub_current_user", JSON.stringify(currentPlayer));
+          renderDashboard();
+          showSaveToast(`บันทึกคะแนนเกมที่ ${msg.gameId} (${msg.score} คะแนน) สำเร็จ!`);
+        }
+      } catch (e) {
+        console.error("Save error:", e);
+      }
+    });
+
+    function showSaveToast(text) {
+      const toast = document.getElementById("save-toast");
+      document.getElementById("save-toast-text").textContent = text;
+      toast.classList.remove("hidden");
+      setTimeout(() => toast.classList.add("hidden"), 4000);
+    }
+  </script>
+</body>
+</html>

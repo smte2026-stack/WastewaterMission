@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เกมแยกสารแขวนลอย ม.3 - Cute Science Lab</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Additional UI Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font: Kanit & Fredoka for Cute Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Kanit', 'sans-serif'],
+                        cute: ['Fredoka', 'Kanit', 'sans-serif'],
+                    },
+                    colors: {
+                        cuteBlue: '#38bdf8',
+                        cuteMint: '#34d399',
+                        cuteYellow: '#fbbf24',
+                        cutePink: '#f472b6',
+                        cutePurple: '#a78bfa',
+                        cutePeach: '#fb923c',
+                        labBg: '#f0f9ff'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: linear-gradient(135deg, #e6f4f1 0%, #edf7f5 50%, #e0f2fe 100%);
+            min-height: 100vh;
+            user-select: none;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Floating Bubbles Background (Soft Teal & Mint) */
+        .bubble-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bubble {
+            position: absolute;
+            bottom: -50px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.85), rgba(45, 212, 191, 0.2));
+            border: 1.5px solid rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: floatUp 12s infinite ease-in-out;
+            box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.6);
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.75; }
+            90% { opacity: 0.75; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Soft Squishy & Elastic Effects for Pastel Cards */
+        .draggable-item {
+            cursor: grab;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.2s;
+            touch-action: none;
+            will-change: transform;
+        }
+        .draggable-item:hover {
+            transform: translateY(-3px) scale(1.015);
+            box-shadow: 0 10px 18px -4px rgba(0, 0, 0, 0.15);
+        }
+        .draggable-item:active {
+            cursor: grabbing;
+            transform: scale(0.96) rotate(-1.5deg);
+        }
+        .draggable-item.dragging {
+            opacity: 0.6;
+            transform: scale(0.92) rotate(2deg);
+        }
+        .draggable-item.selected-tap {
+            ring: 4px;
+            ring-color: #0d9488;
+            transform: scale(1.03);
+            box-shadow: 0 12px 24px -4px rgba(13, 148, 136, 0.35);
+            animation: bounceSoft 1s infinite alternate ease-in-out;
+        }
+
+        @keyframes bounceSoft {
+            0% { transform: scale(1.02) translateY(0); }
+            100% { transform: scale(1.04) translateY(-5px); }
+        }
+
+        /* Soft Pastel Drop Zones */
+        .drop-zone {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .drop-zone.drag-over {
+            border-color: #0d9488;
+            background-color: #f0fdfa;
+            transform: scale(1.02);
+            box-shadow: 0 12px 24px -4px rgba(13, 148, 136, 0.25);
+        }
+
+        /* Shake animation for wrong drops */
+        @keyframes squishyShake {
+            0%, 100% { transform: translateX(0) scale(1); }
+            20% { transform: translateX(-8px) scale(0.98, 1.02); }
+            40% { transform: translateX(8px) scale(1.02, 0.98); }
+            60% { transform: translateX(-6px) scale(0.99, 1.01); }
+            80% { transform: translateX(6px) scale(1.01, 0.99); }
+        }
+        .animate-wrong {
+            animation: squishyShake 0.5s ease-in-out;
+        }
+
+        /* Notebook paper styling for Science Modal */
+        .lab-notebook {
+            background-color: #fcfdfd;
+            background-image: linear-gradient(#ccfbf1 1px, transparent 1px);
+            background-size: 100% 1.8rem;
+            line-height: 1.8rem;
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body class="p-3 md:p-6 text-slate-700 flex flex-col justify-between relative z-10">
+
+    <!-- Floating Background Bubbles -->
+    <div class="bubble-container" id="bubble-bg"></div>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Top Header Navigation -->
+    <header class="max-w-6xl mx-auto w-full bg-white/85 backdrop-blur-md rounded-3xl p-4 shadow-sm mb-6 border-2 border-teal-100 flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
+        <div class="flex items-center gap-3">
+            <div class="bg-gradient-to-tr from-teal-400 to-cyan-500 text-white p-3.5 rounded-2xl shadow-sm transform hover:rotate-6 transition">
+                <i class="fa-solid fa-flask-vial text-3xl"></i>
+            </div>
+            <div>
+                <h1 class="text-2xl md:text-3xl font-cute font-bold bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 bg-clip-text text-transparent">
+                    เกมแยกสารแขวนลอย ม.3
+                </h1>
+                <p class="text-xs md:text-sm text-teal-600/80 font-medium">ห้องแล็บวิทยาศาสตร์พาสเทล • Soft Teal & Mint Theme</p>
+            </div>
+        </div>
+
+        <!-- Score & Stats Pill -->
+        <div class="flex items-center gap-4 bg-teal-50/70 px-5 py-2.5 rounded-2xl border border-teal-200/60 w-full md:w-auto justify-around">
+            <div class="text-center">
+                <span class="text-xs text-teal-600/70 block font-bold uppercase tracking-wider">คะแนน</span>
+                <span id="score-text" class="text-xl md:text-2xl font-cute font-bold text-teal-700">0 / 6</span>
+            </div>
+            <div class="h-8 w-0.5 bg-teal-200/80 rounded-full"></div>
+            <div class="text-center">
+                <span class="text-xs text-teal-600/70 block font-bold uppercase tracking-wider">เวลา</span>
+                <span id="timer-text" class="text-xl md:text-2xl font-cute font-bold text-cyan-700">00:00</span>
+            </div>
+            <div class="h-8 w-0.5 bg-teal-200/80 rounded-full"></div>
+            <button id="reset-btn" onclick="resetGame()" class="bg-teal-600 hover:bg-teal-700 active:scale-95 text-white px-4 py-2 rounded-xl text-sm font-bold shadow-sm transition flex items-center gap-2">
+                <i class="fa-solid fa-rotate-right"></i> เริ่มใหม่
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Interactive Area -->
+    <main class="max-w-6xl mx-auto w-full flex-1 relative z-10">
+        <!-- Progress Bar -->
+        <div class="w-full bg-teal-100/60 rounded-full h-3.5 mb-6 overflow-hidden p-0.5 border border-teal-200/50">
+            <div id="progress-bar" class="bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500 h-full w-0 rounded-full transition-all duration-500"></div>
+        </div>
+
+        <!-- Cute Mascot Banner -->
+        <div class="bg-white/85 backdrop-blur-md border-2 border-teal-100 rounded-3xl p-4 mb-6 shadow-sm flex items-center gap-4 relative overflow-hidden">
+            <!-- Dr. Spark SVG Mascot -->
+            <div class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 bg-teal-50 rounded-2xl p-2 flex items-center justify-center border border-teal-200/80">
+                <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-sm">
+                    <!-- Cute Bear Scientist Head -->
+                    <circle cx="50" cy="55" r="32" fill="#5eead4"/>
+                    <circle cx="28" cy="28" r="12" fill="#5eead4"/>
+                    <circle cx="28" cy="28" r="6" fill="#ccfbf1"/>
+                    <circle cx="72" cy="28" r="12" fill="#5eead4"/>
+                    <circle cx="72" cy="28" r="6" fill="#ccfbf1"/>
+                    <!-- Snout -->
+                    <ellipse cx="50" cy="62" rx="14" ry="10" fill="#fff"/>
+                    <ellipse cx="50" cy="58" rx="5" ry="3" fill="#134e4a"/>
+                    <!-- Cute Eyes -->
+                    <circle cx="38" cy="48" r="4" fill="#0f766e"/>
+                    <circle cx="40" cy="46" r="1.5" fill="#fff"/>
+                    <circle cx="62" cy="48" r="4" fill="#0f766e"/>
+                    <circle cx="64" cy="46" r="1.5" fill="#fff"/>
+                    <!-- Cheeks -->
+                    <circle cx="30" cy="58" r="5" fill="#99f6e4" opacity="0.8"/>
+                    <circle cx="70" cy="58" r="5" fill="#99f6e4" opacity="0.8"/>
+                    <!-- Lab Glasses -->
+                    <rect x="26" y="40" width="20" height="16" rx="4" fill="none" stroke="#0f766e" stroke-width="3"/>
+                    <rect x="54" y="40" width="20" height="16" rx="4" fill="none" stroke="#0f766e" stroke-width="3"/>
+                    <line x1="46" y1="48" x2="54" y2="48" stroke="#0f766e" stroke-width="3"/>
+                </svg>
+            </div>
+            <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="font-cute font-bold text-teal-900 text-base md:text-lg">ดร.สปาร์ก (Dr. Spark)</span>
+                    <span class="bg-teal-100 text-teal-800 font-bold text-xs px-2.5 py-0.5 rounded-full">ผู้ช่วยแล็บสุดคิวท์</span>
+                </div>
+                <p id="mascot-dialogue" class="text-xs md:text-sm text-teal-800/80 font-medium">
+                    "สวัสดีครับนักเรียน! ช่วยดร.สปาร์ก ลากบัตรสารแขวนลอยไปลงในกล่องเครื่องมือแยกสารที่ถูกต้องทีนะ!"
+                </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Left Panel: Soft Pastel Suspension Cards -->
+            <div class="lg:col-span-5 bg-white/80 backdrop-blur-md rounded-3xl p-5 shadow-sm border-2 border-teal-100 flex flex-col">
+                <h2 class="text-lg font-cute font-bold text-teal-800 mb-4 flex items-center justify-between">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-flask text-teal-500"></i> สารแขวนลอยที่รอการแยก</span>
+                    <span id="remaining-count" class="text-xs bg-teal-100/80 text-teal-700 font-bold px-3 py-1 rounded-full">เหลือ 6 รายการ</span>
+                </h2>
+
+                <div id="draggables-container" class="space-y-3 flex-1 flex flex-col justify-start">
+                    <!-- Cards will be populated by JS -->
+                </div>
+            </div>
+
+            <!-- Right Panel: Equipment Drop Zones -->
+            <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Zone 1: การกรอง (Filtration) -->
+                <div data-method="filtration" class="drop-zone bg-white/85 backdrop-blur-md rounded-3xl p-4 shadow-sm border-2 border-dashed border-teal-200 flex flex-col justify-between min-h-[185px]">
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-11 h-11 rounded-2xl bg-teal-50 flex items-center justify-center p-2 border border-teal-200/70 flex-shrink-0">
+                                <!-- Filter SVG Illustration -->
+                                <svg viewBox="0 0 64 64" class="w-full h-full">
+                                    <polygon points="12,12 52,12 38,36 38,52 26,52 26,36" fill="#ccfbf1" stroke="#0d9488" stroke-width="2.5" stroke-linejoin="round"/>
+                                    <ellipse cx="32" cy="12" rx="20" ry="4" fill="#99f6e4" stroke="#0d9488" stroke-width="2"/>
+                                    <circle cx="32" cy="44" r="2" fill="#0f766e"/>
+                                    <circle cx="32" cy="50" r="1.5" fill="#0f766e"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-cute font-bold text-teal-900 text-base">1. การกรอง (Filtration)</h3>
+                                <p class="text-[11px] text-teal-600/80">ใช้แยกของแข็งที่ไม่ละลายน้ำออกจากของเหลวด้วยรูพรุน</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropped-items min-h-[70px] bg-teal-50/40 rounded-2xl p-2 border-2 border-dashed border-teal-200/60 space-y-2 flex flex-col justify-center items-center text-xs text-teal-600 font-bold">
+                        วางสารที่ใช้วิธีนี้ที่นี่
+                    </div>
+                </div>
+
+                <!-- Zone 2: การตกตะกอน (Sedimentation) -->
+                <div data-method="sedimentation" class="drop-zone bg-white/85 backdrop-blur-md rounded-3xl p-4 shadow-sm border-2 border-dashed border-teal-200 flex flex-col justify-between min-h-[185px]">
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-11 h-11 rounded-2xl bg-cyan-50 flex items-center justify-center p-2 border border-cyan-200/70 flex-shrink-0">
+                                <!-- Beaker Sediment SVG -->
+                                <svg viewBox="0 0 64 64" class="w-full h-full">
+                                    <rect x="16" y="16" width="32" height="38" rx="4" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
+                                    <rect x="18" y="44" width="28" height="8" rx="2" fill="#cbd5e1"/>
+                                    <circle cx="28" cy="48" r="1" fill="#64748b"/>
+                                    <circle cx="36" cy="47" r="1.5" fill="#64748b"/>
+                                    <path d="M 20,32 Q 32,28 44,32 L 44,52 L 20,52 Z" fill="#38bdf8" opacity="0.3"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-cute font-bold text-teal-900 text-base">2. การตกตะกอน</h3>
+                                <p class="text-[11px] text-teal-600/80">ตั้งทิ้งไว้ให้อนุภาคหนักจมสู่ก้นตามแรงโน้มถ่วง</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropped-items min-h-[70px] bg-cyan-50/40 rounded-2xl p-2 border-2 border-dashed border-cyan-200/60 space-y-2 flex flex-col justify-center items-center text-xs text-cyan-600 font-bold">
+                        วางสารที่ใช้วิธีนี้ที่นี่
+                    </div>
+                </div>
+
+                <!-- Zone 3: การเหวี่ยงแยก (Centrifugation) -->
+                <div data-method="centrifugation" class="drop-zone bg-white/85 backdrop-blur-md rounded-3xl p-4 shadow-sm border-2 border-dashed border-teal-200 flex flex-col justify-between min-h-[185px]">
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-11 h-11 rounded-2xl bg-emerald-50 flex items-center justify-center p-2 border border-emerald-200/70 flex-shrink-0">
+                                <!-- Centrifuge Machine SVG -->
+                                <svg viewBox="0 0 64 64" class="w-full h-full">
+                                    <circle cx="32" cy="32" r="22" fill="#ecfdf5" stroke="#059669" stroke-width="2.5"/>
+                                    <circle cx="32" cy="32" r="8" fill="#34d399"/>
+                                    <line x1="32" y1="10" x2="32" y2="54" stroke="#059669" stroke-width="1.8" stroke-dasharray="2,2"/>
+                                    <line x1="10" y1="32" x2="54" y2="32" stroke="#059669" stroke-width="1.8" stroke-dasharray="2,2"/>
+                                    <circle cx="32" cy="18" r="3" fill="#10b981"/>
+                                    <circle cx="32" cy="46" r="3" fill="#10b981"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-cute font-bold text-teal-900 text-base">3. การเหวี่ยงแยก</h3>
+                                <p class="text-[11px] text-teal-600/80">หมุนด้วยความเร็วสูงมาก แยกอนุภาคเล็กเบา</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropped-items min-h-[70px] bg-emerald-50/40 rounded-2xl p-2 border-2 border-dashed border-emerald-200/60 space-y-2 flex flex-col justify-center items-center text-xs text-emerald-600 font-bold">
+                        วางสารที่ใช้วิธีนี้ที่นี่
+                    </div>
+                </div>
+
+                <!-- Zone 4: การใช้แม่เหล็กดูด (Magnetic Separation) -->
+                <div data-method="magnetic" class="drop-zone bg-white/85 backdrop-blur-md rounded-3xl p-4 shadow-sm border-2 border-dashed border-teal-200 flex flex-col justify-between min-h-[185px]">
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-11 h-11 rounded-2xl bg-slate-100 flex items-center justify-center p-2 border border-slate-200 flex-shrink-0">
+                                <!-- Horseshoe Magnet SVG -->
+                                <svg viewBox="0 0 64 64" class="w-full h-full">
+                                    <path d="M 18,16 L 18,36 A 14,14 0 0,0 46,36 L 46,16" fill="none" stroke="#475569" stroke-width="9" stroke-linecap="square"/>
+                                    <path d="M 18,16 L 18,22" stroke="#cbd5e1" stroke-width="9" stroke-linecap="square"/>
+                                    <path d="M 46,16 L 46,22" stroke="#cbd5e1" stroke-width="9" stroke-linecap="square"/>
+                                    <!-- Sparkles -->
+                                    <polygon points="12,12 14,8 18,10 14,12" fill="#2dd4bf"/>
+                                    <polygon points="52,12 50,8 46,10 50,12" fill="#2dd4bf"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-cute font-bold text-teal-900 text-base">4. การใช้แม่เหล็ก</h3>
+                                <p class="text-[11px] text-teal-600/80">ดึงดูดองค์ประกอบที่มีสารแม่เหล็กผสมอยู่</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropped-items min-h-[70px] bg-slate-50 rounded-2xl p-2 border-2 border-dashed border-slate-200 space-y-2 flex flex-col justify-center items-center text-xs text-slate-500 font-bold">
+                        วางสารที่ใช้วิธีนี้ที่นี่
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scientific Reason Modal (Notebook Style) -->
+    <div id="modal-correct" class="fixed inset-0 bg-teal-950/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl border-2 border-teal-200 relative overflow-hidden">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center text-2xl flex-shrink-0">
+                    <i class="fa-solid fa-square-check"></i>
+                </div>
+                <div>
+                    <h3 class="font-cute font-bold text-xl text-teal-950" id="modal-title">ถูกต้องแล้วครับ! 🎉</h3>
+                    <p id="modal-item-name" class="font-bold text-teal-700 text-sm"></p>
+                </div>
+            </div>
+            
+            <!-- Dr. Spark Notebook Section -->
+            <div class="lab-notebook rounded-2xl p-4 mb-5 border border-teal-100 text-sm text-slate-700 shadow-inner">
+                <div class="font-cute font-bold text-teal-800 mb-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-book-open text-teal-600"></i> บันทึกเหตุผลทางวิทยาศาสตร์:
+                </div>
+                <p id="modal-reason" class="font-medium leading-relaxed text-slate-700"></p>
+            </div>
+
+            <button onclick="closeCorrectModal()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-cute font-bold text-base py-3 rounded-2xl shadow-md transition active:scale-95">
+                ลุยข้อต่อไปเลย! <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Cute Hint Modal for Wrong Drops -->
+    <div id="modal-wrong" class="fixed inset-0 bg-teal-950/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl border-2 border-teal-200 animate-wrong">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-2xl flex-shrink-0">
+                    <i class="fa-solid fa-face-lightbulb"></i>
+                </div>
+                <div>
+                    <h3 class="font-cute font-bold text-xl text-teal-950">เกือบถูกแล้วนะ! 💡</h3>
+                    <p id="wrong-item-name" class="font-bold text-teal-700 text-sm"></p>
+                </div>
+            </div>
+            
+            <div class="bg-teal-50/60 border border-teal-100 rounded-2xl p-4 mb-5 text-sm text-slate-700">
+                <div class="font-cute font-bold text-teal-800 mb-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-lightbulb text-teal-500"></i> คำใบ้จาก ดร.สปาร์ก:
+                </div>
+                <p id="wrong-hint-text" class="font-medium text-teal-900/80"></p>
+            </div>
+
+            <button onclick="closeWrongModal()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-cute font-bold text-base py-3 rounded-2xl shadow-md transition active:scale-95">
+                ลองใหม่อีกครั้งนะ
+            </button>
+        </div>
+    </div>
+
+    <!-- Final Game Summary Modal -->
+    <div id="modal-summary" class="fixed inset-0 bg-teal-950/60 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl border-4 border-white text-center relative overflow-hidden">
+            <div class="w-20 h-20 bg-teal-100 text-teal-700 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-4 shadow-sm border border-teal-200">
+                <i class="fa-solid fa-award"></i>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-cute font-bold text-teal-950 mb-1">ยินดีด้วยเก่งมากๆ เลเวลอัพ! 🌟</h2>
+            <p class="text-teal-700/80 text-xs md:text-sm mb-5 font-medium">คุณแยกสารแขวนลอยครบถ้วนตามหลักการวิทยาศาสตร์ ม.3</p>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-2 gap-3 mb-5">
+                <div class="bg-teal-50/80 rounded-2xl p-3 border border-teal-200/80">
+                    <span class="text-xs text-teal-600/70 block font-bold uppercase">คะแนนทั้งหมด</span>
+                    <span id="final-score" class="text-2xl font-cute font-bold text-teal-700">6 / 6</span>
+                </div>
+                <div class="bg-cyan-50/80 rounded-2xl p-3 border border-cyan-200/80">
+                    <span class="text-xs text-cyan-600/70 block font-bold uppercase">เวลาที่ใช้</span>
+                    <span id="final-time" class="text-2xl font-cute font-bold text-cyan-700">00:00</span>
+                </div>
+            </div>
+
+            <!-- Scientific Summary Sheet -->
+            <div class="bg-teal-50/50 rounded-2xl p-4 text-left border border-teal-100 text-xs md:text-sm text-slate-700 mb-6 space-y-2">
+                <div class="font-cute font-bold text-teal-900 text-sm mb-1 border-b border-teal-200/60 pb-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-book-bookmark text-teal-600"></i> สรุปความรู้เรื่องสารแขวนลอย (Suspension)
+                </div>
+                <p>• <strong>สารแขวนลอย:</strong> อนุภาคของแข็งมีขนาดใหญ่กว่า 10<sup>-4</sup> cm ไม่ละลายน้ำ ตกตะกอนเมื่อตั้งทิ้งไว้</p>
+                <p>• <strong>การกรอง:</strong> แยกอนุภาคของแข็งที่มีขนาดใหญ่กว่ารูพรุนของกระดาษกรอง</p>
+                <p>• <strong>การเหวี่ยงแยก:</strong> ใช้แรงหมุนเหวี่ยงความเร็วสูงแยกอนุภาคเล็กเบาที่ไม่ตกตะกอนตามธรรมชาติ</p>
+            </div>
+
+            <button onclick="resetGame()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-cute font-bold py-3.5 rounded-2xl shadow-md transition active:scale-95 text-base">
+                <i class="fa-solid fa-rotate-right mr-2"></i> เล่นอีกครั้ง
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-6 text-center text-xs text-teal-700/60 font-medium">
+        สื่อการเรียนรู้วิทยาศาสตร์ ม.3 • Soft Pastel Laboratory Game Engine
+    </footer>
+
+    <script>
+        /* ==================== REALISTIC COLOR SUSPENSION ITEMS WITH SVG ART ==================== */
+        const suspensionItems = [
+            {
+                id: 'item-1',
+                name: 'น้ำคลองมีเศษใบไม้',
+                method: 'filtration',
+                color: 'bg-emerald-900 text-amber-50 border-emerald-950 shadow-sm',
+                svgIcon: `
+                <svg viewBox="0 0 64 64" class="w-9 h-9 drop-shadow-sm">
+                    <rect x="18" y="16" width="28" height="36" rx="6" fill="#14532d" stroke="#86efac" stroke-width="2"/>
+                    <path d="M 20,38 Q 32,34 44,38 L 44,50 L 20,50 Z" fill="#15803d"/>
+                    <path d="M 28,26 Q 34,22 38,28" stroke="#4ade80" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <circle cx="38" cy="28" r="1.8" fill="#86efac"/>
+                    <circle cx="28" cy="34" r="1.8" fill="#4ade80"/>
+                    <circle cx="36" cy="34" r="1.8" fill="#4ade80"/>
+                </svg>`,
+                reason: 'เศษใบไม้และตะกอนหยาบมีขนาดใหญ่กว่ารูพรุนของกระดาษกรอง จึงถูกกรองติดค้างบนแผ่นกรองได้สมบูรณ์',
+                hint: 'สารนี้มีเศษวัสดุชิ้นใหญ่ลอยปะปนอยู่ ลองใช้อุปกรณ์กรองกรวยแยกดูนะ!'
+            },
+            {
+                id: 'item-2',
+                name: 'น้ำโคลนขุ่น',
+                method: 'sedimentation',
+                color: 'bg-amber-900 text-amber-50 border-amber-950 shadow-sm',
+                svgIcon: `
+                <svg viewBox="0 0 64 64" class="w-9 h-9 drop-shadow-sm">
+                    <rect x="18" y="16" width="28" height="36" rx="6" fill="#78350f" stroke="#fde68a" stroke-width="2"/>
+                    <path d="M 20,32 Q 32,30 44,32 L 44,50 L 20,50 Z" fill="#451a03"/>
+                    <circle cx="27" cy="24" r="1.8" fill="#fde68a"/>
+                    <circle cx="37" cy="24" r="1.8" fill="#fde68a"/>
+                    <path d="M 30,27 Q 32,29 34,27" stroke="#fde68a" stroke-width="1.2" fill="none"/>
+                </svg>`,
+                reason: 'อนุภาคดินโคลนมีขนาดใหญ่และหนาแน่น เมื่อวางตั้งทิ้งไว้เฉยๆ แรงโน้มถ่วงจะดึงดูดให้ตกตะกอนนอนก้น',
+                hint: 'ถ้านำน้ำขุ่นนี้วางตั้งทิ้งไว้นิ่งๆ สักพัก แรงโน้มถ่วงจะช่วยให้น้ำใสขึ้นนะ!'
+            },
+            {
+                id: 'item-3',
+                name: 'เลือด (เม็ดเลือดในพลาสมา)',
+                method: 'centrifugation',
+                color: 'bg-rose-700 text-white border-rose-900 shadow-sm',
+                svgIcon: `
+                <svg viewBox="0 0 64 64" class="w-9 h-9 drop-shadow-sm">
+                    <rect x="24" y="14" width="16" height="38" rx="8" fill="#be123c" stroke="#fecdd3" stroke-width="2"/>
+                    <path d="M 26,30 Q 32,28 38,30 L 38,44 A 6,6 0 0,1 26,44 Z" fill="#881337"/>
+                    <circle cx="29" cy="22" r="1.5" fill="#fff"/>
+                    <circle cx="35" cy="22" r="1.5" fill="#fff"/>
+                </svg>`,
+                reason: 'เซลล์เม็ดเลือดมีขนาดเล็กมากและเบาเกินกว่าจะตกตะกอนได้เอง ต้องใช้เครื่องเหวี่ยงแยกหมุนเหวี่ยงความเร็วสูง',
+                hint: 'เม็ดเลือดในพลาสมาเล็กมากและตกตะกอนยาก ต้องใช้เครื่องหมุนเหวี่ยงแยกความเร็วสูงช่วย!'
+            },
+            {
+                id: 'item-4',
+                name: 'น้ำนมถั่วเหลือง',
+                method: 'filtration',
+                color: 'bg-amber-100 text-amber-950 border-amber-300 font-semibold shadow-sm',
+                svgIcon: `
+                <svg viewBox="0 0 64 64" class="w-9 h-9 drop-shadow-sm">
+                    <rect x="20" y="16" width="24" height="34" rx="5" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+                    <path d="M 22,26 Q 32,24 42,26 L 42,48 L 22,48 Z" fill="#fde68a"/>
+                    <circle cx="28" cy="21" r="1.8" fill="#78350f"/>
+                    <circle cx="36" cy="21" r="1.8" fill="#78350f"/>
+                </svg>`,
+                reason: 'กากถั่วเหลืองต้มมีลักษณะเป็นของแข็งไม่ละลายน้ำ การใช้ผ้าขาวบางหรือกระดาษกรองจะแยกกากออกได้อย่างหมดจด',
+                hint: 'เวลาทำน้ำนมถั่วเหลือง เราจะใช้ผ้าขาวบางแยกกากถั่วเหลืองออก ลองใช้วิธีนั้นสิ!'
+            },
+            {
+                id: 'item-5',
+                name: 'ผงตะไบเหล็กผสมทราย',
+                method: 'magnetic',
+                color: 'bg-slate-800 text-slate-100 border-slate-950 shadow-sm',
+                svgIcon: `
+                <svg viewBox="0 0 64 64" class="w-9 h-9 drop-shadow-sm">
+                    <ellipse cx="32" cy="38" rx="20" ry="10" fill="#334155" stroke="#94a3b8" stroke-width="2"/>
+                    <circle cx="26" cy="36" r="1.8" fill="#cbd5e1"/>
+                    <circle cx="34" cy="40" r="1.8" fill="#cbd5e1"/>
+                    <circle cx="38" cy="35" r="1.5" fill="#cbd5e1"/>
+                </svg>`,
+                reason: 'ผงตะไบเหล็กมีสมบัติทางแม่เหล็ก จึงถูกแรงแม่เหล็กดึงดูดแยกออกจากทรายได้อย่างรวดเร็ว',
+                hint: 'มีส่วนประกอบหนึ่งที่เป็นสารแม่เหล็ก สามารถดึงดูดด้วยแม่เหล็กได้นะ!'
+            },
+            {
+                id: 'item-6',
+                name: 'น้ำแป้งดิบ',
+                method: 'sedimentation',
+                color: 'bg-stone-50 text-stone-900 border-stone-300 font-semibold shadow-sm',
+                svgIcon: `
+                <svg viewBox="0 0 64 64" class="w-9 h-9 drop-shadow-sm">
+                    <rect x="18" y="16" width="28" height="36" rx="6" fill="#ffffff" stroke="#78716c" stroke-width="2"/>
+                    <rect x="20" y="40" width="24" height="10" rx="3" fill="#e7e5e4"/>
+                    <circle cx="28" cy="28" r="1.8" fill="#292524"/>
+                    <circle cx="36" cy="28" r="1.8" fill="#292524"/>
+                </svg>`,
+                reason: 'แป้งมันไม่ละลายในน้ำเย็น มีความหนาแน่นสูงกว่าน้ำ จึงตั้งทิ้งไว้ให้ตกตะกอนแยกชั้นที่ก้นภาชนะได้',
+                hint: 'ลองนึกถึงตอนผสมแป้งกับน้ำเย็นแล้วตั้งทิ้งไว้ แป้งจะจมลงไปอยู่ที่ก้นแก้ว!'
+            }
+        ];
+
+        /* ==================== STATE VARIABLES ==================== */
+        let score = 0;
+        let timerSeconds = 0;
+        let timerInterval = null;
+        let selectedElement = null;
+
+        /* ==================== BUBBLE BACKGROUND GENERATOR ==================== */
+        function createBackgroundBubbles() {
+            const container = document.getElementById('bubble-bg');
+            container.innerHTML = '';
+            for (let i = 0; i < 15; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.random() * 40 + 15;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 100}%`;
+                bubble.style.animationDelay = `${Math.random() * 8}s`;
+                bubble.style.animationDuration = `${Math.random() * 6 + 8}s`;
+                container.appendChild(bubble);
+            }
+        }
+
+        /* ==================== WEB AUDIO SYNTHESIS ==================== */
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new AudioContext();
+            }
+        }
+
+        function playSound(type) {
+            try {
+                initAudio();
+                if (!audioCtx) return;
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'correct') {
+                    const now = audioCtx.currentTime;
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.setValueAtTime(659.25, now + 0.08);
+                    osc.frequency.setValueAtTime(783.99, now + 0.16);
+                    osc.frequency.setValueAtTime(1046.50, now + 0.24);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.45);
+                    osc.start(now);
+                    osc.stop(now + 0.45);
+                } else if (type === 'wrong') {
+                    const now = audioCtx.currentTime;
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.exponentialRampToValueAtTime(110, now + 0.25);
+                    gain.gain.setValueAtTime(0.25, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                } else if (type === 'win') {
+                    const now = audioCtx.currentTime;
+                    osc.type = 'sine';
+                    const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+                    notes.forEach((freq, idx) => {
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+                    });
+                    gain.gain.setValueAtTime(0.25, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
+                    osc.start(now);
+                    osc.stop(now + 0.8);
+                }
+            } catch (e) {
+                console.log("Audio play error:", e);
+            }
+        }
+
+        /* ==================== INITIALIZATION ==================== */
+        window.onload = function() {
+            createBackgroundBubbles();
+            renderDraggables();
+            setupDropZones();
+            startTimer();
+        };
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerSeconds = 0;
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+            const secs = (timerSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('timer-text').innerText = `${mins}:${secs}`;
+        }
+
+        function renderDraggables() {
+            const container = document.getElementById('draggables-container');
+            container.innerHTML = '';
+
+            const shuffled = [...suspensionItems].sort(() => Math.random() - 0.5);
+
+            shuffled.forEach(item => {
+                const card = document.createElement('div');
+                card.id = item.id;
+                card.draggable = true;
+                card.dataset.method = item.method;
+                card.className = `draggable-item ${item.color} p-3 rounded-2xl shadow-sm flex items-center justify-between border hover:border-teal-300`;
+                
+                card.innerHTML = `
+                    <div class="flex items-center gap-3 pointer-events-none">
+                        <div class="w-11 h-11 rounded-xl bg-white/80 flex items-center justify-center p-1 border border-black/5">
+                            ${item.svgIcon}
+                        </div>
+                        <span class="font-cute font-bold text-sm md:text-base">${item.name}</span>
+                    </div>
+                    <i class="fa-solid fa-grip-dots-vertical opacity-40 text-sm mr-1"></i>
+                `;
+
+                // Event Listeners
+                card.addEventListener('dragstart', handleDragStart);
+                card.addEventListener('dragend', handleDragEnd);
+                card.addEventListener('click', () => handleMobileSelect(card, item));
+
+                container.appendChild(card);
+            });
+
+            updateRemainingCount();
+        }
+
+        function setupDropZones() {
+            const zones = document.querySelectorAll('.drop-zone');
+            zones.forEach(zone => {
+                zone.addEventListener('dragover', handleDragOver);
+                zone.addEventListener('dragleave', handleDragLeave);
+                zone.addEventListener('drop', handleDrop);
+
+                zone.addEventListener('click', () => {
+                    if (selectedElement) {
+                        const targetMethod = zone.dataset.method;
+                        const itemMethod = selectedElement.dataset.method;
+                        const itemId = selectedElement.id;
+                        const itemData = suspensionItems.find(i => i.id === itemId);
+
+                        verifyMatch(itemMethod, targetMethod, selectedElement, zone, itemData);
+                        clearSelection();
+                    }
+                });
+            });
+        }
+
+        /* ==================== DRAG & DROP ENGINE ==================== */
+        function handleDragStart(e) {
+            initAudio();
+            e.dataTransfer.setData('text/plain', e.target.id);
+            e.target.classList.add('dragging');
+            clearSelection();
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            const zone = e.currentTarget;
+            zone.classList.remove('drag-over');
+
+            const id = e.dataTransfer.getData('text/plain');
+            const draggedEl = document.getElementById(id);
+            if (!draggedEl) return;
+
+            const itemMethod = draggedEl.dataset.method;
+            const targetMethod = zone.dataset.method;
+            const itemData = suspensionItems.find(i => i.id === id);
+
+            verifyMatch(itemMethod, targetMethod, draggedEl, zone, itemData);
+        }
+
+        /* ==================== TOUCH & SELECTION FALLBACK ==================== */
+        function handleMobileSelect(card, item) {
+            initAudio();
+            if (card.classList.contains('locked')) return;
+
+            if (selectedElement === card) {
+                clearSelection();
+            } else {
+                clearSelection();
+                selectedElement = card;
+                card.classList.add('selected-tap');
+                updateMascotText(`คุณเลือก "${item.name}" แล้ว! แตะเลือกกล่องอุปกรณ์แยกสารทางขวาได้เลย`);
+            }
+        }
+
+        function clearSelection() {
+            if (selectedElement) {
+                selectedElement.classList.remove('selected-tap');
+                selectedElement = null;
+            }
+        }
+
+        function updateMascotText(text) {
+            document.getElementById('mascot-dialogue').innerText = `"${text}"`;
+        }
+
+        /* ==================== VERIFICATION & GAME LOGIC ==================== */
+        function verifyMatch(itemMethod, targetMethod, element, zone, itemData) {
+            if (itemMethod === targetMethod) {
+                playSound('correct');
+                score++;
+                updateScoreDisplay();
+
+                element.classList.remove('draggable-item', 'selected-tap');
+                element.classList.add('locked', 'opacity-90', 'scale-95', 'my-1');
+                element.draggable = false;
+
+                const droppedBox = zone.querySelector('.dropped-items');
+                if (droppedBox.innerText.includes('วางสารที่ใช้วิธีนี้ที่นี่')) {
+                    droppedBox.innerHTML = '';
+                }
+                droppedBox.appendChild(element);
+
+                updateMascotText(`ยอดเยี่ยมมาก! แยก "${itemData.name}" ได้ถูกต้องตามหลักการครับ`);
+                showCorrectModal(itemData);
+
+                if (score === suspensionItems.length) {
+                    setTimeout(triggerWin, 600);
+                }
+            } else {
+                playSound('wrong');
+                element.classList.add('animate-wrong');
+                setTimeout(() => element.classList.remove('animate-wrong'), 500);
+
+                updateMascotText(`เอ๊ะ... "${itemData.name}" ยังไม่เหมาะกับวิธีนี้ ลองอ่านคำใบ้นะครับ`);
+                showWrongModal(itemData);
+            }
+            updateRemainingCount();
+        }
+
+        function updateScoreDisplay() {
+            document.getElementById('score-text').innerText = `${score} / ${suspensionItems.length}`;
+            const percent = (score / suspensionItems.length) * 100;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+        }
+
+        function updateRemainingCount() {
+            const remaining = suspensionItems.length - score;
+            document.getElementById('remaining-count').innerText = `เหลือ ${remaining} รายการ`;
+        }
+
+        /* ==================== MODALS & CONFETTI ==================== */
+        function showCorrectModal(item) {
+            document.getElementById('modal-item-name').innerText = `สาร: ${item.name}`;
+            document.getElementById('modal-reason').innerText = item.reason;
+            document.getElementById('modal-correct').classList.remove('hidden');
+        }
+
+        function closeCorrectModal() {
+            document.getElementById('modal-correct').classList.add('hidden');
+        }
+
+        function showWrongModal(item) {
+            document.getElementById('wrong-item-name').innerText = `สาร: ${item.name}`;
+            document.getElementById('wrong-hint-text').innerText = item.hint;
+            document.getElementById('modal-wrong').classList.remove('hidden');
+        }
+
+        function closeWrongModal() {
+            document.getElementById('modal-wrong').classList.add('hidden');
+        }
+
+        function triggerWin() {
+            clearInterval(timerInterval);
+            playSound('win');
+
+            document.getElementById('final-score').innerText = `${score} / ${suspensionItems.length}`;
+            const mins = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+            const secs = (timerSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('final-time').innerText = `${mins}:${secs}`;
+
+            launchConfetti();
+            document.getElementById('modal-summary').classList.remove('hidden');
+        }
+
+        function resetGame() {
+            score = 0;
+            updateScoreDisplay();
+            closeCorrectModal();
+            closeWrongModal();
+            document.getElementById('modal-summary').classList.add('hidden');
+
+            const zoneBoxes = document.querySelectorAll('.dropped-items');
+            zoneBoxes.forEach(box => {
+                box.innerHTML = 'วางสารที่ใช้วิธีนี้ที่นี่';
+            });
+
+            updateMascotText('สวัสดีครับนักเรียน! ช่วยดร.สปาร์ก ลากบัตรสารแขวนลอยไปลงในกล่องเครื่องมือแยกสารที่ถูกต้องทีนะ!');
+            renderDraggables();
+            startTimer();
+        }
+
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const colors = ['#2dd4bf', '#38bdf8', '#34d399', '#a7f3d0', '#bfdbfe'];
+
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    vx: (Math.random() - 0.5) * 12,
+                    vy: (Math.random() - 0.7) * 12,
+                    size: Math.random() * 8 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    life: 100
+                });
+            }
+
+            function animateConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                let activeParticles = 0;
+
+                particles.forEach(p => {
+                    if (p.life > 0) {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.vy += 0.2;
+                        p.life--;
+                        ctx.fillStyle = p.color;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fill();
+                        activeParticles++;
+                    }
+                });
+
+                if (activeParticles > 0) {
+                    requestAnimationFrame(animateConfetti);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+
+            animateConfetti();
+        }
+    </script>
+</body>
+</html>

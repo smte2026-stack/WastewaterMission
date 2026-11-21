@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="th">
+ <head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20261015-04-7abc9b0","C":{"Abril Fatface":"YACgEZbkUVE,0","Albert Sans":"YAHO2HRfeh4,0","Alfa Slab One":"YACgEYS9sJU,0","Anton":"YACgEcYqQ-A,0","Archivo Black":"YACgEZulLoA,0","Archivo":"YAHO2-t-jNE,0","Arial":"YAGyDvJ_4Ts,0","Baloo 2":"YAHO2IcQUcM,0","Barlow Condensed":"YAFdJljEuFc,0","Barlow":"YAFdJsyuOPM,1","Bebas Neue":"YACgESME5ew,0","Bricolage Grotesque":"YAFyMcdwzpc,0","Cairo":"YAFdtXpDzlQ,0","Canva Sans":"YAFdJjTk5UU,1","Caveat":"YALBs2ploWQ,0","Cinzel":"YACgEeV8bIQ,0","Cormorant Garamond":"YAFdJhX-538,0","Courier New":"YAGzXiGs0_8,0","Courier Prime":"YAD1aFjegN8,0","DM Sans":"YAD1aU3sLnI,0","DM Serif Display":"YAD1aYG82rc,0","Figtree":"YAHO2b-mV7A,0","Forum":"YACgEcnnqB4,0","Fraunces":"YAFdJpU7Kkk,0","Fredoka":"YACgEZml080,0","Georgia":"YAGzXkO0pEM,0","Hanken Grotesk":"YAHO2VB9G0I,0","Helvetica":"YAFcf7zkXN0,0","IBM Plex Mono":"YAFdJkmvhGI,0","IBM Plex Sans":"YAFdJgT0SHI,0","Impact":"YAFcfnjI7Vk,0","Instrument Sans":"YAHO2bKyaSQ,0","Instrument Serif":"YAHFeOnZNEk,0","Inter":"YAFdJvSyp_k,3","Italiana":"YAHO2Toik_w,0","Jacques Francois":"YAHO2a5g66Q,0","JetBrains Mono":"YAFdJksXcAk,0","Josefin Sans":"YAFdJjvw9Ps,0","Karla":"YAHO2V2NSXM,0","Lato":"YAFdJuFCnaw,0","Libre Baskerville":"YACgEUFdPdA,0","Libre Caslon Display":"YAHO2XhLmt0,0","Lobster":"YAD8SnSjSFI,0","Lora":"YACgEXvxf8Q,0","Manrope":"YAHO2b2feC4,0","Merriweather":"YACgEXvHxxs,0","Montserrat":"YAFdtQi73Xs,0","Noto Sans JP":"YAFdJiHXlcI,0","Noto Sans KR":"YAGsojZj-RQ,0","Nunito Sans":"YAFdtQJYB9w,1","Nunito":"YAFdJoNRMmU,1","Oleo Script":"YACgEQQ14jI,0","Open Sans":"YAFdJt8dAY0,1","Oswald":"YACgEQY10lw,0","Outfit":"YAHO2nVlg14,0","Pacifico":"YADLjORQ1u4,0","Playfair Display":"YAFdJhem5V8,1","Plus Jakarta Sans":"YAHO2gdhi18,0","Poppins":"YAFdJjbTu24,1","Press Start 2P":"YAFyGr-8pmQ,0","Public Sans":"YAFdJj8NdaU,1","Quicksand":"YAFdJpYtCxE,1","Raleway":"YAFdJhmxbVQ,1","Roboto Slab":"YAFdJswIKAg,0","Rockwell":"YAFcfyVZnN0,0","Rye":"YACgEdQP21k,0","STIX Two Text":"YAHO2joycuk,0","Sarabun":"YAFdJssSnME,0","Schibsted Grotesk":"YAHO2sWydRk,0","Segoe UI":"YAHNdRD1Klw,0","Source Sans 3":"YAG4lO1Mj10,0","Space Grotesk":"YAHO2sjPCSM,0","Space Mono":"YADW1-vpsoc,0","Spectral":"YAHO2rVUHIM,0","Times New Roman":"YAGzXW3gftg,0","Trebuchet MS":"YAFcfrglpVA,0","Ubuntu":"YACgERDU--Q,0","Verdana":"YAGzXTctYtQ,0","Work Sans":"YAGXhLOKv44,0","Yellowtail":"YACgEYG4kG4,0"}}');</script><script src="/_sdk/05db820ba1544614.telemetry_sdk.js" integrity="sha512-a7JzkQDDcioSXpM61nxTfeRW7PcxWQy5+BrhyeTFmQFsXJ+Gncm0y50u7fTA7qOPegFnRgqCfa0mGUOK1yjDWQ=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bio-Waste to Compost</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&amp;family=Fraunces:opsz,wght@9..144,700;9..144,800&amp;display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#173c3a; --paper:#fffef7; --leaf:#247b49; --cream:#fff9df; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:"DM Sans",sans-serif; color:var(--ink); overflow-x:hidden; }
+    button, .draggable-item { -webkit-tap-highlight-color:transparent; touch-action:none; }
+    button:focus-visible, .draggable-item:focus-visible { outline:4px solid #173c3a; outline-offset:3px; }
+    .game-shell { width:100%; min-height:calc(100 * min(var(--vh, 1vh), 1vh)); position:relative; overflow:hidden; }
+    .game-stage { display:none; width:100%; min-height:calc(100 * min(var(--vh, 1vh), 1vh)); padding:1.15rem; }
+    .game-stage.active { display:flex; animation:arrive .45s ease both; }
+    .scene-card { width:min(100%,1050px); margin:auto; min-height:650px; position:relative; overflow:hidden; border:5px solid rgba(23,60,58,.14); box-shadow:0 18px 0 rgba(23,60,58,.1),0 28px 50px rgba(23,60,58,.16); }
+    .scene-card::before { content:""; position:absolute; inset:0; background-image:radial-gradient(rgba(23,60,58,.07) 1px,transparent 1px); background-size:16px 16px; pointer-events:none; }
+    .topline { position:relative; z-index:5; display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1rem 1.1rem; }
+    .brand-mark { width:45px; height:45px; border-radius:16px 16px 16px 5px; background:#247b49; display:grid; place-items:center; color:#fff; box-shadow:inset 0 -4px 0 rgba(0,0,0,.12); }
+    .progress-line { display:flex; gap:.45rem; align-items:center; }
+    .progress-dot { height:11px; width:42px; border-radius:999px; background:rgba(23,60,58,.16); }
+    .progress-dot.done,.progress-dot.current { background:#247b49; }
+    .progress-dot.current { box-shadow:0 0 0 4px rgba(78,172,98,.22); }
+    .instruction { position:relative; z-index:3; padding:.25rem 1.4rem .75rem; max-width:710px; }
+    .instruction h1,.modal h2 { font-family:"Fraunces",serif; margin:0; line-height:1.08; }
+    .instruction p { margin:.55rem 0 0; line-height:1.5; max-width:560px; }
+    .objective-chip { position:absolute; z-index:4; right:1.4rem; top:6.4rem; max-width:220px; padding:.8rem 1rem; border-radius:18px; box-shadow:0 5px 0 rgba(23,60,58,.1); font-size:.84rem; }
+    .scene { position:absolute; z-index:1; inset:auto 0 0; top:180px; overflow:hidden; }
+    .ground { position:absolute; bottom:0; width:100%; height:34%; background:#7cb95c; border-radius:50% 50% 0 0 / 13% 13% 0 0; }
+    .cloud { position:absolute; width:115px; height:34px; background:rgba(255,255,255,.76); border-radius:999px; }
+    .cloud::before,.cloud::after { content:""; position:absolute; background:inherit; border-radius:50%; }
+    .cloud::before { width:50px; height:50px; left:20px; bottom:2px; }
+    .cloud::after { width:35px; height:35px; right:18px; bottom:1px; }
+    .draggable-item { user-select:none; cursor:grab; transition:opacity .25s,transform .18s; }
+    .draggable-item.dragging { opacity:.72; cursor:grabbing; z-index:15 !important; transition:none; }
+    .plant { position:absolute; width:62px; height:31px; border-radius:60% 45% 60% 45%; background:#58ac52; border:3px solid #2d8142; box-shadow:inset 10px -7px rgba(255,255,255,.16); display:grid; place-items:center; }
+    .plant[data-plant="azolla"] { width:54px; height:38px; border-radius:50%; background:#4f9f56; border-color:#2f783f; box-shadow:inset 0 -8px rgba(255,255,255,.18), inset 9px 0 rgba(231,255,141,.2); }
+    .plant[data-plant="azolla"]::after { content:"✦✦"; color:#e8ff9b; font-size:13px; letter-spacing:-3px; }
+    .plant[data-plant="algae"] { width:68px; height:25px; border-radius:70% 30% 65% 35%; background:#65b64d; border-color:#317d3d; }
+    .plant[data-plant="algae"]::after { content:"≈"; color:#e4ff8d; font-size:25px; line-height:1; }
+    .plant.collected,.food.fed,.ingredient.sorted { opacity:0; pointer-events:none; transform:scale(.2)!important; }
+    .scoop-zone { position:absolute; right:7%; bottom:13%; width:175px; height:160px; border:4px dashed #f5efd0; background:rgba(255,255,255,.2); border-radius:42% 42% 30% 30%; display:grid; place-items:center; text-align:center; color:white; padding:1rem; }
+    .scoop-zone .scoop { position:absolute; left:-54px; top:25px; width:88px; height:56px; border:10px solid #e3a45b; border-radius:0 0 48px 48px; transform:rotate(-30deg); }
+    .scoop-zone .scoop::after { content:""; position:absolute; height:75px; width:12px; background:#9a603e; left:-26px; top:-62px; border-radius:999px; transform:rotate(-24deg); }
+    .counter { position:absolute; z-index:3; left:1.5rem; bottom:1.35rem; padding:.7rem 1rem; border-radius:14px; background:var(--paper); font-weight:800; box-shadow:0 5px 0 rgba(23,60,58,.1); }
+    .status { position:absolute; z-index:4; left:50%; bottom:1.5rem; transform:translateX(-50%); padding:.55rem .9rem; border-radius:999px; background:rgba(255,255,255,.92); font-size:.84rem; font-weight:700; text-align:center; max-width:80%; }
+    .hidden { display:none!important; }
+    .coop { position:absolute; right:8%; bottom:16%; width:300px; height:236px; background:#d8874c; border:8px solid #8b5134; border-radius:20px 20px 8px 8px; box-shadow:inset 0 -22px rgba(93,52,35,.13); }
+    .coop::before { content:""; position:absolute; width:0; height:0; border-left:178px solid transparent; border-right:178px solid transparent; border-bottom:115px solid #b6493f; top:-106px; left:-36px; }
+    .coop-door { position:absolute; left:88px; bottom:0; height:132px; width:105px; background:#5d9c54; border:7px solid #784731; border-bottom:0; border-radius:55px 55px 0 0; }
+    .chicken { position:absolute; z-index:2; font-size:64px; filter:drop-shadow(0 5px 0 rgba(23,60,58,.12)); animation:bob 1.8s ease-in-out infinite; }
+    .feeding-tray { position:absolute; left:11%; bottom:13%; width:195px; height:70px; background:#e0b054; border:7px solid #966a36; border-radius:12px 12px 45% 45%; display:grid; place-items:center; text-align:center; padding:.5rem; }
+    .food { position:absolute; width:70px; height:36px; background:#65ad52; border:3px solid #337e41; border-radius:70% 30% 70% 30%; box-shadow:inset 11px -8px rgba(255,255,255,.18); }
+    .compost-bin { position:absolute; z-index:2; left:50%; bottom:13%; transform:translateX(-50%); width:260px; height:260px; border-radius:25px 25px 40px 40px; background:#586e3f; border:10px solid #344a32; box-shadow:inset 0 -22px rgba(0,0,0,.13),0 11px 0 rgba(23,60,58,.13); display:flex; align-items:center; justify-content:center; text-align:center; padding:1rem; }
+    .compost-bin::before { content:""; position:absolute; top:-34px; width:285px; height:55px; border-radius:50%; background:#3e5934; border:9px solid #344a32; }
+    .ingredient { position:absolute; z-index:3; width:135px; min-height:92px; background:var(--paper); border:3px solid rgba(23,60,58,.18); border-radius:20px; box-shadow:0 6px 0 rgba(23,60,58,.11); padding:.75rem .45rem; display:flex; flex-direction:column; justify-content:center; gap:.2rem; text-align:center; font-size:.83rem; font-weight:800; }
+    .ingredient span:first-child { font-size:31px; line-height:1; }
+    .ingredient.wrong { background:#fff0ec; }
+    .rejection { position:absolute; z-index:5; top:15px; left:50%; transform:translateX(-50%); border-radius:999px; padding:.62rem 1rem; font-weight:700; font-size:.84rem; opacity:0; pointer-events:none; transition:opacity .2s; }
+    .rejection.show { opacity:1; }
+    .action-btn { border:0; cursor:pointer; padding:.85rem 1.25rem; min-height:46px; border-radius:15px; font:800 1rem "DM Sans",sans-serif; box-shadow:0 5px 0 rgba(23,60,58,.15); transition:transform .16s,box-shadow .16s; }
+    .action-btn:hover { transform:translateY(-2px); box-shadow:0 7px 0 rgba(23,60,58,.15); }
+    .action-btn:active { transform:translateY(3px); box-shadow:0 2px 0 rgba(23,60,58,.15); }
+    .next-area { position:absolute; z-index:5; right:1.4rem; bottom:1.25rem; }
+    .modal-wrap { position:fixed; z-index:20; inset:0; display:none; align-items:center; justify-content:center; padding:1rem; background:rgba(19,55,50,.48); }
+    .modal-wrap.show { display:flex; animation:fade .25s ease both; }
+    .modal { width:min(100%,520px); border-radius:30px; padding:2.1rem; text-align:center; background:#fff9df; box-shadow:0 22px 0 rgba(23,60,58,.18),0 32px 65px rgba(0,0,0,.25); }
+    .modal-icon { width:74px; height:74px; margin:0 auto 1rem; border-radius:50%; background:#a9dc76; display:grid; place-items:center; font-size:38px; }
+    .modal p { line-height:1.55; margin:1rem auto 1.35rem; max-width:390px; }
+    .final-screen { position:absolute; inset:0; z-index:10; display:none; align-items:center; justify-content:center; padding:1.5rem; background:radial-gradient(circle at 50% 20%,#e8f7a6 0,#9cd77b 43%,#4c9a68 100%); }
+    .final-screen.show { display:flex; animation:arrive .45s ease both; }
+    .final-card { width:min(100%,630px); text-align:center; padding:2rem; border-radius:36px; border:5px solid rgba(23,60,58,.13); box-shadow:0 17px 0 rgba(23,60,58,.14); }
+    .reward-bottle { font-size:92px; display:inline-block; margin:.7rem 0; filter:drop-shadow(0 8px 0 rgba(23,60,58,.14)); animation:float 2.4s ease-in-out infinite; }
+    @keyframes arrive { from { opacity:0; transform:translateY(14px) scale(.985); } to { opacity:1; transform:none; } }
+    @keyframes fade { from { opacity:0; } to { opacity:1; } }
+    @keyframes bob { 50% { transform:translateY(-7px) rotate(-2deg); } }
+    @keyframes float { 50% { transform:translateY(-10px) rotate(3deg); } }
+    @media (max-width:650px) {
+      .scene-card { min-height:700px; }
+      .objective-chip { top:133px; right:1rem; font-size:.75rem; max-width:155px; }
+      .scene { top:200px; }
+      .instruction { padding-right:9rem; }
+      .coop { right:4%; transform:scale(.8); transform-origin:bottom right; }
+      .feeding-tray { left:5%; transform:scale(.82); transform-origin:bottom left; }
+      .compost-bin { transform:translateX(-50%) scale(.8); transform-origin:bottom center; }
+      .ingredient { width:103px; min-height:80px; font-size:.72rem; }
+      .counter { font-size:.8rem; }
+    }
+  </style>
+  <script src="/_sdk/570d53629f0b998d.data_sdk.js" type="text/javascript" integrity="sha512-JEN39+V+Nvv9ZZOVS8vNk1iA9ErZJHTdgOw9KzPuMiK7m0I+KPEr/wmTnCFIQVsDjCZgJWfGnFi1IQh2Io2qyA=="></script>
+  <script src="/_sdk/f195026a424c1f85.resizing_sdk.js" type="text/javascript" integrity="sha512-8On4Z+AXh1abEzZJ9Dbn9wOvFg+k1LsAaAzKGQ7LlfgXajZ9xEmZaZ1QVzv0AWhCZtCsEpWSOG9DgLri06TS7A=="></script>
+ </head>
+ <body data-template-id="__page-root">
+  <main class="game-shell">
+   <section id="stage-1" class="game-stage active items-center justify-center" aria-labelledby="water-title">
+    <div data-template-id="water-scene" class="canva-section scene-card rounded-[32px]">
+     <header class="topline">
+      <div class="flex items-center gap-3">
+       <div class="brand-mark" aria-hidden="true"><i data-lucide="sprout"></i>
+       </div><span data-template-id="game-name" class="canva-text font-extrabold"></span>
+      </div>
+      <nav class="progress-line" aria-label="ความคืบหน้าของเกม"><span class="progress-dot current"></span><span class="progress-dot"></span><span class="progress-dot"></span>
+      </nav>
+     </header>
+     <div class="instruction">
+      <h1 id="water-title" data-template-id="water-title" class="canva-text font-extrabold"></h1>
+      <p data-template-id="water-instruction" class="canva-text"></p>
+     </div>
+     <aside data-template-id="water-objective" class="canva-tag objective-chip"></aside>
+     <div class="scene">
+      <div class="cloud" style="left:9%;top:10%;"></div>
+      <div class="cloud" style="right:25%;top:19%;transform:scale(.65);"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;height:77%;background:#62bfc9;border-radius:50% 50% 0 0 / 15% 15% 0 0;"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;height:22%;background:#4f9f97;"></div>
+      <div class="plant draggable-item" data-kind="pond" data-plant="azolla" tabindex="0" style="left:14%;top:22%;"></div>
+      <div class="plant draggable-item" data-kind="pond" data-plant="algae" tabindex="0" style="left:35%;top:38%;transform:rotate(12deg);"></div>
+      <div class="plant draggable-item" data-kind="pond" data-plant="azolla" tabindex="0" style="left:20%;top:65%;transform:rotate(-18deg);"></div>
+      <div class="plant draggable-item" data-kind="pond" data-plant="algae" tabindex="0" style="left:52%;top:19%;transform:rotate(24deg);"></div>
+      <div class="plant draggable-item" data-kind="pond" data-plant="azolla" tabindex="0" style="left:65%;top:50%;transform:rotate(-10deg);"></div>
+      <div class="plant draggable-item" data-kind="pond" data-plant="algae" tabindex="0" style="left:43%;top:69%;transform:rotate(18deg);"></div>
+      <div id="scoop-zone" class="scoop-zone" aria-label="พื้นที่กระชอนตัก">
+       <div class="scoop"></div><span data-template-id="scoop-label" class="canva-text font-extrabold"></span>
+      </div>
+      <div class="counter"><span id="pond-count">0</span>/6 <span data-template-id="pond-counter-label" class="canva-text"></span>
+      </div>
+      <div id="water-status" class="status hidden" aria-live="polite"><span data-template-id="water-status-text" class="canva-text"></span>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section id="stage-2" class="game-stage items-center justify-center" aria-labelledby="feed-title">
+    <div data-template-id="chicken-scene" class="canva-section scene-card rounded-[32px]">
+     <header class="topline">
+      <div class="flex items-center gap-3">
+       <div class="brand-mark" aria-hidden="true"><i data-lucide="sprout"></i>
+       </div><span data-template-id="game-name-2" class="canva-text font-extrabold"></span>
+      </div>
+      <nav class="progress-line" aria-label="ความคืบหน้าของเกม"><span class="progress-dot done"></span><span class="progress-dot current"></span><span class="progress-dot"></span>
+      </nav>
+     </header>
+     <div class="instruction">
+      <h1 id="feed-title" data-template-id="feed-title" class="canva-text font-extrabold"></h1>
+      <p data-template-id="feed-instruction" class="canva-text"></p>
+     </div>
+     <aside data-template-id="feed-objective" class="canva-tag objective-chip"></aside>
+     <div class="scene">
+      <div class="cloud" style="left:14%;top:7%;transform:scale(.78);"></div>
+      <div class="ground"></div>
+      <div class="coop">
+       <div class="coop-door"></div>
+      </div><span class="chicken" style="right:13%;bottom:19%;">🐔</span><span class="chicken" style="right:29%;bottom:14%;font-size:52px;animation-delay:.4s;">🐔</span><span class="chicken" style="right:8%;bottom:9%;font-size:48px;animation-delay:.9s;">🐤</span>
+      <div id="feeding-tray" class="feeding-tray" aria-label="ถาดอาหารไก่"><span data-template-id="tray-label" class="canva-text font-extrabold"></span>
+      </div>
+      <div class="food draggable-item" data-kind="food" tabindex="0" style="left:16%;top:27%;"></div>
+      <div class="food draggable-item" data-kind="food" tabindex="0" style="left:34%;top:43%;transform:rotate(-15deg);"></div>
+      <div class="food draggable-item" data-kind="food" tabindex="0" style="left:18%;top:66%;transform:rotate(12deg);"></div>
+      <div class="counter"><span id="food-count">0</span>/3 <span data-template-id="food-counter-label" class="canva-text"></span>
+      </div>
+      <div id="feed-status" class="status hidden" aria-live="polite"><span data-template-id="feed-status-text" class="canva-text"></span>
+      </div>
+      <div id="feed-next-area" class="next-area hidden"><button id="to-compost" data-template-id="next-activity-button" class="canva-button action-btn" type="button"></button>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section id="stage-3" class="game-stage items-center justify-center" aria-labelledby="compost-title">
+    <div data-template-id="compost-scene" class="canva-section scene-card rounded-[32px]">
+     <header class="topline">
+      <div class="flex items-center gap-3">
+       <div class="brand-mark" aria-hidden="true"><i data-lucide="sprout"></i>
+       </div><span data-template-id="game-name-3" class="canva-text font-extrabold"></span>
+      </div>
+      <nav class="progress-line" aria-label="ความคืบหน้าของเกม"><span class="progress-dot done"></span><span class="progress-dot done"></span><span class="progress-dot current"></span>
+      </nav>
+     </header>
+     <div class="instruction">
+      <h1 id="compost-title" data-template-id="compost-title" class="canva-text font-extrabold"></h1>
+      <p data-template-id="compost-instruction" class="canva-text"></p>
+     </div>
+     <aside data-template-id="compost-objective" class="canva-tag objective-chip"></aside>
+     <div class="scene">
+      <div class="ground" style="background:#c69959;"></div>
+      <div id="compost-bin" class="compost-bin" aria-label="ถังปุ๋ยหมัก"><span data-template-id="bin-label" class="canva-text font-extrabold"></span>
+      </div>
+      <div class="ingredient draggable-item" data-kind="correct" tabindex="0" style="left:8%;top:15%;"><span>🫧</span><span data-template-id="algae-label" class="canva-text"></span>
+      </div>
+      <div class="ingredient draggable-item" data-kind="correct" tabindex="0" style="left:11%;bottom:12%;"><span>💩</span><span data-template-id="manure-label" class="canva-text"></span>
+      </div>
+      <div class="ingredient draggable-item" data-kind="correct" tabindex="0" style="right:8%;top:14%;"><span>🍂</span><span data-template-id="leaves-label" class="canva-text"></span>
+      </div>
+      <div class="ingredient wrong draggable-item" data-kind="wrong" tabindex="0" style="right:9%;bottom:12%;"><span>🧴</span><span data-template-id="plastic-label" class="canva-text"></span>
+      </div>
+      <div class="ingredient wrong draggable-item" data-kind="wrong" tabindex="0" style="left:28%;top:50%;"><span>☣️</span><span data-template-id="chemical-label" class="canva-text"></span>
+      </div>
+      <div class="ingredient wrong draggable-item" data-kind="wrong" tabindex="0" style="right:28%;top:50%;"><span>🥩</span><span data-template-id="meat-label" class="canva-text"></span>
+      </div>
+      <div class="counter"><span id="compost-count">0</span>/3 <span data-template-id="compost-counter-label" class="canva-text"></span>
+      </div>
+      <div id="rejection-message" class="rejection" aria-live="polite"><span data-template-id="rejection-text" class="canva-text"></span>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section id="water-modal" class="modal-wrap" role="dialog" aria-modal="true" aria-labelledby="water-modal-title">
+    <div class="modal">
+     <div class="modal-icon">
+      💧
+     </div>
+     <h2 id="water-modal-title" data-template-id="water-message-title" class="canva-text"></h2>
+     <p data-template-id="water-message" class="canva-text"></p><button id="to-feed" data-template-id="water-next-button" class="canva-button action-btn" type="button"></button>
+    </div>
+   </section>
+   <section id="compost-modal" class="modal-wrap" role="dialog" aria-modal="true" aria-labelledby="compost-modal-title">
+    <div class="modal">
+     <div class="modal-icon">
+      🌱
+     </div>
+     <h2 id="compost-modal-title" data-template-id="compost-message-title" class="canva-text"></h2>
+     <p data-template-id="compost-message" class="canva-text"></p><button id="show-final" data-template-id="complete-button" class="canva-button action-btn" type="button"></button>
+    </div>
+   </section>
+   <section id="final-screen" class="final-screen" aria-labelledby="complete-title">
+    <div data-template-id="final-card" class="canva-card final-card">
+     <div class="reward-bottle" aria-hidden="true">
+      🧪
+     </div>
+     <h1 id="complete-title" data-template-id="complete-title" class="canva-text font-extrabold"></h1>
+     <p data-template-id="complete-copy" class="canva-text mx-auto max-w-md mt-3 mb-4"></p>
+     <div data-template-id="reward-label" class="canva-banner inline-block rounded-2xl px-5 py-3 font-extrabold"></div>
+     <div class="mt-7"><button id="restart-game" data-template-id="restart-button" class="canva-button action-btn" type="button"></button>
+     </div>
+    </div>
+   </section>
+  </main>
+  <script src="/_sdk/0d3107a88dd31248.editing_sdk.js" integrity="sha512-YxJYPIC1TZ/l8asjpXojbfYA1LiLTr3Fh6BPE6fDLKLWTkDIhVGqsl6xMTuKf5GPOv3sZeQW9jrwgZcsiAARIQ=="></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+
+      let pondCollected = 0, fedCount = 0, composted = 0, activeDrag = null, resultSaved = false;
+      const stages = [document.getElementById("stage-1"), document.getElementById("stage-2"), document.getElementById("stage-3")];
+      const dataHandler = { onDataChanged() {} };
+      if (window.dataSdk) window.dataSdk.init(dataHandler);
+
+      function showStage(stage) {
+        stages.forEach(item => item.classList.remove("active"));
+        stage.classList.add("active");
+      }
+
+      function dropItem(element, x, y) {
+        const kind = element.dataset.kind;
+        const zone = kind === "pond" ? document.getElementById("scoop-zone") : null;
+        const zoneRect = zone ? zone.getBoundingClientRect() : null;
+        const droppedInScoop = zoneRect && x >= zoneRect.left && x <= zoneRect.right && y >= zoneRect.top && y <= zoneRect.bottom;
+        const target = document.elementFromPoint(x, y);
+        const tray = document.getElementById("feeding-tray");
+        const trayRect = tray.getBoundingClientRect();
+        const droppedInTray = kind === "food" && x >= trayRect.left && x <= trayRect.right && y >= trayRect.top && y <= trayRect.bottom;
+        const bin = document.getElementById("compost-bin");
+        const binRect = bin.getBoundingClientRect();
+        const droppedInBin = x >= binRect.left && x <= binRect.right && y >= binRect.top && y <= binRect.bottom;
+        element.classList.remove("dragging");
+        activeDrag = null;
+
+        if (kind === "pond" && droppedInScoop && !element.classList.contains("collected")) {
+          element.classList.add("collected");
+          element.style.position = "";
+          element.style.left = "";
+          element.style.top = "";
+          element.style.transform = "";
+          pondCollected++;
+          document.getElementById("pond-count").textContent = pondCollected;
+          if (pondCollected === 6) {
+            document.getElementById("water-status").classList.remove("hidden");
+            setTimeout(() => document.getElementById("water-modal").classList.add("show"), 500);
+          }
+          return;
+        }
+
+        if (element._originalParent && element.parentElement !== element._originalParent) {
+          element._originalParent.appendChild(element);
+        }
+        if (element.dataset.originalStyle) element.setAttribute("style", element.dataset.originalStyle);
+
+        if (kind === "food" && droppedInTray && !element.classList.contains("fed")) {
+          element.classList.add("fed");
+          fedCount++;
+          document.getElementById("food-count").textContent = fedCount;
+          if (fedCount === 3) {
+            document.getElementById("feed-status").classList.remove("hidden");
+            document.getElementById("feed-next-area").classList.remove("hidden");
+          }
+        }
+        if ((kind === "correct" || kind === "wrong") && droppedInBin) {
+          if (kind === "correct" && !element.classList.contains("sorted")) {
+            element.classList.add("sorted");
+            composted++;
+            document.getElementById("compost-count").textContent = composted;
+            if (composted === 3) setTimeout(() => document.getElementById("compost-modal").classList.add("show"), 450);
+          } else if (kind === "wrong") {
+            const note = document.getElementById("rejection-message");
+            note.classList.add("show");
+            setTimeout(() => note.classList.remove("show"), 1600);
+          }
+        }
+      }
+
+      function beginDrag(element, event) {
+        if (element.classList.contains("collected") || element.classList.contains("fed") || element.classList.contains("sorted")) return;
+        activeDrag = element;
+        element._originalParent = element.parentElement;
+        element.dataset.originalStyle = element.getAttribute("style") || "";
+        const rect = element.getBoundingClientRect();
+        activeDrag.dataset.offsetX = event.clientX - rect.left;
+        activeDrag.dataset.offsetY = event.clientY - rect.top;
+        element.classList.add("dragging");
+        // Keep the measured dimensions while moving out of the scaled scene.
+        element.style.width = rect.width + "px";
+        element.style.height = rect.height + "px";
+        element.style.minHeight = rect.height + "px";
+        element.style.position = "fixed";
+        element.style.left = rect.left + "px";
+        element.style.top = rect.top + "px";
+        document.body.appendChild(element);
+      }
+
+      function moveDrag(event) {
+        if (!activeDrag) return;
+        event.preventDefault();
+        activeDrag.style.left = (event.clientX - Number(activeDrag.dataset.offsetX)) + "px";
+        activeDrag.style.top = (event.clientY - Number(activeDrag.dataset.offsetY)) + "px";
+      }
+
+      document.querySelectorAll(".draggable-item").forEach(element => {
+        element.addEventListener("pointerdown", event => {
+          event.preventDefault();
+          beginDrag(element, event);
+          element.setPointerCapture(event.pointerId);
+        });
+        element.addEventListener("pointermove", moveDrag);
+        element.addEventListener("pointerup", event => {
+          if (activeDrag === element) dropItem(element, event.clientX, event.clientY);
+        });
+        element.addEventListener("pointercancel", event => {
+          if (activeDrag === element) dropItem(element, event.clientX, event.clientY);
+        });
+      });
+
+      document.getElementById("to-feed").addEventListener("click", () => {
+        document.getElementById("water-modal").classList.remove("show");
+        showStage(stages[1]);
+      });
+      document.getElementById("to-compost").addEventListener("click", () => showStage(stages[2]));
+      document.getElementById("show-final").addEventListener("click", async () => {
+        document.getElementById("compost-modal").classList.remove("show");
+        document.getElementById("final-screen").classList.add("show");
+        if (!resultSaved && window.dataSdk) {
+          resultSaved = true;
+          await window.dataSdk.create({
+            player_name: "ผู้เล่น",
+            score: 100,
+            stage1_completed: true,
+            stage2_completed: true,
+            stage3_completed: true,
+            all_stages_completed: true,
+            completed_at: new Date().toISOString()
+          });
+        }
+      });
+      document.getElementById("restart-game").addEventListener("click", () => {
+        pondCollected = 0; fedCount = 0; composted = 0; resultSaved = false;
+        document.getElementById("pond-count").textContent = "0";
+        document.getElementById("food-count").textContent = "0";
+        document.getElementById("compost-count").textContent = "0";
+        document.querySelectorAll(".plant").forEach(el => el.classList.remove("collected"));
+        document.querySelectorAll(".food").forEach(el => el.classList.remove("fed"));
+        document.querySelectorAll(".ingredient").forEach(el => el.classList.remove("sorted"));
+        document.getElementById("water-status").classList.add("hidden");
+        document.getElementById("feed-status").classList.add("hidden");
+        document.getElementById("feed-next-area").classList.add("hidden");
+        document.getElementById("final-screen").classList.remove("show");
+        showStage(stages[0]);
+      });
+    });
+  </script>
+ </body>
+</html>

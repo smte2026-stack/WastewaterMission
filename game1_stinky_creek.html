@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stinky Creek - ภารกิจบำบัดน้ำเสียทางกายภาพ ม.3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            font-family: 'Kanit', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        .font-pixel {
+            font-family: 'Press Start 2P', monospace;
+        }
+
+        /* Title Styling: Bright Vibrant Cyan/Emerald/Gold (STRICTLY NO RED & NO BLACK) */
+        .title-vibrant-glow {
+            background: linear-gradient(135deg, #38bdf8 0%, #34d399 35%, #facc15 70%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 24px rgba(56, 189, 248, 0.95)) drop-shadow(3px 3px 0px #065f46);
+        }
+
+        .title-sub-vibrant {
+            color: #67e8f9 !important;
+            text-shadow: 0 0 12px rgba(103, 232, 249, 0.8), 1px 1px 3px #0f172a;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(16px);
+            border: 3px solid #38bdf8;
+            box-shadow: 0 0 35px rgba(56, 189, 248, 0.35);
+        }
+
+        /* Navigation & Control Buttons */
+        .btn-cyan-emerald {
+            background: linear-gradient(180deg, #06b6d4 0%, #047857 100%);
+            border: 3px solid #67e8f9;
+            box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.4), 0 4px 0 #0f766e;
+            transition: all 0.15s ease;
+        }
+        .btn-cyan-emerald:hover {
+            filter: brightness(1.15);
+            transform: translateY(-2px);
+        }
+        .btn-cyan-emerald:active {
+            transform: translateY(2px);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 2px 0 #0f766e;
+        }
+
+        .btn-gold {
+            background: linear-gradient(180deg, #f59e0b 0%, #b45309 100%);
+            border: 3px solid #fef08a;
+            box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.4), 0 4px 0 #78350f;
+            transition: all 0.15s ease;
+        }
+        .btn-gold:hover {
+            filter: brightness(1.15);
+            transform: translateY(-2px);
+        }
+        .btn-gold:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #78350f;
+        }
+
+        .btn-top-nav {
+            background: linear-gradient(180deg, #0f766e 0%, #042f2e 100%);
+            border: 2px solid #5eead4;
+            box-shadow: 0 3px 0 #134e4a;
+            transition: all 0.15s ease;
+        }
+        .btn-top-nav:hover {
+            filter: brightness(1.2);
+            transform: translateY(-1px);
+        }
+        .btn-top-nav:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #134e4a;
+        }
+
+        .char-card {
+            border: 3px solid #334155;
+            transition: all 0.2s ease;
+        }
+        .char-card.selected {
+            border-color: #38bdf8 !important;
+            background: rgba(56, 189, 248, 0.25) !important;
+            box-shadow: 0 0 22px rgba(56, 189, 248, 0.7);
+            transform: scale(1.03);
+        }
+
+        .touch-pad-btn {
+            background: rgba(15, 118, 110, 0.85);
+            border: 3px solid #5eead4;
+            box-shadow: 0 4px 0 #0f766e;
+        }
+        .touch-pad-btn:active {
+            background: rgba(13, 148, 136, 1);
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #0f766e;
+        }
+
+        @keyframes title-pulse {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 18px rgba(56, 189, 248, 0.85));
+            }
+            50% {
+                transform: scale(1.02);
+                filter: drop-shadow(0 0 28px rgba(52, 211, 153, 0.95));
+            }
+        }
+
+        .animated-title-vibrant {
+            animation: title-pulse 2.4s infinite ease-in-out;
+        }
+
+        #game-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 980px;
+            aspect-ratio: 16 / 9;
+            margin: 0 auto;
+            border: 4px solid #0284c7;
+            box-shadow: 0 20px 50px rgba(2, 132, 199, 0.35);
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            image-rendering: pixelated;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-between p-2 md:p-3 select-none">
+
+    <!-- TOP HEADER: Centered Vibrant Title (STRICTLY NO RED & NO BLACK) -->
+    <header class="w-full max-w-4xl text-center my-1 z-10 flex flex-col items-center">
+        <h1 class="animated-title-vibrant title-vibrant-glow text-3xl md:text-5xl font-black tracking-wider uppercase drop-shadow-2xl">
+            Stinky Creek
+        </h1>
+        <p class="title-sub-vibrant text-xs md:text-sm font-extrabold mt-1 tracking-wide bg-slate-900/90 py-1.5 px-4 rounded-full border border-cyan-500/60 shadow-lg flex items-center justify-center gap-2">
+            <span class="text-amber-300">🧪 วิชาวิทยาศาสตร์ ม.3</span>
+            <span class="text-slate-500">•</span>
+            <span class="text-emerald-300">การบำบัดน้ำเสียทางกายภาพ (Physical Wastewater Treatment)</span>
+        </p>
+    </header>
+
+    <main class="w-full flex-1 flex flex-col items-center justify-center relative">
+        <div id="game-wrapper" class="rounded-2xl overflow-hidden relative bg-slate-900">
+            <!-- Game Canvas -->
+            <canvas id="gameCanvas" width="960" height="540"></canvas>
+
+            <!-- Warning Toast Notification for Incomplete Questions -->
+            <div id="warning-toast" class="hidden absolute top-14 left-1/2 -translate-x-1/2 z-40 bg-amber-600 border-4 border-yellow-300 text-white font-extrabold text-xs md:text-sm px-5 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 max-w-[90%] text-center">
+                <i class="fa-solid fa-lock text-yellow-300 text-xl animate-bounce"></i>
+                <span id="toast-message" class="text-white font-black">คุณต้องตอบคำถามกล่องปริศนาให้ครบ 10 ข้อก่อนเข้าเส้นชัย!</span>
+            </div>
+
+            <!-- Heads-Up Display (HUD) Overlay -->
+            <div id="hud-overlay" class="hidden absolute top-0 left-0 w-full p-2 md:p-3 flex justify-between items-center pointer-events-none select-none z-10">
+                <div class="flex items-center gap-2 md:gap-3 bg-slate-950/90 px-3 py-1.5 rounded-xl border-2 border-emerald-400 shadow-xl">
+                    <!-- Hearts Counter -->
+                    <div id="hud-hearts" class="flex gap-1 text-base md:text-xl text-red-500 drop-shadow">
+                        ❤️ ❤️ ❤️
+                    </div>
+                    <div class="h-5 w-[2px] bg-slate-700"></div>
+                    <!-- Score Counter -->
+                    <div class="flex items-center gap-1.5 text-amber-400 font-extrabold text-xs md:text-sm">
+                        <i class="fa-solid fa-star text-amber-300 animate-pulse"></i>
+                        <span id="hud-score" class="text-yellow-300 font-black text-sm md:text-base">0</span>
+                        <span class="text-[10px] text-slate-300">คะแนน</span>
+                    </div>
+                    <div class="h-5 w-[2px] bg-slate-700"></div>
+                    <!-- Real-Time Timer -->
+                    <div class="flex items-center gap-1.5 text-cyan-300 font-extrabold text-xs md:text-sm">
+                        <i class="fa-solid fa-stopwatch text-cyan-300"></i>
+                        <span id="hud-timer" class="font-pixel text-xs md:text-sm text-cyan-200">00:00</span>
+                    </div>
+                </div>
+
+                <!-- Right Action Group: Quiz Counter, Mute Toggle & Top-Right Navigation Buttons -->
+                <div class="flex items-center gap-1.5 md:gap-2 pointer-events-auto">
+                    <div class="flex items-center gap-1.5 bg-slate-950/90 px-2.5 py-1.5 rounded-xl border-2 border-amber-400 shadow-xl">
+                        <i class="fa-solid fa-box-archive text-amber-400 text-xs md:text-sm"></i>
+                        <span id="hud-quiz-counter" class="text-xs md:text-sm font-black text-amber-300">0 / 10</span>
+                    </div>
+
+                    <!-- Audio Toggle -->
+                    <button id="btn-audio-toggle" class="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-slate-900/90 text-emerald-400 border-2 border-emerald-400 flex items-center justify-center hover:bg-emerald-950/90 active:scale-95 transition shadow-lg" title="เปิด/ปิดเสียง">
+                        <i id="audio-icon" class="fa-solid fa-volume-high text-sm"></i>
+                    </button>
+
+                    <!-- Top-Right Corner Buttons: Reset Level, Select Character, Home -->
+                    <button id="btn-hud-reset-level" class="btn-top-nav px-2.5 py-1.5 rounded-xl text-white font-extrabold text-xs flex items-center gap-1 shadow-lg" title="รีเซ็ตเริ่มด่านใหม่">
+                        <i class="fa-solid fa-rotate-right text-cyan-300"></i>
+                        <span class="hidden sm:inline">รีเซ็ต</span>
+                    </button>
+
+                    <button id="btn-hud-select-char" class="btn-top-nav px-2.5 py-1.5 rounded-xl text-white font-extrabold text-xs flex items-center gap-1 shadow-lg" title="เลือกตัวละคร">
+                        <i class="fa-solid fa-user-gear text-amber-300"></i>
+                        <span class="hidden sm:inline">เลือกตัวละคร</span>
+                    </button>
+
+                    <button id="btn-hud-go-home" class="btn-top-nav px-2.5 py-1.5 rounded-xl text-white font-extrabold text-xs flex items-center gap-1 shadow-lg" title="หน้าแรก">
+                        <i class="fa-solid fa-house text-emerald-300"></i>
+                        <span class="hidden sm:inline">หน้าแรก</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Start Screen Overlay -->
+            <div id="start-screen" class="absolute inset-0 z-20 bg-gradient-to-br from-teal-950 via-slate-950 to-sky-950 flex flex-col items-center justify-center p-3 text-center overflow-y-auto">
+                <div class="max-w-2xl w-full bg-slate-950/95 border-4 border-cyan-400 p-4 md:p-5 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col items-center">
+                    
+                    <h2 class="title-vibrant-glow text-3xl md:text-5xl font-black uppercase tracking-wide mb-1">
+                        Stinky Creek
+                    </h2>
+                    <p class="title-sub-vibrant font-extrabold text-xs md:text-sm mb-3">
+                        ภารกิจบำบัดน้ำเสียทางกายภาพ (ระดับชั้น ม.3)
+                    </p>
+
+                    <!-- Cartoon Village Environment Elements -->
+                    <div class="flex items-center justify-center gap-4 my-2 text-3xl md:text-4xl bg-slate-900/80 px-6 py-2 rounded-2xl border border-teal-500/50 shadow-inner">
+                        <span title="หมู่บ้านสดใส">🏡</span>
+                        <span title="ลำธาร Stinky Creek">🏞️</span>
+                        <span title="กังหันน้ำ">🎡</span>
+                        <span title="ถังตะแกรงดักขยะ">🧺</span>
+                        <span title="ถังดักไขมัน">🛢️</span>
+                    </div>
+
+                    <!-- Instructions & Game Rules Breakdown -->
+                    <div class="bg-slate-900/90 border-2 border-emerald-500/60 p-3 rounded-xl text-left text-xs md:text-sm text-slate-200 space-y-2 mb-4 w-full shadow-inner">
+                        <div class="font-black text-amber-300 border-b border-emerald-800 pb-1 flex items-center gap-2">
+                            <i class="fa-solid fa-book-open text-cyan-400"></i> วิธีการเล่น & กติกาการบำบัดน้ำเสียทางกายภาพ (ม.3):
+                        </div>
+                        <ul class="space-y-1 text-slate-300">
+                            <li>• 🎮 <strong>การควบคุม:</strong> ลูกศร <span class="text-cyan-300">Left/Right/Up</span> หรือ <span class="text-cyan-300">A/D/Space</span> (รองรับปุ่มสัมผัสบนมือถือ)</li>
+                            <li>• ❤️ <strong>หัวใจ & เกาะพัก:</strong> เริ่มต้น 3 ดวง ชนศัตรู -1 ดวง <em>(ตอบคำถามกล่องปริศนาจะไม่แจกหัวใจ สุ่มหัวใจ +1 ได้เฉพาะตามเกาะพัก!)</em></li>
+                            <li>• 👾 <strong>ศัตรูประจำด่าน:</strong> สไลม์โคลนเน่า, หนูขยะถุงพลาสติก, ยุงพิษ และถังขยะปีศาจ</li>
+                            <li>• 📦 <strong>คำถามสุ่มระบบกายภาพ (10 ข้อ):</strong> ความยาวตัวเลือกเท่ากันทุกข้อ สุ่มตำแหน่ง ก, ข, ค, ง ไม่ซ้ำ
+                                <br><span class="text-emerald-400">🌱 ง่าย: +1 คะแนน (-1 ผิด)</span> | <span class="text-cyan-300">⚡ ปานกลาง: +2 คะแนน (-1 ผิด)</span>
+                                <br><span class="text-amber-400">🔥 ยาก: +3 คะแนน (-1 ผิด)</span> | <span class="text-rose-400 font-bold">💀 ข้อ 10 ฝันร้าย (ม.3): +5 คะแนน (ตอบผิด GAME OVER ทันที + เพลงบิ้วอารมณ์!)</span>
+                            </li>
+                            <li>• 🏁 <strong>การเข้าเส้นชัย:</strong> ต้องตอบคำถามกล่องปริศนาให้ครบทั้ง 10 ข้อก่อนข้ามเส้นชัย!</li>
+                        </ul>
+                    </div>
+
+                    <button id="btn-open-char-select" class="btn-cyan-emerald w-full py-3.5 px-6 text-slate-950 font-black text-lg md:text-xl rounded-xl flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-play text-xl"></i> เริ่มเกม / เลือกตัวละคร
+                    </button>
+                </div>
+            </div>
+
+            <!-- Character Selection Modal -->
+            <div id="char-select-screen" class="hidden absolute inset-0 z-25 bg-slate-950/95 flex flex-col items-center justify-center p-3 text-center">
+                <div class="max-w-xl w-full bg-slate-900 border-4 border-cyan-400 p-4 md:p-5 rounded-2xl shadow-2xl flex flex-col items-center">
+                    <h3 class="text-xl md:text-2xl font-black text-cyan-300 mb-1">
+                        เลือกตัวละครนักบำบัดน้ำเสีย (ม.3)
+                    </h3>
+                    <p class="text-xs text-slate-300 mb-4 font-semibold">เลือกตัวละครที่คุณต้องการใช้ฟื้นฟูลำธาร Stinky Creek</p>
+
+                    <div class="grid grid-cols-2 gap-4 w-full mb-5">
+                        <!-- Male Character Option: วิน -->
+                        <div id="card-char-male" class="char-card selected bg-slate-950 p-3.5 rounded-xl cursor-pointer flex flex-col items-center transition" onclick="selectGender('M')">
+                            <div class="w-16 h-16 bg-emerald-900 rounded-full border-2 border-emerald-400 flex items-center justify-center text-3xl mb-2 shadow-md">
+                                👦🏻
+                            </div>
+                            <span class="text-base font-black text-emerald-300">วิน (Win)</span>
+                            <span class="text-xs text-cyan-300 font-bold">ตัวละครชาย (นักอนุรักษ์)</span>
+                        </div>
+
+                        <!-- Female Character Option: เมย์ -->
+                        <div id="card-char-female" class="char-card bg-slate-950 p-3.5 rounded-xl cursor-pointer flex flex-col items-center transition" onclick="selectGender('F')">
+                            <div class="w-16 h-16 bg-sky-900 rounded-full border-2 border-sky-400 flex items-center justify-center text-3xl mb-2 shadow-md">
+                                👧🏻
+                            </div>
+                            <span class="text-base font-black text-sky-300">เมย์ (May)</span>
+                            <span class="text-xs text-cyan-300 font-bold">ตัวละครหญิง (นักวิทยาศาสตร์)</span>
+                        </div>
+                    </div>
+
+                    <button id="btn-confirm-character" class="btn-gold w-full py-3 text-slate-950 font-black text-lg rounded-xl flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-check text-xl"></i> ยืนยันตัวละคร & เริ่มตะลุยด่าน
+                    </button>
+                </div>
+            </div>
+
+            <!-- Science Quiz Modal Dialog -->
+            <div id="quiz-modal" class="hidden absolute inset-0 z-30 glass-panel flex flex-col items-center justify-center p-3 md:p-4">
+                <div class="max-w-xl w-full bg-slate-950 border-4 border-cyan-400 rounded-2xl p-4 shadow-2xl relative flex flex-col">
+                    <div class="flex items-center justify-between border-b-2 border-slate-800 pb-2 mb-3">
+                        <span id="quiz-difficulty-badge" class="text-xs font-black px-2.5 py-1 rounded-lg border uppercase">
+                            <span id="quiz-difficulty-text">EASY (+1 คะแนน)</span>
+                        </span>
+                        <span class="text-xs text-cyan-300 font-extrabold">การบำบัดน้ำเสียทางกายภาพ ม.3</span>
+                    </div>
+
+                    <h3 id="quiz-question-text" class="text-xs md:text-sm font-bold text-white mb-3 leading-relaxed">
+                        คำถามวิทยาศาสตร์...
+                    </h3>
+
+                    <div id="quiz-choices-container" class="grid grid-cols-1 gap-2 mb-3">
+                        <!-- Choices injected dynamically -->
+                    </div>
+
+                    <!-- Educational Solution Feedback Box -->
+                    <div id="quiz-feedback" class="hidden p-3 rounded-xl mb-3 text-xs md:text-sm flex flex-col gap-1 border">
+                        <div id="quiz-feedback-title" class="font-black text-sm flex items-center gap-2"></div>
+                        <div id="quiz-feedback-explanation" class="text-slate-200 leading-relaxed mt-0.5"></div>
+                    </div>
+
+                    <button id="btn-quiz-continue" class="hidden btn-cyan-emerald w-full py-2.5 text-slate-950 font-black rounded-xl text-center">
+                        เดินทางต่อ <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Game Over Screen -->
+            <div id="gameover-screen" class="hidden absolute inset-0 z-30 glass-panel flex flex-col items-center justify-center p-6 text-center">
+                <div class="max-w-md w-full bg-slate-950 border-4 border-rose-600 rounded-2xl p-6 shadow-2xl flex flex-col items-center">
+                    <div class="w-16 h-16 bg-rose-600/30 text-rose-500 border-2 border-rose-500 rounded-2xl flex items-center justify-center text-3xl mb-2 animate-bounce">
+                        <i class="fa-solid fa-heart-crack"></i>
+                    </div>
+                    <h2 class="font-pixel text-2xl md:text-3xl font-black text-rose-500 mb-1 uppercase">GAME OVER</h2>
+                    <p id="gameover-reason" class="text-slate-300 font-bold text-xs md:text-sm mb-4">หัวใจหมดลง! ลองใหม่อีกครั้งเพื่อฟื้นฟูลำธาร Stinky Creek</p>
+                    
+                    <div class="bg-slate-900 w-full p-3 rounded-xl mb-4 flex justify-around text-center border border-rose-900">
+                        <div>
+                            <div class="text-xs text-slate-400 font-semibold">คะแนนรวม</div>
+                            <div id="gameover-score" class="text-2xl font-black text-amber-400">0</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400 font-semibold">เวลาที่ใช้</div>
+                            <div id="gameover-time" class="text-xl font-pixel text-cyan-300">00:00</div>
+                        </div>
+                    </div>
+
+                    <button id="btn-restart-game" class="btn-cyan-emerald w-full py-3 text-slate-950 font-black text-base rounded-xl flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i> เริ่มใหม่ (Play Again)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Victory Screen -->
+            <div id="victory-screen" class="hidden absolute inset-0 z-30 glass-panel flex flex-col items-center justify-center p-6 text-center">
+                <div class="max-w-md w-full bg-slate-950 border-4 border-emerald-400 rounded-2xl p-5 shadow-2xl flex flex-col items-center">
+                    <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 border-2 border-emerald-400 rounded-2xl flex items-center justify-center text-3xl mb-2 animate-bounce">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-black text-emerald-400 mb-1">ภารกิจสำเร็จ! 🎉</h2>
+                    <p class="text-cyan-300 font-extrabold text-xs md:text-sm mb-3">"ตอบคำถามครบ 10 ข้อ บำบัดน้ำเสียทางกายภาพลำธาร Stinky Creek จนใสสะอาด!"</p>
+                    
+                    <div class="bg-emerald-950/90 border border-emerald-500/50 w-full p-3.5 rounded-xl mb-4 text-center">
+                        <div class="text-xs text-emerald-300 font-semibold uppercase tracking-wider mb-1">ระดับประเมินความรู้:</div>
+                        <div id="victory-badge" class="text-sm md:text-base font-black text-amber-300 mb-2">
+                            🏆 ผู้เชี่ยวชาญการบำบัดน้ำเสียทางกายภาพ ม.3
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 pt-2 border-t border-emerald-800 text-center">
+                            <div>
+                                <span class="text-[10px] text-slate-400 block">คะแนนสะสม</span>
+                                <span id="victory-score" class="text-xl font-black text-amber-400">0</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400 block">เวลาที่ใช้</span>
+                                <span id="victory-time" class="text-xs font-pixel text-cyan-300 block mt-1">00:00</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400 block">หัวใจคงเหลือ</span>
+                                <span id="victory-hearts" class="text-sm font-black text-red-500 block mt-1">❤️❤️❤️</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="btn-victory-restart" class="btn-cyan-emerald w-full py-3 text-slate-950 font-black text-base rounded-xl flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-arrow-rotate-right"></i> เล่นอีกรอบ (Play Again)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Touch Controls -->
+        <div id="touch-controls" class="w-full max-w-[980px] flex justify-between items-center mt-2 px-2 select-none md:hidden">
+            <div class="flex gap-2">
+                <button id="btn-touch-left" class="touch-pad-btn w-14 h-14 rounded-xl flex items-center justify-center text-2xl text-white">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button id="btn-touch-right" class="touch-pad-btn w-14 h-14 rounded-xl flex items-center justify-center text-2xl text-white">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+            <button id="btn-touch-jump" class="touch-pad-btn w-16 h-14 rounded-xl flex items-center justify-center text-2xl text-white">
+                <i class="fa-solid fa-arrow-up"></i>
+            </button>
+        </div>
+    </main>
+
+    <footer class="w-full max-w-4xl text-center text-xs text-cyan-400 mt-1 font-semibold">
+        Stinky Creek Platformer • สื่อการเรียนรู้วิทยาศาสตร์ ม.3 "การบำบัดน้ำเสียทางกายภาพ"
+    </footer>
+
+    <script>
+        // Web Audio API Synthesizer with Sound Effects & Nightmare BGM
+        class SoundFX {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+                this.bgmTimer = null;
+                this.nightmareTimer = null;
+                this.noteIdx = 0;
+                this.isNightmareMusic = false;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioContext();
+                }
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
+
+            tone(freq, type = 'square', dur = 0.1, vol = 0.15) {
+                if (this.muted || !this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + dur);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + dur);
+                } catch(e) {}
+            }
+
+            playJump() {
+                if (this.muted || !this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(180, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(540, this.ctx.currentTime + 0.12);
+                    gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.12);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.12);
+                } catch(e) {}
+            }
+
+            playBoxHit() {
+                this.tone(523, 'square', 0.08, 0.2);
+                setTimeout(() => this.tone(659, 'square', 0.1, 0.2), 70);
+            }
+
+            playCorrect() {
+                [523, 659, 783, 1046].forEach((f, i) => {
+                    setTimeout(() => this.tone(f, 'square', 0.12, 0.2), i * 70);
+                });
+            }
+
+            playWrong() {
+                if (this.muted || !this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, this.ctx.currentTime);
+                    osc.frequency.setValueAtTime(140, this.ctx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.3);
+                } catch(e) {}
+            }
+
+            playDamage() {
+                this.tone(180, 'sawtooth', 0.2, 0.25);
+            }
+
+            playHeart() {
+                [587, 739, 880, 1174].forEach((f, i) => {
+                    setTimeout(() => this.tone(f, 'sine', 0.1, 0.2), i * 50);
+                });
+            }
+
+            playGameOver() {
+                this.stopBGM();
+                [350, 290, 230, 170].forEach((f, i) => {
+                    setTimeout(() => this.tone(f, 'sawtooth', 0.2, 0.25), i * 160);
+                });
+            }
+
+            playVictory() {
+                this.stopBGM();
+                [523, 659, 783, 1046, 880, 1046].forEach((f, i) => {
+                    setTimeout(() => this.tone(f, 'square', 0.15, 0.25), i * 110);
+                });
+            }
+
+            startBGM() {
+                this.stopBGM();
+                this.isNightmareMusic = false;
+                const notes = [261, 329, 392, 329, 293, 349, 440, 349, 330, 392, 523, 392];
+                this.bgmTimer = setInterval(() => {
+                    if (!this.muted && this.ctx) {
+                        this.tone(notes[this.noteIdx % notes.length], 'triangle', 0.12, 0.03);
+                        this.noteIdx++;
+                    }
+                }, 260);
+            }
+
+            startNightmareBGM() {
+                this.stopBGM();
+                this.isNightmareMusic = true;
+                const nightmareNotes = [110, 116, 123, 116, 110, 104, 110, 123];
+                let nmIdx = 0;
+                this.nightmareTimer = setInterval(() => {
+                    if (!this.muted && this.ctx) {
+                        this.tone(nightmareNotes[nmIdx % nightmareNotes.length], 'sawtooth', 0.08, 0.08);
+                        if (nmIdx % 2 === 0) {
+                            this.tone(440, 'square', 0.05, 0.04);
+                        }
+                        nmIdx++;
+                    }
+                }, 130);
+            }
+
+            stopBGM() {
+                if (this.bgmTimer) {
+                    clearInterval(this.bgmTimer);
+                    this.bgmTimer = null;
+                }
+                if (this.nightmareTimer) {
+                    clearInterval(this.nightmareTimer);
+                    this.nightmareTimer = null;
+                }
+            }
+        }
+
+        const audio = new SoundFX();
+
+        // QUESTION POOL FOR PHYSICAL WASTEWATER TREATMENT (การบำบัดน้ำเสียทางกายภาพ ม.3)
+        // STRICT SPECIFICATION REQUIREMENTS:
+        // 1. Equal length choices so players CANNOT guess based on length!
+        // 2. Questions & choices dynamically randomized every playthrough!
+        // 3. Question #10 is ALWAYS the Nightmare question.
+        const RAW_EASY_QUESTIONS = [
+            {
+                q: "1. [การบำบัดทางกายภาพ] ตะแกรงดักขยะ (Bar Screen) ในโรงบำบัดน้ำเสีย มีหน้าที่หลักอย่างไร?",
+                rawChoices: [
+                    "ดักแยกกิ่งไม้พลาสติกและขยะชิ้นใหญ่",
+                    "ย่อยสลายสารอินทรีย์ด้วยแบคทีเรีย",
+                    "ฆ่าเชื้อโรคในน้ำเสียด้วยแก๊สคลอรีน",
+                    "ปรับค่าความเป็นกรดด่างให้เป็นกลาง"
+                ],
+                correctRawIdx: 0,
+                exp: "เฉลยถูกต้อง: ตะแกรงดักขยะทำหน้าที่กรองเศษขยะกิ่งไม้ ถุงพลาสติก และสิ่งของขนาดใหญ่ออกจากน้ำเสียทางกายภาพ (+1 คะแนน)"
+            },
+            {
+                q: "2. [การดักไขมัน] ถังดักไขมัน (Grease Trap) ในครัวเรือนแยกไขมันออกจากน้ำเสียด้วยหลักการใด?",
+                rawChoices: [
+                    "ไขมันมีความหนาแน่นน้อยกว่าน้ำจึงลอย",
+                    "ไขมันตกตะกอนจมลงสู่ด้านล่างถังดัก",
+                    "ไขมันถูกทำลายด้วยกระแสไฟฟ้าแรงสูง",
+                    "ไขมันถูกย่อยด้วยสารเคมีเข้มข้นสูง"
+                ],
+                correctRawIdx: 0,
+                exp: "เฉลยถูกต้อง: ไขมันเบากว่าน้ำ (ความหนาแน่นน้อยกว่า) จึงลอยขึ้นผิวน้ำ ทำให้สามารถตักแยกออกได้ง่าย (+1 คะแนน)"
+            },
+            {
+                q: "3. [สาเหตุน้ำเสีย] ขยะมูลฝอยและเศษอาหารที่ทิ้งลงลำธาร Stinky Creek จัดเป็นมลพิษทางกายภาพชนิดใด?",
+                rawChoices: [
+                    "ของแข็งลอยน้ำและสารตะกอนแขวนลอย",
+                    "สารเคมีสังเคราะห์และสารอันตรายพิษ",
+                    "เชื้อแบคทีเรียและไวรัสแพร่เชื้อโรค",
+                    "สารอนินทรีย์ละลายน้ำและคราบกรดแก่"
+                ],
+                correctRawIdx: 0,
+                exp: "เฉลยถูกต้อง: ขยะและสิ่งปฏิกูลเป็นของแข็งแขวนลอยและของแข็งลอยน้ำที่มองเห็นได้ทางกายภาพ (+1 คะแนน)"
+            }
+        ];
+
+        const RAW_MEDIUM_QUESTIONS = [
+            {
+                q: "4. [การตกตะกอน] ถังตกตะกอน (Sedimentation Tank) อาศัยแรงชนิดใดในการแยกกรวดและทรายออกจากน้ำ?",
+                rawChoices: [
+                    "แรงโน้มถ่วงของโลกพาตะกอนจมลงล่าง",
+                    "แรงดันอากาศอัดดันตะกอนลอยขึ้นบน",
+                    "แรงเหวี่ยงหนีศูนย์กลางความเร็วสูง",
+                    "แรงแม่เหล็กไฟฟ้าดูดแยกสารตะกอน"
+                ],
+                correctRawIdx: 0,
+                exp: "เฉลยถูกต้อง: ถังตกตะกอนปล่อยให้น้ำไหลช้าๆ เพื่อให้แรงโน้มถ่วงพากรวดทรายและตะกอนหนักจมลงสู่ก้นถัง (+2 คะแนน)"
+            },
+            {
+                q: "5. [การกรองทางกายภาพ] การกรองด้วยชั้นทราย (Sand Filter) ช่วยกำจัดสิ่งใดออกจากน้ำเสีย?",
+                rawChoices: [
+                    "อนุภาคตะกอนขนาดเล็กที่ยังตกตะกอนช้า",
+                    "ก๊าซพิษกลิ่นเหม็นที่ละลายปนอยู่ในน้ำ",
+                    "สารละลายเกลือแร่และโลหะหนักพิษสูง",
+                    "น้ำมันเครื่องที่ละลายปนในชั้นน้ำ"
+                ],
+                correctRawIdx: 0,
+                exp: "เฉลยถูกต้อง: ชั้นทรายทำหน้าที่ดักจับอนุภาคตะกอนละเอียดแขวนลอยที่หลุดมาจากถังตกตะกอน (+2 คะแนน)"
+            },
+            {
+                q: "6. [การลอยตัวทางกายภาพ] การเป่าฟองอากาศ (Flotation) ช่วยแยกสิ่งปนเปื้อนชนิดใดออกจากน้ำเสีย?",
+                rawChoices: [
+                    "น้ำมันและตะกอนเบาให้ลอยขึ้นปาดออก",
+                    "ทรายและก้อนหินหนักให้ตกตะกอนลงก้น",
+                    "เชื้อโรคและไวรัสให้ตายลงอย่างรวดเร็ว",
+                    "สารกรดและด่างให้สะอาดเป็นกลางได้"
+                ],
+                correctRawIdx: 0,
+                exp: "เฉลยถูกต้อง: การเป่าฟองอากาศเล็กๆ จะช่วยเกาะเกาะคราบน้ำมันและตะกอนเบาให้ลอยขึ้นผิวน้ำเพื่อปาดทิ้ง (+2 คะแนน)"
+            }
+        ];
+
+        const RAW_HARD_QUESTIONS = [
+            {
+                q: "7. [การตกตะกอนทางกายภาพ] เหตุใดจึงต้องควบคุมความเร็วการไหลของน้ำในถังดักกรวดทราย (Grit Chamber)?",
+                rawChoices: [
+                    "เพื่อให้เฉพาะทรายตกตะกอนแต่สารเบาไม่จม",
+                    "เพื่อเพิ่มออกซิเจนให้แบคทีเรียย่อยสาร",
+                    "เพื่อฆ่าเชื้อโรคด้วยความร้อนจากการไหล",
+                    "เพื่อละลายกรวดทรายให้เปลี่ยนเป็นน้ำ"
+                ],
+                correctRawIdx: 0,
+                exp: "เฉลยถูกต้อง: ต้องควบคุมความเร็วไหลให้พอดีเพื่อให้ทรายตกตะกอนลง แต่ไม่ช้าเกินไปจนสารอินทรีย์เบาจมลงเน่า (+3 คะแนน)"
+            },
+            {
+                q: "8. [อุปกรณ์ทางกายภาพ] ตะแกรงกรองละเอียด (Fine Screen) แตกต่างจากตะแกรงกรองหยาบ (Coarse Screen) อย่างไร?",
+                rawChoices: [
+                    "ขนาดช่องว่างดักจับอนุภาคต่างกันชัดเจน",
+                    "ใช้วัสดุโลหะผสมสารเคมีฆ่าเชื้อต่างกัน",
+                    "ใช้แรงดันไฟฟ้าในการกรองขยะต่างกัน",
+                    "ใช้ความร้อนในการเผาทำลายขยะต่างกัน"
+                ],
+                correctRawIdx: 0,
+                exp: "เฉลยถูกต้อง: ตะแกรงหยาบดักขยะชิ้นใหญ่ (กิ่งไม้/ขวด) ส่วนตะแกรงละเอียดดักเศษขยะชิ้นเล็ก ต่างกันที่ขนาดช่องว่าง (+3 คะแนน)"
+            },
+            {
+                q: "9. [เปรียบเทียบการบำบัด] ข้อใดคือจุดเด่นของการบำบัดน้ำเสียทางกายภาพเมื่อเทียบกับวิธีอื่น?",
+                rawChoices: [
+                    "ทำได้ง่ายไม่ต้องใช้สารเคมีหรือแบคทีเรีย",
+                    "สามารถกำจัดสารละลายพิษได้หมดสิ้นเชิง",
+                    "สามารถฆ่าเชื้อโรคได้ทั้งหมดร้อยเปอร์เซ็นต์",
+                    "ช่วยเปลี่ยนน้ำเสียเป็นน้ำดื่มบริสุทธิ์ได้"
+                ],
+                correctRawIdx: 0,
+                exp: "เฉลยถูกต้อง: การบำบัดทางกายภาพใช้กลไกการกรอง ตกตะกอน และดักแยก โดยไม่ต้องใช้สารเคมีหรือสารชีวภาพ (+3 คะแนน)"
+            }
+        ];
+
+        const RAW_NIGHTMARE_QUESTIONS = [
+            {
+                q: "10. 💀 [ข้อฝันร้าย ม.3] ในการคำนวณอัตราภาระภายนอกของถังตกตะกอน (Overflow Rate: Q/A) หากเพิ่มพื้นที่ผิวถัง (A) จะเกิดผลอย่างไร?",
+                rawChoices: [
+                    "อัตราภาระลดลงทำให้การตกตะกอนมีประสิทธิภาพสูงขึ้น",
+                    "อัตราภาระเพิ่มขึ้นทำให้ตะกอนฟุ้งกระจายหลุดออกจากถัง",
+                    "ความเร็วการตกตะกอนของอนุภาคจะลดลงจนหยุดตกตะกอน",
+                    "ปริมาณออกซิเจนละลายในน้ำจะเพิ่มขึ้นอย่างมหาศาลทันที"
+                ],
+                correctRawIdx: 0,
+                exp: "เฉลยถูกต้อง (ข้อฝันร้าย ม.3 💀): อัตราภาระล้น (Overflow Rate = Q/A) เมื่อเพิ่มพื้นที่ A ค่า Q/A จะลดลง ทำให้น้ำไหลล้นช้า ตะกอนจมได้ดีขึ้น! (+5 คะแนน)"
+            },
+            {
+                q: "10. 💀 [ข้อฝันร้าย ม.3] ตามกฎของสโต๊กส์ (Stokes' Law) การตกตะกอนอนุภาคในถังตกตะกอนทางกายภาพ ความเร็วการจมตัวแปรตามสิ่งใดมากที่สุด?",
+                rawChoices: [
+                    "กำลังสองของขนาดเส้นผ่านศูนย์กลางของอนุภาคตะกอน",
+                    "ระดับความเข้มข้นของแก๊สออกซิเจนที่ละลายอยู่ในน้ำเสีย",
+                    "ปริมาณสารเคมีสร้างตะกอนที่เติมลงไปในระบบบำบัดน้ำ",
+                    "ความเร็วในการหมุนของกังหันเติมอากาศในถังบำบัดน้ำ"
+                ],
+                correctRawIdx: 0,
+                exp: "เฉลยถูกต้อง (ข้อฝันร้าย ม.3 💀): ตาม Stokes' Law ความเร็วการจม (Terminal Velocity) แปรผันตรงกับ d² (กำลังสองของขนาดอนุภาคตะกอน) (+5 คะแนน)"
+            }
+        ];
+
+        // DYNAMIC SHUFFLE FUNCTION: Ensures options & answer choices are randomly mapped to ก, ข, ค, ง every run!
+        function buildShuffledQuestionPool() {
+            const processGroup = (group, points, diffText) => {
+                return group.map(raw => {
+                    // Create array of indices [0, 1, 2, 3]
+                    const indices = [0, 1, 2, 3];
+                    // Fisher-Yates shuffle
+                    for (let i = indices.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [indices[i], indices[j]] = [indices[j], indices[i]];
+                    }
+
+                    const thaiPrefixes = ["ก) ", "ข) ", "ค) ", "ง) "];
+                    const shuffledChoices = [];
+                    let newCorrectIdx = 0;
+
+                    indices.forEach((origIdx, newPosition) => {
+                        shuffledChoices.push(thaiPrefixes[newPosition] + raw.rawChoices[origIdx]);
+                        if (origIdx === raw.correctRawIdx) {
+                            newCorrectIdx = newPosition;
+                        }
+                    });
+
+                    return {
+                        q: raw.q,
+                        difficulty: diffText,
+                        points: points,
+                        choices: shuffledChoices,
+                        correct: newCorrectIdx,
+                        exp: raw.exp
+                    };
+                });
+            };
+
+            const easyList = processGroup(RAW_EASY_QUESTIONS, 1, "🌱 ข้อง่าย");
+            const medList = processGroup(RAW_MEDIUM_QUESTIONS, 2, "⚡ ข้อปานกลาง");
+            const hardList = processGroup(RAW_HARD_QUESTIONS, 3, "🔥 ข้อยาก");
+            const nightmareList = processGroup(RAW_NIGHTMARE_QUESTIONS, 5, "💀 NIGHTMARE 🔥");
+
+            // Randomly select 1 Nightmare question for Q10
+            const selectedNightmare = nightmareList[Math.floor(Math.random() * nightmareList.length)];
+
+            // Combine Q1 to Q9 and add Q10 Nightmare at the end
+            const fullList = [
+                easyList[0], easyList[1], easyList[2],
+                medList[0], medList[1], medList[2],
+                hardList[0], hardList[1], hardList[2],
+                selectedNightmare
+            ];
+
+            return fullList;
+        }
+
+        let ACTIVE_QUESTION_BANK = [];
+
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let gameState = 'START'; // START, CHAR_SELECT, PLAYING, QUIZ, GAMEOVER, VICTORY
+        let selectedGender = 'M'; // 'M' = วิน, 'F' = เมย์
+        let hearts = 3;
+        const MAX_HEARTS = 5;
+        let score = 0;
+        let answeredBoxesCount = 0;
+        let activeBoxIndex = -1;
+        let currentQuestion = null;
+
+        let timerSeconds = 0;
+        let timerInterval = null;
+
+        const WORLD_WIDTH = 4500;
+        const CANVAS_WIDTH = 960;
+        const CANVAS_HEIGHT = 540;
+        const GROUND_Y = 430;
+
+        let cameraX = 0;
+        const keys = { left: false, right: false, jump: false };
+
+        function selectGender(gender) {
+            selectedGender = gender;
+            const maleCard = document.getElementById('card-char-male');
+            const femaleCard = document.getElementById('card-char-female');
+
+            if (gender === 'M') {
+                maleCard.className = 'char-card selected bg-slate-950 p-3.5 rounded-xl cursor-pointer flex flex-col items-center transition';
+                femaleCard.className = 'char-card bg-slate-950 p-3.5 rounded-xl cursor-pointer flex flex-col items-center transition';
+            } else {
+                maleCard.className = 'char-card bg-slate-950 p-3.5 rounded-xl cursor-pointer flex flex-col items-center transition';
+                femaleCard.className = 'char-card selected bg-slate-950 p-3.5 rounded-xl cursor-pointer flex flex-col items-center transition';
+            }
+        }
+
+        class Player {
+            constructor() {
+                this.x = 100;
+                this.y = 300;
+                this.width = 34;
+                this.height = 50;
+                this.vx = 0;
+                this.vy = 0;
+                this.speed = 5.5;
+                this.jumpStrength = -13.8;
+                this.gravity = 0.62;
+                this.isGrounded = false;
+                this.facingRight = true;
+                this.animFrame = 0;
+                this.invincibleTimer = 0;
+            }
+
+            reset() {
+                this.x = 100;
+                this.y = 300;
+                this.vx = 0;
+                this.vy = 0;
+                this.isGrounded = false;
+                this.invincibleTimer = 0;
+            }
+
+            update() {
+                if (keys.left) {
+                    this.vx = -this.speed;
+                    this.facingRight = false;
+                } else if (keys.right) {
+                    this.vx = this.speed;
+                    this.facingRight = true;
+                } else {
+                    this.vx *= 0.7;
+                }
+
+                if (keys.jump && this.isGrounded) {
+                    this.vy = this.jumpStrength;
+                    this.isGrounded = false;
+                    audio.playJump();
+                }
+
+                this.vy += this.gravity;
+                this.x += this.vx;
+
+                if (this.x < 10) this.x = 10;
+                if (this.x > WORLD_WIDTH - this.width - 10) this.x = WORLD_WIDTH - this.width - 10;
+
+                this.y += this.vy;
+
+                // Ground Floor Collision
+                if (this.y + this.height >= GROUND_Y) {
+                    this.y = GROUND_Y - this.height;
+                    this.vy = 0;
+                    this.isGrounded = true;
+                }
+
+                if (this.invincibleTimer > 0) {
+                    this.invincibleTimer--;
+                }
+
+                if (Math.abs(this.vx) > 0.5) {
+                    this.animFrame += 0.25;
+                } else {
+                    this.animFrame = 0;
+                }
+            }
+
+            draw() {
+                if (this.invincibleTimer % 6 >= 3) return;
+
+                ctx.save();
+                ctx.translate(this.x - cameraX + this.width / 2, this.y + this.height / 2);
+                if (!this.facingRight) {
+                    ctx.scale(-1, 1);
+                }
+
+                const legAngle = Math.sin(this.animFrame) * 8;
+
+                if (selectedGender === 'M') {
+                    // Male Hero: วิน - นักอนุรักษ์
+                    ctx.fillStyle = "#fde047";
+                    ctx.fillRect(-10, -25, 20, 16);
+                    ctx.fillStyle = "#047857";
+                    ctx.fillRect(-12, -29, 24, 6);
+                    ctx.fillRect(-8, -34, 4, 6);
+                    ctx.fillStyle = "#0f172a";
+                    ctx.fillRect(2, -19, 4, 4);
+                    ctx.fillStyle = "#059669";
+                    ctx.fillRect(-9, -9, 18, 18);
+                    ctx.fillStyle = "#34d399";
+                    ctx.fillRect(-13, -9 + legAngle / 2, 4, 16);
+                    ctx.fillRect(9, -9 - legAngle / 2, 4, 16);
+                    ctx.fillStyle = "#1e293b";
+                    ctx.fillRect(-8, 9 + legAngle, 7, 14);
+                    ctx.fillRect(1, 9 - legAngle, 7, 14);
+                } else {
+                    // Female Hero: เมย์ - นักวิทยาศาสตร์
+                    ctx.fillStyle = "#fbcfe8";
+                    ctx.fillRect(-10, -25, 20, 16);
+                    ctx.fillStyle = "#38bdf8";
+                    ctx.fillRect(-15, -23, 6, 12);
+                    ctx.fillRect(9, -23, 6, 12);
+                    ctx.fillStyle = "#f59e0b";
+                    ctx.fillRect(-12, -28, 24, 5);
+                    ctx.fillStyle = "#0f172a";
+                    ctx.fillRect(2, -19, 4, 4);
+                    ctx.fillStyle = "#06b6d4";
+                    ctx.fillRect(-9, -9, 18, 18);
+                    ctx.fillStyle = "#67e8f9";
+                    ctx.fillRect(-13, -9 + legAngle / 2, 4, 16);
+                    ctx.fillRect(9, -9 - legAngle / 2, 4, 16);
+                    ctx.fillStyle = "#f8fafc";
+                    ctx.fillRect(-8, 9 + legAngle, 7, 14);
+                    ctx.fillRect(1, 9 - legAngle, 7, 14);
+                }
+
+                ctx.restore();
+            }
+        }
+
+        class SafeIsland {
+            constructor(x, y, width, height, hasHeart = false) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.hasHeart = hasHeart;
+                this.heartItem = hasHeart ? new HeartItem(x + width / 2 - 14, y - 32) : null;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x - cameraX, this.y);
+
+                const blockSize = 24;
+                const cols = Math.floor(this.width / blockSize);
+                const rows = Math.floor(this.height / blockSize);
+
+                for (let c = 0; c < cols; c++) {
+                    for (let r = 0; r < rows; r++) {
+                        const bx = c * blockSize;
+                        const by = r * blockSize;
+
+                        if (r === 0) {
+                            ctx.fillStyle = "#10b981";
+                            ctx.fillRect(bx, by, blockSize, blockSize);
+
+                            ctx.fillStyle = "#34d399";
+                            ctx.fillRect(bx, by, blockSize, 6);
+                            ctx.fillRect(bx + 2, by + 6, 4, 4);
+                            ctx.fillRect(bx + 12, by + 6, 6, 3);
+
+                            ctx.fillStyle = "#065f46";
+                            ctx.fillRect(bx, by + 10, blockSize, blockSize - 10);
+                        } else {
+                            ctx.fillStyle = "#064e3b";
+                            ctx.fillRect(bx, by, blockSize, blockSize);
+                        }
+
+                        ctx.strokeStyle = "rgba(0, 0, 0, 0.25)";
+                        ctx.lineWidth = 1;
+                        ctx.strokeRect(bx, by, blockSize, blockSize);
+                    }
+                }
+
+                ctx.restore();
+
+                if (this.heartItem) {
+                    this.heartItem.draw();
+                }
+            }
+        }
+
+        class HeartItem {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.width = 28;
+                this.height = 28;
+                this.collected = false;
+                this.floatAnim = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.floatAnim += 0.08;
+            }
+
+            draw() {
+                if (this.collected) return;
+                ctx.save();
+                const hoverY = Math.sin(this.floatAnim) * 5;
+                ctx.translate(this.x - cameraX + this.width / 2, this.y + hoverY + this.height / 2);
+
+                ctx.fillStyle = "#ef4444";
+                ctx.font = "bold 24px Kanit";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText("❤️", 0, 0);
+
+                ctx.restore();
+            }
+        }
+
+        class MysteryBox {
+            constructor(x, y, questionIndex) {
+                this.x = x;
+                this.y = y;
+                this.width = 40;
+                this.height = 40;
+                this.questionIndex = questionIndex;
+                this.opened = false;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x - cameraX, this.y);
+
+                if (!this.opened) {
+                    const qData = ACTIVE_QUESTION_BANK[this.questionIndex];
+                    const isNightmare = qData.difficulty.includes("NIGHTMARE");
+                    const isHard = qData.points === 3;
+
+                    ctx.fillStyle = isNightmare ? "#dc2626" : (isHard ? "#f59e0b" : "#38bdf8");
+                    ctx.fillRect(0, 0, this.width, this.height);
+
+                    ctx.fillStyle = isNightmare ? "#fca5a5" : (isHard ? "#fef08a" : "#bae6fd");
+                    ctx.fillRect(2, 2, this.width - 4, 4);
+                    ctx.fillRect(2, 2, 4, this.height - 4);
+
+                    ctx.fillStyle = isNightmare ? "#7f1d1d" : (isHard ? "#78350f" : "#0369a1");
+                    ctx.fillRect(2, this.height - 6, this.width - 4, 4);
+                    ctx.fillRect(this.width - 6, 2, 4, this.height - 4);
+
+                    ctx.fillStyle = "#ffffff";
+                    ctx.font = isNightmare ? "bold 18px 'Press Start 2P', monospace" : "bold 24px 'Press Start 2P', monospace";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText(isNightmare ? "💀" : "?", this.width / 2, this.height / 2 + 2);
+                } else {
+                    ctx.fillStyle = "#334155";
+                    ctx.fillRect(0, 0, this.width, this.height);
+                    ctx.strokeStyle = "#64748b";
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(2, 2, this.width - 4, this.height - 4);
+
+                    ctx.fillStyle = "#10b981";
+                    ctx.font = "bold 20px Kanit";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText("✓", this.width / 2, this.height / 2);
+                }
+
+                ctx.restore();
+            }
+        }
+
+        class Enemy {
+            constructor(x, y, leftBound, rightBound, type = 'slime') {
+                this.x = x;
+                this.y = y;
+                this.width = 36;
+                this.height = 36;
+                this.leftBound = leftBound;
+                this.rightBound = rightBound;
+                this.speed = 2.2;
+                this.type = type; // 'slime', 'rat', 'mosquito', 'trash'
+                this.facingLeft = true;
+                this.animTimer = Math.random() * 10;
+                this.startY = y;
+            }
+
+            update() {
+                if (this.facingLeft) {
+                    this.x -= this.speed;
+                    if (this.x <= this.leftBound) {
+                        this.x = this.leftBound;
+                        this.facingLeft = false;
+                    }
+                } else {
+                    this.x += this.speed;
+                    if (this.x >= this.rightBound) {
+                        this.x = this.rightBound;
+                        this.facingLeft = true;
+                    }
+                }
+
+                this.animTimer += 0.12;
+
+                if (this.type === 'mosquito') {
+                    this.y = this.startY + Math.sin(this.animTimer) * 22;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x - cameraX + this.width / 2, this.y + this.height / 2);
+
+                if (!this.facingLeft) ctx.scale(-1, 1);
+
+                if (this.type === 'slime') {
+                    // Slime Mud Monster (สไลม์โคลน)
+                    const squish = Math.sin(this.animTimer) * 3;
+                    ctx.fillStyle = "#84cc16";
+                    ctx.beginPath();
+                    ctx.arc(0, 4, 16 + squish, 0, Math.PI, true);
+                    ctx.fill();
+                    ctx.fillRect(-16 - squish, 4, 32 + (squish*2), 12);
+                    ctx.fillStyle = "#0f172a";
+                    ctx.fillRect(-8, -2, 5, 5);
+                    ctx.fillRect(3, -2, 5, 5);
+                } 
+                else if (this.type === 'rat') {
+                    // Plastic Bag Rat (หนูถุงพลาสติก)
+                    ctx.fillStyle = "#64748b";
+                    ctx.fillRect(-16, -8, 32, 18);
+                    ctx.fillStyle = "#334155";
+                    ctx.fillRect(-22, -2, 8, 4);
+                    ctx.fillStyle = "#ef4444";
+                    ctx.fillRect(-10, -5, 4, 4);
+                } 
+                else if (this.type === 'mosquito') {
+                    // Toxic Mosquito (ยุงพิษ)
+                    const flap = Math.sin(this.animTimer * 2) * 6;
+                    ctx.fillStyle = "#e0f2fe";
+                    ctx.fillRect(-20, -12 + flap, 10, 14);
+                    ctx.fillRect(10, -12 - flap, 10, 14);
+                    ctx.fillStyle = "#0284c7";
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 14, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = "#ef4444";
+                    ctx.fillRect(-6, -4, 12, 8);
+                }
+                else if (this.type === 'trash') {
+                    // Trash Bin Monster (ถังขยะปีศาจ)
+                    ctx.fillStyle = "#475569";
+                    ctx.fillRect(-14, -16, 28, 32);
+                    ctx.fillStyle = "#0284c7";
+                    ctx.fillRect(-16, -20, 32, 6);
+                    ctx.fillStyle = "#facc15";
+                    ctx.fillRect(-8, -8, 6, 6);
+                    ctx.fillRect(2, -8, 6, 6);
+                }
+
+                ctx.restore();
+            }
+        }
+
+        const player = new Player();
+        let safeIslands = [];
+        let mysteryBoxes = [];
+        let enemies = [];
+
+        function initLevel() {
+            ACTIVE_QUESTION_BANK = buildShuffledQuestionPool();
+
+            player.reset();
+            hearts = 3;
+            score = 0;
+            answeredBoxesCount = 0;
+            cameraX = 0;
+
+            timerSeconds = 0;
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (gameState === 'PLAYING') {
+                    timerSeconds++;
+                    updateTimerHUD();
+                }
+            }, 1000);
+            updateTimerHUD();
+
+            // Platforms across level (WORLD_WIDTH = 4500)
+            const islandPositions = [
+                {x: 260, y: 310, w: 192, h: 48},
+                {x: 580, y: 250, w: 216, h: 48},
+                {x: 900, y: 320, w: 192, h: 48},
+                {x: 1220, y: 260, w: 216, h: 48},
+                {x: 1540, y: 310, w: 192, h: 48},
+                {x: 1860, y: 240, w: 216, h: 48},
+                {x: 2180, y: 310, w: 192, h: 48},
+                {x: 2500, y: 260, w: 216, h: 48},
+                {x: 2820, y: 320, w: 192, h: 48},
+                {x: 3140, y: 250, w: 216, h: 48},
+                {x: 3460, y: 310, w: 216, h: 48},
+                {x: 3780, y: 270, w: 216, h: 48}
+            ];
+
+            // Random Heart Items (+1 Heart) placed on SOME resting platforms
+            const heartIndexes = new Set();
+            while (heartIndexes.size < 5) {
+                const randIdx = Math.floor(Math.random() * islandPositions.length);
+                heartIndexes.add(randIdx);
+            }
+
+            safeIslands = islandPositions.map((pos, idx) => {
+                return new SafeIsland(pos.x, pos.y, pos.w, pos.h, heartIndexes.has(idx));
+            });
+
+            // Exactly 10 Mystery Question Boxes
+            mysteryBoxes = [
+                new MysteryBox(320, 180, 0),
+                new MysteryBox(640, 120, 1),
+                new MysteryBox(960, 180, 2),
+                new MysteryBox(1280, 130, 3),
+                new MysteryBox(1600, 180, 4),
+                new MysteryBox(1920, 110, 5),
+                new MysteryBox(2240, 180, 6),
+                new MysteryBox(2560, 130, 7),
+                new MysteryBox(2880, 190, 8),
+                new MysteryBox(3200, 120, 9) // Q10 is ALWAYS Nightmare! 💀
+            ];
+
+            // Mario-style Enemies
+            enemies = [
+                new Enemy(450, GROUND_Y - 36, 400, 700, 'slime'),
+                new Enemy(610, 214, 590, 750, 'rat'),
+                new Enemy(1050, GROUND_Y - 36, 950, 1350, 'trash'),
+                new Enemy(1280, 170, 1240, 1400, 'mosquito'),
+                new Enemy(1600, 274, 1560, 1700, 'slime'),
+                new Enemy(2200, GROUND_Y - 36, 2100, 2400, 'rat'),
+                new Enemy(2550, 180, 2510, 2680, 'mosquito'),
+                new Enemy(3150, GROUND_Y - 36, 3000, 3400, 'trash'),
+                new Enemy(3500, 274, 3460, 3650, 'mosquito')
+            ];
+
+            updateHUD();
+        }
+
+        function updateTimerHUD() {
+            const mins = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+            const secs = (timerSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('hud-timer').textContent = `${mins}:${secs}`;
+        }
+
+        function drawRichVillageBackground() {
+            // Bright Blue Sky Gradient
+            const skyGrad = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
+            skyGrad.addColorStop(0, "#0284c7");
+            skyGrad.addColorStop(0.5, "#38bdf8");
+            skyGrad.addColorStop(1, "#bae6fd");
+            ctx.fillStyle = skyGrad;
+            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+            // Glowing Sun
+            ctx.fillStyle = "#fef08a";
+            ctx.beginPath();
+            ctx.arc(840, 70, 38, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Parallax Clouds
+            ctx.fillStyle = "rgba(255, 255, 255, 0.88)";
+            for (let i = 0; i < 18; i++) {
+                const cx = (i * 320) - (cameraX * 0.15);
+                ctx.fillRect(cx, 50, 110, 28);
+                ctx.fillRect(cx + 20, 32, 70, 20);
+                ctx.fillRect(cx + 80, 60, 35, 14);
+            }
+
+            // Parallax Green Hills & Windmills
+            ctx.fillStyle = "#059669";
+            for (let i = 0; i < 12; i++) {
+                const hx = (i * 480) - (cameraX * 0.3);
+                ctx.beginPath();
+                ctx.arc(hx + 240, 420, 280, Math.PI, Math.PI * 2);
+                ctx.fill();
+
+                // Windmill
+                ctx.fillStyle = "#f8fafc";
+                ctx.fillRect(hx + 220, 210, 30, 70);
+                ctx.fillStyle = "#78350f";
+                ctx.beginPath();
+                ctx.moveTo(hx + 215, 210);
+                ctx.lineTo(hx + 235, 180);
+                ctx.lineTo(hx + 255, 210);
+                ctx.fill();
+
+                // Windmill Blades
+                const time = Date.now() * 0.002;
+                ctx.save();
+                ctx.translate(hx + 235, 200);
+                ctx.rotate(time);
+                ctx.strokeStyle = "#475569";
+                ctx.lineWidth = 3;
+                for (let b = 0; b < 4; b++) {
+                    ctx.rotate(Math.PI / 2);
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(0, 35);
+                    ctx.stroke();
+                }
+                ctx.restore();
+            }
+
+            // Parallax Cottages & Stinky Creek River Stream
+            for (let i = 0; i < 15; i++) {
+                const vx = (i * 360) - (cameraX * 0.5);
+
+                // Trees
+                ctx.fillStyle = "#78350f";
+                ctx.fillRect(vx + 10, 330, 12, 40);
+                ctx.fillStyle = "#15803d";
+                ctx.beginPath();
+                ctx.arc(vx + 16, 320, 26, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Village Cottage
+                ctx.fillStyle = "#f1f5f9";
+                ctx.fillRect(vx + 80, 300, 75, 70);
+                ctx.fillStyle = "#0284c7";
+                ctx.beginPath();
+                ctx.moveTo(vx + 70, 300);
+                ctx.lineTo(vx + 117, 250);
+                ctx.lineTo(vx + 165, 300);
+                ctx.fill();
+
+                ctx.fillStyle = "#fef08a";
+                ctx.fillRect(vx + 95, 315, 18, 18);
+                ctx.fillStyle = "#78350f";
+                ctx.fillRect(vx + 125, 330, 18, 40);
+            }
+
+            // Solid Vibrant Green Village Ground Floor
+            ctx.fillStyle = "#16a34a";
+            ctx.fillRect(0 - cameraX, GROUND_Y, WORLD_WIDTH, CANVAS_HEIGHT - GROUND_Y);
+
+            // Ground Grass Highlights & Flowers
+            ctx.fillStyle = "#4ade80";
+            ctx.fillRect(0 - cameraX, GROUND_Y, WORLD_WIDTH, 8);
+
+            for (let fx = 20; fx < WORLD_WIDTH; fx += 80) {
+                ctx.fillStyle = "#f43f5e";
+                ctx.beginPath();
+                ctx.arc(fx - cameraX, GROUND_Y - 4, 4, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = "#fef08a";
+                ctx.beginPath();
+                ctx.arc(fx - cameraX, GROUND_Y - 4, 1.5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Finish Line: Physical Wastewater Treatment Plant Gate at x = 4000
+            const finishX = 4000 - cameraX;
+            ctx.fillStyle = "#0f172a";
+            ctx.fillRect(finishX, 220, 220, 210);
+
+            // Gate Top
+            ctx.fillStyle = "#059669";
+            ctx.fillRect(finishX - 10, 180, 240, 40);
+
+            // Gate Header Text
+            ctx.fillStyle = "#38bdf8";
+            ctx.font = "bold 14px Kanit";
+            ctx.textAlign = "center";
+            ctx.fillText("โรงบำบัดน้ำเสียทางกายภาพ (เส้นชัย)", finishX + 110, 205);
+
+            // Gate Status Indicator Light
+            const isUnlocked = answeredBoxesCount >= mysteryBoxes.length;
+            ctx.fillStyle = isUnlocked ? "#22c55e" : "#f59e0b";
+            ctx.beginPath();
+            ctx.arc(finishX + 110, 165, 10, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function checkCollisions() {
+            // Floating Islands & Hearts
+            safeIslands.forEach(island => {
+                if (
+                    player.x + player.width > island.x &&
+                    player.x < island.x + island.width &&
+                    player.y + player.height >= island.y &&
+                    player.y + player.height <= island.y + 16 &&
+                    player.vy >= 0
+                ) {
+                    player.y = island.y - player.height;
+                    player.vy = 0;
+                    player.isGrounded = true;
+                }
+
+                // Heart Pickups (+1 Heart from Island Pickups)
+                if (island.heartItem && !island.heartItem.collected) {
+                    const item = island.heartItem;
+                    if (
+                        player.x + player.width > item.x &&
+                        player.x < item.x + item.width &&
+                        player.y + player.height > item.y &&
+                        player.y < item.y + item.height
+                    ) {
+                        item.collected = true;
+                        if (hearts < MAX_HEARTS) hearts++;
+                        audio.playHeart();
+                        updateHUD();
+                    }
+                }
+            });
+
+            // Mystery Question Boxes
+            mysteryBoxes.forEach((box, idx) => {
+                if (!box.opened) {
+                    if (
+                        player.x + player.width > box.x &&
+                        player.x < box.x + box.width &&
+                        player.y + player.height > box.y &&
+                        player.y < box.y + box.height
+                    ) {
+                        audio.playBoxHit();
+                        triggerQuizModal(idx);
+                    }
+                }
+            });
+
+            // Enemy Collisions
+            if (player.invincibleTimer === 0) {
+                enemies.forEach(enemy => {
+                    if (
+                        player.x + player.width > enemy.x + 4 &&
+                        player.x < enemy.x + enemy.width - 4 &&
+                        player.y + player.height > enemy.y + 4 &&
+                        player.y < enemy.y + enemy.height
+                    ) {
+                        hearts--;
+                        player.invincibleTimer = 75;
+                        audio.playDamage();
+                        updateHUD();
+
+                        if (hearts <= 0) {
+                            triggerGameOver("หัวใจหมดลง! ลองใหม่อีกครั้งเพื่อฟื้นฟูลำธาร Stinky Creek");
+                        }
+                    }
+                });
+            }
+
+            // Finish Line Rule Verification (Player MUST answer ALL 10 questions!)
+            if (player.x >= 4000) {
+                const totalBoxes = mysteryBoxes.length;
+
+                if (answeredBoxesCount < totalBoxes) {
+                    showToast(`คุณยังตอบคำถามไม่ครบ 10 ข้อ! กรุณากลับไปเปิดกล่องปริศนาให้ครบ (เหลืออีก ${totalBoxes - answeredBoxesCount} ข้อ)`);
+                    player.x = 3960;
+                    player.vx = -4;
+                } else {
+                    triggerVictory();
+                }
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('warning-toast');
+            document.getElementById('toast-message').textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3500);
+        }
+
+        function updateHUD() {
+            let heartStr = "";
+            for (let i = 0; i < hearts; i++) heartStr += "❤️ ";
+            document.getElementById('hud-hearts').textContent = heartStr.trim();
+            document.getElementById('hud-score').textContent = score;
+            document.getElementById('hud-quiz-counter').textContent = `${answeredBoxesCount} / ${mysteryBoxes.length}`;
+        }
+
+        function triggerQuizModal(boxIndex) {
+            gameState = 'QUIZ';
+            activeBoxIndex = boxIndex;
+            currentQuestion = ACTIVE_QUESTION_BANK[mysteryBoxes[boxIndex].questionIndex];
+
+            const badgeEl = document.getElementById('quiz-difficulty-badge');
+            const badgeTxt = document.getElementById('quiz-difficulty-text');
+
+            if (currentQuestion.difficulty.includes("NIGHTMARE")) {
+                badgeEl.className = "text-xs font-black px-3 py-1 rounded-lg border bg-rose-950 border-rose-500 text-rose-300 uppercase animate-pulse";
+                badgeTxt.textContent = `ข้อฝันร้าย 💀 (+5 คะแนน | ผิด GAME OVER!)`;
+                // Play Nightmare Suspense Background Music Loop ("เพลงบิ้วอารมณ์")!
+                audio.startNightmareBGM();
+            } else if (currentQuestion.points === 3) {
+                badgeEl.className = "text-xs font-black px-3 py-1 rounded-lg border bg-amber-950 border-amber-500 text-amber-300 uppercase";
+                badgeTxt.textContent = `ข้อยาก (+3 คะแนน)`;
+            } else if (currentQuestion.points === 2) {
+                badgeEl.className = "text-xs font-black px-3 py-1 rounded-lg border bg-sky-950 border-sky-500 text-sky-300 uppercase";
+                badgeTxt.textContent = `ข้อปานกลาง (+2 คะแนน)`;
+            } else {
+                badgeEl.className = "text-xs font-black px-3 py-1 rounded-lg border bg-emerald-950 border-emerald-500 text-emerald-400 uppercase";
+                badgeTxt.textContent = `ข้อง่าย (+1 คะแนน)`;
+            }
+
+            document.getElementById('quiz-question-text').textContent = currentQuestion.q;
+            
+            const container = document.getElementById('quiz-choices-container');
+            container.innerHTML = '';
+
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('btn-quiz-continue').classList.add('hidden');
+
+            currentQuestion.choices.forEach((choice, choiceIdx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3 rounded-xl bg-slate-800 hover:bg-teal-950 border-2 border-slate-700 hover:border-cyan-400 text-slate-200 text-xs md:text-sm font-bold transition flex items-center justify-between";
+                btn.innerHTML = `<span>${choice}</span> <i class="fa-regular fa-circle text-slate-500"></i>`;
+                btn.onclick = () => submitAnswer(choiceIdx, btn);
+                container.appendChild(btn);
+            });
+
+            document.getElementById('quiz-modal').classList.remove('hidden');
+        }
+
+        function submitAnswer(selectedIndex, clickedBtn) {
+            const isCorrect = selectedIndex === currentQuestion.correct;
+            const container = document.getElementById('quiz-choices-container');
+            const buttons = container.querySelectorAll('button');
+
+            buttons.forEach(btn => btn.disabled = true);
+
+            const feedbackEl = document.getElementById('quiz-feedback');
+            const feedbackTitle = document.getElementById('quiz-feedback-title');
+            const feedbackExp = document.getElementById('quiz-feedback-explanation');
+
+            mysteryBoxes[activeBoxIndex].opened = true;
+            answeredBoxesCount++;
+
+            if (isCorrect) {
+                score += currentQuestion.points; // Quiz boxes DO NOT give hearts!
+                audio.playCorrect();
+
+                clickedBtn.classList.remove('bg-slate-800', 'border-slate-700');
+                clickedBtn.classList.add('bg-emerald-900', 'border-emerald-400', 'text-emerald-200');
+                clickedBtn.querySelector('i').className = 'fa-solid fa-circle-check text-emerald-400';
+
+                feedbackEl.className = "p-3 rounded-xl mb-3 text-xs md:text-sm flex flex-col gap-1 border bg-emerald-950 border-emerald-500 text-emerald-200";
+                feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-base"></i> ถูกต้อง! (+${currentQuestion.points} คะแนน)`;
+            } else {
+                score = Math.max(0, score - 1);
+                audio.playWrong();
+
+                clickedBtn.classList.remove('bg-slate-800', 'border-slate-700');
+                clickedBtn.classList.add('bg-rose-950', 'border-rose-500', 'text-rose-200');
+                clickedBtn.querySelector('i').className = 'fa-solid fa-circle-xmark text-rose-400';
+
+                buttons[currentQuestion.correct].classList.add('bg-emerald-900/80', 'border-emerald-500');
+
+                // Nightmare Question Instant GAME OVER condition!
+                if (currentQuestion.difficulty.includes("NIGHTMARE")) {
+                    document.getElementById('quiz-modal').classList.add('hidden');
+                    triggerGameOver("ตอบคำถามฝันร้ายผิด! เกมโอเวอร์ทันที 💀");
+                    return;
+                }
+
+                feedbackEl.className = "p-3 rounded-xl mb-3 text-xs md:text-sm flex flex-col gap-1 border bg-rose-950 border-rose-500 text-rose-200";
+                feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400 text-base"></i> ตอบผิด (-1 คะแนน)`;
+            }
+
+            feedbackExp.textContent = currentQuestion.exp;
+            feedbackEl.classList.remove('hidden');
+            document.getElementById('btn-quiz-continue').classList.remove('hidden');
+
+            updateHUD();
+        }
+
+        document.getElementById('btn-quiz-continue').onclick = () => {
+            document.getElementById('quiz-modal').classList.add('hidden');
+            if (audio.isNightmareMusic) {
+                audio.startBGM();
+            }
+            gameState = 'PLAYING';
+        };
+
+        function triggerGameOver(reasonText) {
+            gameState = 'GAMEOVER';
+            if (timerInterval) clearInterval(timerInterval);
+            audio.playGameOver();
+
+            const mins = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+            const secs = (timerSeconds % 60).toString().padStart(2, '0');
+
+            document.getElementById('gameover-reason').textContent = reasonText || "หัวใจหมดลง! ลองใหม่อีกครั้งเพื่อฟื้นฟูลำธาร Stinky Creek";
+            document.getElementById('gameover-score').textContent = score;
+            document.getElementById('gameover-time').textContent = `${mins}:${secs}`;
+            document.getElementById('gameover-screen').classList.remove('hidden');
+        }
+
+        function triggerVictory() {
+            gameState = 'VICTORY';
+            if (timerInterval) clearInterval(timerInterval);
+            audio.playVictory();
+
+            const mins = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+            const secs = (timerSeconds % 60).toString().padStart(2, '0');
+
+            document.getElementById('victory-score').textContent = score;
+            document.getElementById('victory-time').textContent = `${mins}:${secs}`;
+
+            let heartStr = "";
+            for (let i = 0; i < hearts; i++) heartStr += "❤️";
+            document.getElementById('victory-hearts').textContent = heartStr;
+
+            let badgeText = "🏆 ผู้เชี่ยวชาญการบำบัดน้ำเสียทางกายภาพ ม.3";
+            if (score >= 18) badgeText = "🌟 ดร. บำบัดน้ำเสียทางกายภาพขั้นเซียน ม.3 (Score 18+)";
+            else if (score >= 12) badgeText = "🏆 ผู้เชี่ยวชาญการบำบัดน้ำเสียทางกายภาพ ม.3";
+            else badgeText = "🌱 ผู้ช่วยนักวิทยาศาสตร์ฟื้นฟูลำธาร";
+            document.getElementById('victory-badge').textContent = badgeText;
+
+            document.getElementById('victory-screen').classList.remove('hidden');
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+            if (gameState === 'PLAYING') {
+                player.update();
+                enemies.forEach(e => e.update());
+                safeIslands.forEach(island => {
+                    if (island.heartItem) island.heartItem.update();
+                });
+                checkCollisions();
+
+                const targetCamX = player.x - CANVAS_WIDTH / 3;
+                cameraX += (targetCamX - cameraX) * 0.1;
+                if (cameraX < 0) cameraX = 0;
+                if (cameraX > WORLD_WIDTH - CANVAS_WIDTH) cameraX = WORLD_WIDTH - CANVAS_WIDTH;
+            }
+
+            drawRichVillageBackground();
+            safeIslands.forEach(i => i.draw());
+            mysteryBoxes.forEach(b => b.draw());
+            enemies.forEach(e => e.draw());
+            player.draw();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Keyboard Event Handlers
+        window.addEventListener('keydown', e => {
+            if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = true;
+            if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = true;
+            if (e.code === 'ArrowUp' || e.code === 'Space' || e.code === 'KeyW') {
+                if (!keys.jump && gameState === 'PLAYING') keys.jump = true;
+            }
+        });
+
+        window.addEventListener('keyup', e => {
+            if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = false;
+            if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = false;
+            if (e.code === 'ArrowUp' || e.code === 'Space' || e.code === 'KeyW') keys.jump = false;
+        });
+
+        // Touch Control Binding
+        const btnLeft = document.getElementById('btn-touch-left');
+        const btnRight = document.getElementById('btn-touch-right');
+        const btnJump = document.getElementById('btn-touch-jump');
+
+        const bindTouch = (btn, keyProp) => {
+            btn.addEventListener('touchstart', (e) => { e.preventDefault(); keys[keyProp] = true; });
+            btn.addEventListener('touchend', (e) => { e.preventDefault(); keys[keyProp] = false; });
+            btn.addEventListener('mousedown', () => { keys[keyProp] = true; });
+            btn.addEventListener('mouseup', () => { keys[keyProp] = false; });
+        };
+
+        bindTouch(btnLeft, 'left');
+        bindTouch(btnRight, 'right');
+        bindTouch(btnJump, 'jump');
+
+        // Start Screen Navigation Handlers
+        document.getElementById('btn-open-char-select').onclick = () => {
+            audio.init();
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('char-select-screen').classList.remove('hidden');
+            gameState = 'CHAR_SELECT';
+        };
+
+        document.getElementById('btn-confirm-character').onclick = () => {
+            audio.startBGM();
+            document.getElementById('char-select-screen').classList.add('hidden');
+            document.getElementById('hud-overlay').classList.remove('hidden');
+            initLevel();
+            gameState = 'PLAYING';
+        };
+
+        document.getElementById('btn-restart-game').onclick = () => {
+            document.getElementById('gameover-screen').classList.add('hidden');
+            audio.startBGM();
+            initLevel();
+            gameState = 'PLAYING';
+        };
+
+        document.getElementById('btn-victory-restart').onclick = () => {
+            document.getElementById('victory-screen').classList.add('hidden');
+            audio.startBGM();
+            initLevel();
+            gameState = 'PLAYING';
+        };
+
+        // Top-Right HUD Navigation Buttons (รีเซ็ตด่าน, เลือกตัวละคร, หน้าแรก)
+        document.getElementById('btn-hud-reset-level').onclick = () => {
+            initLevel();
+            gameState = 'PLAYING';
+        };
+
+        document.getElementById('btn-hud-select-char').onclick = () => {
+            document.getElementById('hud-overlay').classList.add('hidden');
+            document.getElementById('char-select-screen').classList.remove('hidden');
+            document.getElementById('quiz-modal').classList.add('hidden');
+            document.getElementById('gameover-screen').classList.add('hidden');
+            document.getElementById('victory-screen').classList.add('hidden');
+            audio.stopBGM();
+            gameState = 'CHAR_SELECT';
+        };
+
+        document.getElementById('btn-hud-go-home').onclick = () => {
+            document.getElementById('hud-overlay').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+            document.getElementById('char-select-screen').classList.add('hidden');
+            document.getElementById('quiz-modal').classList.add('hidden');
+            document.getElementById('gameover-screen').classList.add('hidden');
+            document.getElementById('victory-screen').classList.add('hidden');
+            audio.stopBGM();
+            gameState = 'START';
+        };
+
+        // Mute/Unmute Audio Toggle
+        const btnAudio = document.getElementById('btn-audio-toggle');
+        const audioIcon = document.getElementById('audio-icon');
+
+        btnAudio.onclick = () => {
+            audio.muted = !audio.muted;
+            if (audio.muted) {
+                audioIcon.className = 'fa-solid fa-volume-xmark text-slate-500';
+            } else {
+                audioIcon.className = 'fa-solid fa-volume-high text-emerald-400';
+            }
+        };
+
+        window.onload = function() {
+            requestAnimationFrame(gameLoop);
+        };
+    </script>
+</body>
+</html>
