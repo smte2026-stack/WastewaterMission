@@ -81,7 +81,7 @@
             <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500">
               <i class="fa-solid fa-user"></i>
             </span>
-            <input type="text" id="input-nickname" required maxlength="20" placeholder="เช่น พลอยใส, กัปตัน"
+            <input type="text" id="input-nickname" required maxlength="20" placeholder="เช่น น้องน้ำใส, กัปตันวิทย์"
               class="w-full pl-10 pr-4 py-3 rounded-xl bg-[#0b1220] border border-slate-700 text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none font-medium">
           </div>
         </div>
@@ -470,6 +470,33 @@
     let leaderboardData = [];
     let isSaving = false;
 
+    // ฟังก์ชันปรับโครงสร้างข้อมูล games ให้เป็น Array 5 เกมที่ถูกต้องเสมอ (ป้องกันข้อมูลเก่าค้างรูปแบบ)
+    function normalizeGamesArray(rawGames) {
+      let parsed = rawGames;
+      if (typeof parsed === "string") {
+        try {
+          parsed = JSON.parse(parsed);
+        } catch (e) {
+          parsed = [];
+        }
+      }
+
+      const list = Array.isArray(parsed)
+        ? parsed
+        : (parsed && typeof parsed === "object"
+            ? Object.keys(parsed).map(k => ({ id: Number(k), ...parsed[k] }))
+            : []);
+
+      return [1, 2, 3, 4, 5].map(id => {
+        const found = list.find(x => Number(x && x.id) === id) || {};
+        const history = Array.isArray(found.history) ? found.history.map(Number) : [];
+        const playsCount = Number(found.playsCount !== undefined ? found.playsCount : history.length) || 0;
+        const avgScore = Number(found.avgScore || 0);
+        const completed = Boolean(found.completed);
+        return { id, playsCount, history, avgScore, completed };
+      });
+    }
+
     function hasValidGasUrl() {
       return typeof GAS_WEB_APP_URL === "string" &&
              GAS_WEB_APP_URL.trim().startsWith("https://script.google.com/") &&
@@ -496,9 +523,16 @@
       updateConnectionBadge();
       const savedSession = localStorage.getItem("cfv_current_user");
       if (savedSession) {
-        currentPlayer = JSON.parse(savedSession);
-        showDashboard();
-        if (hasValidGasUrl()) refreshData();
+        try {
+          const parsed = JSON.parse(savedSession);
+          parsed.games = normalizeGamesArray(parsed.games);
+          currentPlayer = parsed;
+          localStorage.setItem("cfv_current_user", JSON.stringify(currentPlayer));
+          showDashboard();
+          if (hasValidGasUrl()) refreshData();
+        } catch (e) {
+          localStorage.removeItem("cfv_current_user");
+        }
       } else {
         const db = JSON.parse(localStorage.getItem("cfv_local_db") || "{}");
         leaderboardData = buildLocalTop5(db);
@@ -556,13 +590,15 @@
         db[key] = {
           nickname,
           pin: pin || "00000",
-          games: [1, 2, 3, 4, 5].map(id => ({ id, playsCount: 0, history: [], avgScore: 0, completed: false })),
+          games: normalizeGamesArray([]),
           surveyDone: false,
           totalAvgScore: 0,
           understandingPct: 0,
           completedCount: 0,
           lastPlayed: now
         };
+      } else {
+        db[key].games = normalizeGamesArray(db[key].games);
       }
 
       if (surveyDone === true) {
@@ -587,8 +623,8 @@
       let pctSum = 0;
       db[key].games.forEach(item => {
         const cfg = STAGES_CONFIG.find(c => c.gameId === item.id);
-        totalAvg += item.avgScore;
-        pctSum += cfg ? Math.min(100, (item.avgScore / cfg.maxScore) * 100) : 0;
+        totalAvg += Number(item.avgScore || 0);
+        pctSum += cfg ? Math.min(100, (Number(item.avgScore || 0) / cfg.maxScore) * 100) : 0;
       });
 
       db[key].totalAvgScore = Number(totalAvg.toFixed(2));
@@ -605,9 +641,9 @@
       return Object.values(db)
         .map(u => ({
           nickname: u.nickname,
-          totalAvgScore: u.totalAvgScore || 0,
-          understandingPct: u.understandingPct || 0,
-          completedCount: u.completedCount || 0
+          totalAvgScore: Number(u.totalAvgScore || 0),
+          understandingPct: Number(u.understandingPct || 0),
+          completedCount: Number(u.completedCount || 0)
         }))
         .sort((a, b) => b.understandingPct - a.understandingPct || b.totalAvgScore - a.totalAvgScore)
         .slice(0, 5);
@@ -624,7 +660,8 @@
         }
         if (payload.action === "login") {
           if (!db[key]) return { status: "error", message: "ไม่พบชื่อเล่นนี้ กรุณากดแท็บ 'ลงทะเบียนใหม่' ก่อน" };
-          if (db[key].pin !== payload.pin) return { status: "error", message: "รหัสผ่าน 5 หลักไม่ถูกต้อง" };
+          if (String(db[key].pin) !== String(payload.pin)) return { status: "error", message: "รหัสผ่าน 5 หลักไม่ถูกต้อง" };
+          db[key].games = normalizeGamesArray(db[key].games);
           return { status: "ok", player: db[key], leaderboard: buildLocalTop5(db) };
         }
         if (payload.action === "save_progress") {
@@ -682,7 +719,8 @@
         if (res.status === "ok") {
           const localRes = saveToLocalDb(nickname, pin);
           const mergedSurvey = Boolean(res.player && res.player.surveyDone) || Boolean(localRes.player.surveyDone);
-          currentPlayer = { ...localRes.player, ...res.player, surveyDone: mergedSurvey, pin };
+          const mergedGames = normalizeGamesArray((res.player && res.player.games) || localRes.player.games);
+          currentPlayer = { ...localRes.player, ...res.player, games: mergedGames, surveyDone: mergedSurvey, pin };
           leaderboardData = res.leaderboard || localRes.leaderboard;
           localStorage.setItem("cfv_current_user", JSON.stringify(currentPlayer));
           showDashboard();
@@ -710,7 +748,8 @@
         if (res.status === "ok") {
           const pin = currentPlayer.pin;
           const mergedSurvey = Boolean(res.player && res.player.surveyDone) || Boolean(currentPlayer.surveyDone);
-          currentPlayer = { ...res.player, surveyDone: mergedSurvey, pin };
+          const mergedGames = normalizeGamesArray((res.player && res.player.games) || currentPlayer.games);
+          currentPlayer = { ...res.player, games: mergedGames, surveyDone: mergedSurvey, pin };
           leaderboardData = res.leaderboard || leaderboardData;
           localStorage.setItem("cfv_current_user", JSON.stringify(currentPlayer));
           renderDashboard();
@@ -750,8 +789,9 @@
 
     function startContinuousAdventure() {
       if (!currentPlayer) return;
+      const gamesList = normalizeGamesArray(currentPlayer.games);
       for (const st of STAGES_CONFIG) {
-        const g = (currentPlayer.games || []).find(x => x.id === st.gameId) || { playsCount: 0, completed: false };
+        const g = gamesList.find(x => x.id === st.gameId) || { playsCount: 0, completed: false };
         if (!g.completed && g.playsCount < MAX_PLAYS) {
           openGame(st.gameId);
           return;
@@ -762,7 +802,7 @@
         return;
       }
       for (const st of STAGES_CONFIG) {
-        const g = (currentPlayer.games || []).find(x => x.id === st.gameId) || { playsCount: 0 };
+        const g = gamesList.find(x => x.id === st.gameId) || { playsCount: 0 };
         if (g.playsCount < MAX_PLAYS) {
           openGame(st.gameId);
           return;
@@ -773,14 +813,17 @@
 
     function renderDashboard() {
       if (!currentPlayer) return;
-      document.getElementById("user-display-name").textContent = currentPlayer.nickname;
+      const gamesList = normalizeGamesArray(currentPlayer.games);
+      currentPlayer.games = gamesList;
+
+      document.getElementById("user-display-name").textContent = currentPlayer.nickname || "ผู้เรียน";
 
       const totalAvgScore = Number(currentPlayer.totalAvgScore || 0);
       const understandingPct = Number(currentPlayer.understandingPct || 0);
-      const gamesDoneCount = (currentPlayer.games || []).filter(g => g.completed).length;
+      const gamesDoneCount = gamesList.filter(g => g.completed).length;
       const surveyDone = Boolean(currentPlayer.surveyDone);
       const totalDoneOutOf6 = gamesDoneCount + (surveyDone ? 1 : 0);
-      const totalPlaysAll = (currentPlayer.games || []).reduce((s, g) => s + (g.playsCount || 0), 0);
+      const totalPlaysAll = gamesList.reduce((s, g) => s + Number(g.playsCount || 0), 0);
 
       const overallLvl = getUnderstandingLevel(understandingPct, totalPlaysAll);
 
@@ -801,8 +844,8 @@
       // แถบ Navigation Pills ด้านบน (1 - 6)
       const navPills = document.getElementById("nav-stage-pills");
       const stagePillsHtml = STAGES_CONFIG.map(st => {
-        const g = (currentPlayer.games || []).find(x => x.id === st.gameId) || { completed: false, playsCount: 0 };
-        const isLocked = g.playsCount >= MAX_PLAYS;
+        const g = gamesList.find(x => x.id === st.gameId) || { completed: false, playsCount: 0 };
+        const isLocked = Number(g.playsCount || 0) >= MAX_PLAYS;
         if (g.completed) {
           return `
             <button onclick="${isLocked ? '' : `openGame(${st.gameId})`}" class="px-2.5 py-1 rounded-lg bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 text-xs font-bold flex items-center gap-1.5 hover:bg-emerald-900/70 transition">
@@ -831,10 +874,12 @@
       // การ์ด 6 ด่าน
       const grid = document.getElementById("games-grid");
       const gameCardsHtml = STAGES_CONFIG.map(st => {
-        const pGame = (currentPlayer.games || []).find(x => x.id === st.gameId) || { playsCount: 0, history: [], avgScore: 0, completed: false };
-        const playsCount = pGame.playsCount || 0;
+        const pGame = gamesList.find(x => x.id === st.gameId) || { playsCount: 0, history: [], avgScore: 0, completed: false };
+        const playsCount = Number(pGame.playsCount || 0);
+        const avgVal = Number(pGame.avgScore || 0);
+        const historyArr = Array.isArray(pGame.history) ? pGame.history : [];
         const isLocked = playsCount >= MAX_PLAYS;
-        const gamePct = Math.min(100, Math.round((pGame.avgScore / st.maxScore) * 100));
+        const gamePct = Math.min(100, Math.round((avgVal / st.maxScore) * 100));
         const lvl = getUnderstandingLevel(gamePct, playsCount);
 
         const statusBadge = pGame.completed
@@ -842,7 +887,7 @@
           : `<span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400 text-xs font-semibold">กำลังเล่น</span>`;
 
         const attemptDots = [0, 1, 2].map(idx => {
-          const val = pGame.history[idx];
+          const val = historyArr[idx];
           if (val !== undefined) {
             return `<span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 border border-slate-700 text-[11px] font-semibold">ครั้ง ${idx + 1}: ${val}</span>`;
           }
@@ -872,7 +917,7 @@
               <div class="bg-[#0b1220]/90 rounded-xl p-3 border border-slate-800/90 space-y-2">
                 <div class="flex items-center justify-between text-xs">
                   <span class="text-slate-400">คะแนนเฉลี่ย (ความเข้าใจ):</span>
-                  <span class="font-extrabold text-emerald-400">${pGame.avgScore.toFixed(2)} / ${st.maxScore} (${gamePct}%)</span>
+                  <span class="font-extrabold text-emerald-400">${avgVal.toFixed(2)} / ${st.maxScore} (${gamePct}%)</span>
                 </div>
                 <div class="flex flex-wrap items-center justify-between gap-1.5">
                   <div class="flex flex-wrap gap-1">${attemptDots}</div>
@@ -940,17 +985,19 @@
 
       const miniList = document.getElementById("mini-progress-list");
       miniList.innerHTML = STAGES_CONFIG.map(st => {
-        const pGame = (currentPlayer.games || []).find(x => x.id === st.gameId) || { playsCount: 0, avgScore: 0 };
-        const gamePct = Math.min(100, Math.round((pGame.avgScore / st.maxScore) * 100));
-        const lvl = getUnderstandingLevel(gamePct, pGame.playsCount);
+        const pGame = gamesList.find(x => x.id === st.gameId) || { playsCount: 0, avgScore: 0 };
+        const playsCount = Number(pGame.playsCount || 0);
+        const avgVal = Number(pGame.avgScore || 0);
+        const gamePct = Math.min(100, Math.round((avgVal / st.maxScore) * 100));
+        const lvl = getUnderstandingLevel(gamePct, playsCount);
         return `
           <div class="flex items-center justify-between gap-3 bg-[#0b1220] px-3.5 py-2.5 rounded-xl border border-slate-800/80 text-xs">
             <div class="min-w-0">
               <span class="font-bold text-white">${st.title}</span>
-              <span class="text-slate-500 ml-1.5">(เล่น ${pGame.playsCount}/${MAX_PLAYS} ครั้ง)</span>
+              <span class="text-slate-500 ml-1.5">(เล่น ${playsCount}/${MAX_PLAYS} ครั้ง)</span>
             </div>
             <div class="flex items-center gap-2 shrink-0">
-              <span class="font-bold text-cyan-300">${pGame.avgScore.toFixed(2)}/${st.maxScore}</span>
+              <span class="font-bold text-cyan-300">${avgVal.toFixed(2)}/${st.maxScore}</span>
               <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${lvl.badgeClass}">${gamePct}% • ${lvl.short}</span>
             </div>
           </div>
@@ -963,7 +1010,7 @@
       } else {
         const medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"];
         lbContainer.innerHTML = leaderboardData.map((row, idx) => {
-          const isMe = row.nickname.toLowerCase() === currentPlayer.nickname.toLowerCase();
+          const isMe = String(row.nickname || "").toLowerCase() === String(currentPlayer.nickname || "").toLowerCase();
           return `
             <div class="flex items-center justify-between p-3 rounded-2xl border ${isMe ? 'bg-emerald-950/40 border-emerald-500/50' : 'bg-[#0b1220] border-slate-800'}">
               <div class="flex items-center gap-3 min-w-0">
@@ -989,7 +1036,8 @@
       const st = STAGES_CONFIG.find(g => g.gameId === gameId);
       if (!st || !currentPlayer) return;
 
-      const pGame = (currentPlayer.games || []).find(x => x.id === gameId) || { playsCount: 0 };
+      const gamesList = normalizeGamesArray(currentPlayer.games);
+      const pGame = gamesList.find(x => x.id === gameId) || { playsCount: 0 };
       if (pGame.playsCount >= MAX_PLAYS) {
         showSaveToast("คุณเล่นด่านนี้ครบ 3 ครั้งตามกำหนดแล้ว!");
         return;
@@ -1036,7 +1084,7 @@
 
       const savedPin = currentPlayer.pin;
       const localRes = saveToLocalDb(currentPlayer.nickname, savedPin, null, 0, false, true);
-      currentPlayer = { ...localRes.player, pin: savedPin };
+      currentPlayer = { ...localRes.player, games: normalizeGamesArray(localRes.player.games), pin: savedPin };
       localStorage.setItem("cfv_current_user", JSON.stringify(currentPlayer));
 
       try {
@@ -1049,7 +1097,7 @@
           comment: comment
         });
         if (res.status === "ok" && res.player) {
-          currentPlayer = { ...res.player, surveyDone: true, pin: savedPin };
+          currentPlayer = { ...res.player, games: normalizeGamesArray(res.player.games), surveyDone: true, pin: savedPin };
           leaderboardData = res.leaderboard || leaderboardData;
           localStorage.setItem("cfv_current_user", JSON.stringify(currentPlayer));
         }
@@ -1067,7 +1115,8 @@
     async function processGameScore(msg) {
       if (!currentPlayer) return;
       const gameId = Number(msg.gameId);
-      const pGame = (currentPlayer.games || []).find(x => x.id === gameId) || { playsCount: 0 };
+      const gamesList = normalizeGamesArray(currentPlayer.games);
+      const pGame = gamesList.find(x => x.id === gameId) || { playsCount: 0 };
 
       if (pGame.playsCount >= MAX_PLAYS) {
         document.getElementById("modal-limit-banner").classList.remove("hidden");
@@ -1081,7 +1130,7 @@
 
       const savedPin = currentPlayer.pin;
       const localRes = saveToLocalDb(currentPlayer.nickname, savedPin, gameId, msg.score, msg.completed);
-      currentPlayer = { ...localRes.player, surveyDone: Boolean(currentPlayer.surveyDone), pin: savedPin };
+      currentPlayer = { ...localRes.player, games: normalizeGamesArray(localRes.player.games), surveyDone: Boolean(currentPlayer.surveyDone), pin: savedPin };
       leaderboardData = localRes.leaderboard;
       localStorage.setItem("cfv_current_user", JSON.stringify(currentPlayer));
       renderDashboard();
@@ -1110,7 +1159,8 @@
 
         if (res.status === "ok") {
           const surveyKeep = Boolean(res.player && res.player.surveyDone) || Boolean(currentPlayer.surveyDone);
-          currentPlayer = { ...res.player, surveyDone: surveyKeep, pin: savedPin };
+          const mergedGames = normalizeGamesArray((res.player && res.player.games) || currentPlayer.games);
+          currentPlayer = { ...res.player, games: mergedGames, surveyDone: surveyKeep, pin: savedPin };
           leaderboardData = res.leaderboard || leaderboardData;
           localStorage.setItem("cfv_current_user", JSON.stringify(currentPlayer));
           renderDashboard();
