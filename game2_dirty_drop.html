@@ -839,6 +839,18 @@
 
             launchConfetti();
             document.getElementById('modal-summary').classList.remove('hidden');
+
+            // ส่งผลคะแนนกลับไปยังหน้าหลัก (index.html) เพื่อบันทึกความก้าวหน้าและอัปเดต Top 5
+            if (window.parent && window.parent !== window) {
+                window.parent.postMessage({
+                    type: "SCIENCE_GAME_RESULT",
+                    gameId: 2,
+                    gameName: "Dirty Drop",
+                    score: score,
+                    completed: true,
+                    timeUsed: timerSeconds
+                }, "*");
+            }
         }
 
         function resetGame() {
@@ -907,24 +919,5 @@
             animateConfetti();
         }
     </script>
-    <script>
-  window.addEventListener("DOMContentLoaded", () => {
-    const summaryModal = document.getElementById("modal-summary");
-    if (!summaryModal) return;
-
-    new MutationObserver(() => {
-      if (!summaryModal.classList.contains("hidden") && window.parent && window.parent !== window) {
-        window.parent.postMessage({
-          type: "SCIENCE_GAME_RESULT",
-          gameId: 2,
-          gameName: "Dirty Drop",
-          score: typeof score !== "undefined" ? score : (parseInt(document.getElementById("final-score").textContent) || 0),
-          completed: true,
-          timeUsed: typeof timerSeconds !== "undefined" ? timerSeconds : 0
-        }, "*");
-      }
-    }).observe(summaryModal, { attributes: true, attributeFilter: ["class"] });
-  });
-</script>
 </body>
 </html>
