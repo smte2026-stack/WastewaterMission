@@ -1,390 +1,1782 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
- <head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20261015-04-7abc9b0","C":{"Abril Fatface":"YACgEZbkUVE,0","Albert Sans":"YAHO2HRfeh4,0","Alfa Slab One":"YACgEYS9sJU,0","Anton":"YACgEcYqQ-A,0","Archivo Black":"YACgEZulLoA,0","Archivo":"YAHO2-t-jNE,0","Arial":"YAGyDvJ_4Ts,0","Baloo 2":"YAHO2IcQUcM,0","Barlow Condensed":"YAFdJljEuFc,0","Barlow":"YAFdJsyuOPM,1","Bebas Neue":"YACgESME5ew,0","Bricolage Grotesque":"YAFyMcdwzpc,0","Cairo":"YAFdtXpDzlQ,0","Canva Sans":"YAFdJjTk5UU,1","Caveat":"YALBs2ploWQ,0","Cinzel":"YACgEeV8bIQ,0","Cormorant Garamond":"YAFdJhX-538,0","Courier New":"YAGzXiGs0_8,0","Courier Prime":"YAD1aFjegN8,0","DM Sans":"YAD1aU3sLnI,0","DM Serif Display":"YAD1aYG82rc,0","Figtree":"YAHO2b-mV7A,0","Forum":"YACgEcnnqB4,0","Fraunces":"YAFdJpU7Kkk,0","Fredoka":"YACgEZml080,0","Georgia":"YAGzXkO0pEM,0","Hanken Grotesk":"YAHO2VB9G0I,0","Helvetica":"YAFcf7zkXN0,0","IBM Plex Mono":"YAFdJkmvhGI,0","IBM Plex Sans":"YAFdJgT0SHI,0","Impact":"YAFcfnjI7Vk,0","Instrument Sans":"YAHO2bKyaSQ,0","Instrument Serif":"YAHFeOnZNEk,0","Inter":"YAFdJvSyp_k,3","Italiana":"YAHO2Toik_w,0","Jacques Francois":"YAHO2a5g66Q,0","JetBrains Mono":"YAFdJksXcAk,0","Josefin Sans":"YAFdJjvw9Ps,0","Karla":"YAHO2V2NSXM,0","Lato":"YAFdJuFCnaw,0","Libre Baskerville":"YACgEUFdPdA,0","Libre Caslon Display":"YAHO2XhLmt0,0","Lobster":"YAD8SnSjSFI,0","Lora":"YACgEXvxf8Q,0","Manrope":"YAHO2b2feC4,0","Merriweather":"YACgEXvHxxs,0","Montserrat":"YAFdtQi73Xs,0","Noto Sans JP":"YAFdJiHXlcI,0","Noto Sans KR":"YAGsojZj-RQ,0","Nunito Sans":"YAFdtQJYB9w,1","Nunito":"YAFdJoNRMmU,1","Oleo Script":"YACgEQQ14jI,0","Open Sans":"YAFdJt8dAY0,1","Oswald":"YACgEQY10lw,0","Outfit":"YAHO2nVlg14,0","Pacifico":"YADLjORQ1u4,0","Playfair Display":"YAFdJhem5V8,1","Plus Jakarta Sans":"YAHO2gdhi18,0","Poppins":"YAFdJjbTu24,1","Press Start 2P":"YAFyGr-8pmQ,0","Public Sans":"YAFdJj8NdaU,1","Quicksand":"YAFdJpYtCxE,1","Raleway":"YAFdJhmxbVQ,1","Roboto Slab":"YAFdJswIKAg,0","Rockwell":"YAFcfyVZnN0,0","Rye":"YACgEdQP21k,0","STIX Two Text":"YAHO2joycuk,0","Sarabun":"YAFdJssSnME,0","Schibsted Grotesk":"YAHO2sWydRk,0","Segoe UI":"YAHNdRD1Klw,0","Source Sans 3":"YAG4lO1Mj10,0","Space Grotesk":"YAHO2sjPCSM,0","Space Mono":"YADW1-vpsoc,0","Spectral":"YAHO2rVUHIM,0","Times New Roman":"YAGzXW3gftg,0","Trebuchet MS":"YAFcfrglpVA,0","Ubuntu":"YACgERDU--Q,0","Verdana":"YAGzXTctYtQ,0","Work Sans":"YAGXhLOKv44,0","Yellowtail":"YACgEYG4kG4,0"}}');</script><script src="/_sdk/05db820ba1544614.telemetry_sdk.js" integrity="sha512-a7JzkQDDcioSXpM61nxTfeRW7PcxWQy5+BrhyeTFmQFsXJ+Gncm0y50u7fTA7qOPegFnRgqCfa0mGUOK1yjDWQ=="></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bio-Waste to Compost</title>
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&amp;family=Fraunces:opsz,wght@9..144,700;9..144,800&amp;display=swap" rel="stylesheet">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>การป้องกันน้ำเสียจากแหนแดง - เกมเพื่อการศึกษา</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    :root { --ink:#173c3a; --paper:#fffef7; --leaf:#247b49; --cream:#fff9df; }
-    * { box-sizing:border-box; }
-    body { margin:0; font-family:"DM Sans",sans-serif; color:var(--ink); overflow-x:hidden; }
-    button, .draggable-item { -webkit-tap-highlight-color:transparent; touch-action:none; }
-    button:focus-visible, .draggable-item:focus-visible { outline:4px solid #173c3a; outline-offset:3px; }
-    .game-shell { width:100%; min-height:calc(100 * min(var(--vh, 1vh), 1vh)); position:relative; overflow:hidden; }
-    .game-stage { display:none; width:100%; min-height:calc(100 * min(var(--vh, 1vh), 1vh)); padding:1.15rem; }
-    .game-stage.active { display:flex; animation:arrive .45s ease both; }
-    .scene-card { width:min(100%,1050px); margin:auto; min-height:650px; position:relative; overflow:hidden; border:5px solid rgba(23,60,58,.14); box-shadow:0 18px 0 rgba(23,60,58,.1),0 28px 50px rgba(23,60,58,.16); }
-    .scene-card::before { content:""; position:absolute; inset:0; background-image:radial-gradient(rgba(23,60,58,.07) 1px,transparent 1px); background-size:16px 16px; pointer-events:none; }
-    .topline { position:relative; z-index:5; display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1rem 1.1rem; }
-    .brand-mark { width:45px; height:45px; border-radius:16px 16px 16px 5px; background:#247b49; display:grid; place-items:center; color:#fff; box-shadow:inset 0 -4px 0 rgba(0,0,0,.12); }
-    .progress-line { display:flex; gap:.45rem; align-items:center; }
-    .progress-dot { height:11px; width:42px; border-radius:999px; background:rgba(23,60,58,.16); }
-    .progress-dot.done,.progress-dot.current { background:#247b49; }
-    .progress-dot.current { box-shadow:0 0 0 4px rgba(78,172,98,.22); }
-    .instruction { position:relative; z-index:3; padding:.25rem 1.4rem .75rem; max-width:710px; }
-    .instruction h1,.modal h2 { font-family:"Fraunces",serif; margin:0; line-height:1.08; }
-    .instruction p { margin:.55rem 0 0; line-height:1.5; max-width:560px; }
-    .objective-chip { position:absolute; z-index:4; right:1.4rem; top:6.4rem; max-width:220px; padding:.8rem 1rem; border-radius:18px; box-shadow:0 5px 0 rgba(23,60,58,.1); font-size:.84rem; }
-    .scene { position:absolute; z-index:1; inset:auto 0 0; top:180px; overflow:hidden; }
-    .ground { position:absolute; bottom:0; width:100%; height:34%; background:#7cb95c; border-radius:50% 50% 0 0 / 13% 13% 0 0; }
-    .cloud { position:absolute; width:115px; height:34px; background:rgba(255,255,255,.76); border-radius:999px; }
-    .cloud::before,.cloud::after { content:""; position:absolute; background:inherit; border-radius:50%; }
-    .cloud::before { width:50px; height:50px; left:20px; bottom:2px; }
-    .cloud::after { width:35px; height:35px; right:18px; bottom:1px; }
-    .draggable-item { user-select:none; cursor:grab; transition:opacity .25s,transform .18s; }
-    .draggable-item.dragging { opacity:.72; cursor:grabbing; z-index:15 !important; transition:none; }
-    .plant { position:absolute; width:62px; height:31px; border-radius:60% 45% 60% 45%; background:#58ac52; border:3px solid #2d8142; box-shadow:inset 10px -7px rgba(255,255,255,.16); display:grid; place-items:center; }
-    .plant[data-plant="azolla"] { width:54px; height:38px; border-radius:50%; background:#4f9f56; border-color:#2f783f; box-shadow:inset 0 -8px rgba(255,255,255,.18), inset 9px 0 rgba(231,255,141,.2); }
-    .plant[data-plant="azolla"]::after { content:"✦✦"; color:#e8ff9b; font-size:13px; letter-spacing:-3px; }
-    .plant[data-plant="algae"] { width:68px; height:25px; border-radius:70% 30% 65% 35%; background:#65b64d; border-color:#317d3d; }
-    .plant[data-plant="algae"]::after { content:"≈"; color:#e4ff8d; font-size:25px; line-height:1; }
-    .plant.collected,.food.fed,.ingredient.sorted { opacity:0; pointer-events:none; transform:scale(.2)!important; }
-    .scoop-zone { position:absolute; right:7%; bottom:13%; width:175px; height:160px; border:4px dashed #f5efd0; background:rgba(255,255,255,.2); border-radius:42% 42% 30% 30%; display:grid; place-items:center; text-align:center; color:white; padding:1rem; }
-    .scoop-zone .scoop { position:absolute; left:-54px; top:25px; width:88px; height:56px; border:10px solid #e3a45b; border-radius:0 0 48px 48px; transform:rotate(-30deg); }
-    .scoop-zone .scoop::after { content:""; position:absolute; height:75px; width:12px; background:#9a603e; left:-26px; top:-62px; border-radius:999px; transform:rotate(-24deg); }
-    .counter { position:absolute; z-index:3; left:1.5rem; bottom:1.35rem; padding:.7rem 1rem; border-radius:14px; background:var(--paper); font-weight:800; box-shadow:0 5px 0 rgba(23,60,58,.1); }
-    .status { position:absolute; z-index:4; left:50%; bottom:1.5rem; transform:translateX(-50%); padding:.55rem .9rem; border-radius:999px; background:rgba(255,255,255,.92); font-size:.84rem; font-weight:700; text-align:center; max-width:80%; }
-    .hidden { display:none!important; }
-    .coop { position:absolute; right:8%; bottom:16%; width:300px; height:236px; background:#d8874c; border:8px solid #8b5134; border-radius:20px 20px 8px 8px; box-shadow:inset 0 -22px rgba(93,52,35,.13); }
-    .coop::before { content:""; position:absolute; width:0; height:0; border-left:178px solid transparent; border-right:178px solid transparent; border-bottom:115px solid #b6493f; top:-106px; left:-36px; }
-    .coop-door { position:absolute; left:88px; bottom:0; height:132px; width:105px; background:#5d9c54; border:7px solid #784731; border-bottom:0; border-radius:55px 55px 0 0; }
-    .chicken { position:absolute; z-index:2; font-size:64px; filter:drop-shadow(0 5px 0 rgba(23,60,58,.12)); animation:bob 1.8s ease-in-out infinite; }
-    .feeding-tray { position:absolute; left:11%; bottom:13%; width:195px; height:70px; background:#e0b054; border:7px solid #966a36; border-radius:12px 12px 45% 45%; display:grid; place-items:center; text-align:center; padding:.5rem; }
-    .food { position:absolute; width:70px; height:36px; background:#65ad52; border:3px solid #337e41; border-radius:70% 30% 70% 30%; box-shadow:inset 11px -8px rgba(255,255,255,.18); }
-    .compost-bin { position:absolute; z-index:2; left:50%; bottom:13%; transform:translateX(-50%); width:260px; height:260px; border-radius:25px 25px 40px 40px; background:#586e3f; border:10px solid #344a32; box-shadow:inset 0 -22px rgba(0,0,0,.13),0 11px 0 rgba(23,60,58,.13); display:flex; align-items:center; justify-content:center; text-align:center; padding:1rem; }
-    .compost-bin::before { content:""; position:absolute; top:-34px; width:285px; height:55px; border-radius:50%; background:#3e5934; border:9px solid #344a32; }
-    .ingredient { position:absolute; z-index:3; width:135px; min-height:92px; background:var(--paper); border:3px solid rgba(23,60,58,.18); border-radius:20px; box-shadow:0 6px 0 rgba(23,60,58,.11); padding:.75rem .45rem; display:flex; flex-direction:column; justify-content:center; gap:.2rem; text-align:center; font-size:.83rem; font-weight:800; }
-    .ingredient span:first-child { font-size:31px; line-height:1; }
-    .ingredient.wrong { background:#fff0ec; }
-    .rejection { position:absolute; z-index:5; top:15px; left:50%; transform:translateX(-50%); border-radius:999px; padding:.62rem 1rem; font-weight:700; font-size:.84rem; opacity:0; pointer-events:none; transition:opacity .2s; }
-    .rejection.show { opacity:1; }
-    .action-btn { border:0; cursor:pointer; padding:.85rem 1.25rem; min-height:46px; border-radius:15px; font:800 1rem "DM Sans",sans-serif; box-shadow:0 5px 0 rgba(23,60,58,.15); transition:transform .16s,box-shadow .16s; }
-    .action-btn:hover { transform:translateY(-2px); box-shadow:0 7px 0 rgba(23,60,58,.15); }
-    .action-btn:active { transform:translateY(3px); box-shadow:0 2px 0 rgba(23,60,58,.15); }
-    .next-area { position:absolute; z-index:5; right:1.4rem; bottom:1.25rem; }
-    .modal-wrap { position:fixed; z-index:20; inset:0; display:none; align-items:center; justify-content:center; padding:1rem; background:rgba(19,55,50,.48); }
-    .modal-wrap.show { display:flex; animation:fade .25s ease both; }
-    .modal { width:min(100%,520px); border-radius:30px; padding:2.1rem; text-align:center; background:#fff9df; box-shadow:0 22px 0 rgba(23,60,58,.18),0 32px 65px rgba(0,0,0,.25); }
-    .modal-icon { width:74px; height:74px; margin:0 auto 1rem; border-radius:50%; background:#a9dc76; display:grid; place-items:center; font-size:38px; }
-    .modal p { line-height:1.55; margin:1rem auto 1.35rem; max-width:390px; }
-    .final-screen { position:absolute; inset:0; z-index:10; display:none; align-items:center; justify-content:center; padding:1.5rem; background:radial-gradient(circle at 50% 20%,#e8f7a6 0,#9cd77b 43%,#4c9a68 100%); }
-    .final-screen.show { display:flex; animation:arrive .45s ease both; }
-    .final-card { width:min(100%,630px); text-align:center; padding:2rem; border-radius:36px; border:5px solid rgba(23,60,58,.13); box-shadow:0 17px 0 rgba(23,60,58,.14); }
-    .reward-bottle { font-size:92px; display:inline-block; margin:.7rem 0; filter:drop-shadow(0 8px 0 rgba(23,60,58,.14)); animation:float 2.4s ease-in-out infinite; }
-    @keyframes arrive { from { opacity:0; transform:translateY(14px) scale(.985); } to { opacity:1; transform:none; } }
-    @keyframes fade { from { opacity:0; } to { opacity:1; } }
-    @keyframes bob { 50% { transform:translateY(-7px) rotate(-2deg); } }
-    @keyframes float { 50% { transform:translateY(-10px) rotate(3deg); } }
-    @media (max-width:650px) {
-      .scene-card { min-height:700px; }
-      .objective-chip { top:133px; right:1rem; font-size:.75rem; max-width:155px; }
-      .scene { top:200px; }
-      .instruction { padding-right:9rem; }
-      .coop { right:4%; transform:scale(.8); transform-origin:bottom right; }
-      .feeding-tray { left:5%; transform:scale(.82); transform-origin:bottom left; }
-      .compost-bin { transform:translateX(-50%) scale(.8); transform-origin:bottom center; }
-      .ingredient { width:103px; min-height:80px; font-size:.72rem; }
-      .counter { font-size:.8rem; }
+    :root {
+      --font-display: 'Kanit', sans-serif;
+      --font-body: 'Prompt', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: linear-gradient(180deg, #bae6fd 0%, #e0f2fe 45%, #dcfce7 100%);
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    h1, h2, h3, .font-cartoon {
+      font-family: var(--font-display);
+    }
+
+    .btn-cartoon {
+      transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
+      box-shadow: 0 5px 0 rgba(0, 0, 0, 0.18);
+    }
+    .btn-cartoon:hover {
+      transform: translateY(-2px) scale(1.02);
+    }
+    .btn-cartoon:active {
+      transform: translateY(3px) scale(0.98);
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.18);
+    }
+
+    @keyframes floatBob {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(3deg); }
+    }
+    .animate-bob {
+      animation: floatBob 3s ease-in-out infinite;
+    }
+
+    @keyframes rippleExpand {
+      0% { transform: scale(0.8); opacity: 0.7; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+    .water-ripple {
+      animation: rippleExpand 3.5s ease-out infinite;
+    }
+
+    @keyframes shakeError {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-10px) rotate(-3deg); }
+      40% { transform: translateX(10px) rotate(3deg); }
+      60% { transform: translateX(-8px) rotate(-2deg); }
+      80% { transform: translateX(8px) rotate(2deg); }
+    }
+    .animate-shake {
+      animation: shakeError 0.45s ease-in-out;
+    }
+
+    @keyframes bouncePop {
+      0% { transform: scale(0.85); }
+      50% { transform: scale(1.12); }
+      100% { transform: scale(1); }
+    }
+    .animate-pop {
+      animation: bouncePop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes scoreFloatUp {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(0.7);
+      }
+      30% {
+        opacity: 1;
+        transform: translate(-50%, -22px) scale(1.25);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -65px) scale(1);
+      }
+    }
+    .floating-score {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.85rem;
+      text-shadow: 0 2px 0 #ffffff, 0 -2px 0 #ffffff, 2px 0 0 #ffffff, -2px 0 0 #ffffff, 0 4px 8px rgba(0,0,0,0.25);
+      animation: scoreFloatUp 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes particleBurst {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--dx), var(--dy)) scale(0.2);
+      }
+    }
+    .particle-dot {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      border-radius: 9999px;
+      animation: particleBurst 0.7s ease-out forwards;
+    }
+
+    .drop-target-active {
+      outline: 4px dashed #f59e0b;
+      outline-offset: 4px;
+      background-color: rgba(254, 243, 199, 0.65) !important;
+      transform: scale(1.03);
+      transition: all 0.2s ease;
+    }
+
+    .item-selected {
+      outline: 4px solid #3b82f6;
+      outline-offset: 3px;
+      transform: scale(1.08) translateY(-4px);
+      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.35);
+      z-index: 30;
+    }
+
+    #drag-ghost {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9000;
+      transform: translate(-50%, -50%) scale(1.15) rotate(6deg);
+      filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.28));
+      transition: transform 0.05s linear;
+    }
+
+    .pond-water-bg {
+      background: radial-gradient(circle at 35% 30%, #38bdf8 0%, #0284c7 65%, #0369a1 100%);
+      box-shadow: inset 0 8px 20px rgba(255, 255, 255, 0.45), inset 0 -10px 24px rgba(3, 105, 161, 0.7);
+    }
+
+    #pond-area.pond-scooping-cursor,
+    #pond-area.pond-scooping-cursor * {
+      cursor: none !important;
+    }
+
+    #pond-net-cursor {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+      z-index: 9999;
+      will-change: transform;
+    }
+
+    @keyframes netScoopPulse {
+      0% { transform: scale(1) rotate(0deg); }
+      45% { transform: scale(0.86) rotate(-14deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+    .net-scoop-action {
+      animation: netScoopPulse 0.22s ease-out;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #94a3b8;
+      border-radius: 10px;
     }
   </style>
-  <script src="/_sdk/570d53629f0b998d.data_sdk.js" type="text/javascript" integrity="sha512-JEN39+V+Nvv9ZZOVS8vNk1iA9ErZJHTdgOw9KzPuMiK7m0I+KPEr/wmTnCFIQVsDjCZgJWfGnFi1IQh2Io2qyA=="></script>
-  <script src="/_sdk/f195026a424c1f85.resizing_sdk.js" type="text/javascript" integrity="sha512-8On4Z+AXh1abEzZJ9Dbn9wOvFg+k1LsAaAzKGQ7LlfgXajZ9xEmZaZ1QVzv0AWhCZtCsEpWSOG9DgLri06TS7A=="></script>
- </head>
- <body data-template-id="__page-root">
-  <main class="game-shell">
-   <section id="stage-1" class="game-stage active items-center justify-center" aria-labelledby="water-title">
-    <div data-template-id="water-scene" class="canva-section scene-card rounded-[32px]">
-     <header class="topline">
-      <div class="flex items-center gap-3">
-       <div class="brand-mark" aria-hidden="true"><i data-lucide="sprout"></i>
-       </div><span data-template-id="game-name" class="canva-text font-extrabold"></span>
+</head>
+<body class="text-slate-800 flex flex-col items-center justify-between">
+
+  <!-- ==================== 1. แถบสถานะด้านบน (HUD) ==================== -->
+  <header id="game-hud" class="hidden w-full max-w-5xl px-3 pt-3 pb-1 z-40">
+    <div class="bg-white/95 backdrop-blur-md border-2 border-sky-200 rounded-2xl shadow-lg px-3 py-2 sm:px-5 sm:py-3 flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span id="hud-stage-badge" class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-cartoon text-base sm:text-xl px-3 py-1 rounded-xl shadow-sm">
+          ด่านที่ 1/3: บ่อน้ำ
+        </span>
       </div>
-      <nav class="progress-line" aria-label="ความคืบหน้าของเกม"><span class="progress-dot current"></span><span class="progress-dot"></span><span class="progress-dot"></span>
-      </nav>
-     </header>
-     <div class="instruction">
-      <h1 id="water-title" data-template-id="water-title" class="canva-text font-extrabold"></h1>
-      <p data-template-id="water-instruction" class="canva-text"></p>
-     </div>
-     <aside data-template-id="water-objective" class="canva-tag objective-chip"></aside>
-     <div class="scene">
-      <div class="cloud" style="left:9%;top:10%;"></div>
-      <div class="cloud" style="right:25%;top:19%;transform:scale(.65);"></div>
-      <div style="position:absolute;left:0;right:0;bottom:0;height:77%;background:#62bfc9;border-radius:50% 50% 0 0 / 15% 15% 0 0;"></div>
-      <div style="position:absolute;left:0;right:0;bottom:0;height:22%;background:#4f9f97;"></div>
-      <div class="plant draggable-item" data-kind="pond" data-plant="azolla" tabindex="0" style="left:14%;top:22%;"></div>
-      <div class="plant draggable-item" data-kind="pond" data-plant="algae" tabindex="0" style="left:35%;top:38%;transform:rotate(12deg);"></div>
-      <div class="plant draggable-item" data-kind="pond" data-plant="azolla" tabindex="0" style="left:20%;top:65%;transform:rotate(-18deg);"></div>
-      <div class="plant draggable-item" data-kind="pond" data-plant="algae" tabindex="0" style="left:52%;top:19%;transform:rotate(24deg);"></div>
-      <div class="plant draggable-item" data-kind="pond" data-plant="azolla" tabindex="0" style="left:65%;top:50%;transform:rotate(-10deg);"></div>
-      <div class="plant draggable-item" data-kind="pond" data-plant="algae" tabindex="0" style="left:43%;top:69%;transform:rotate(18deg);"></div>
-      <div id="scoop-zone" class="scoop-zone" aria-label="พื้นที่กระชอนตัก">
-       <div class="scoop"></div><span data-template-id="scoop-label" class="canva-text font-extrabold"></span>
+
+      <div class="flex items-center gap-2 sm:gap-4">
+        <div class="flex items-center gap-1.5 bg-amber-50 border-2 border-amber-300 px-3 py-1 rounded-xl">
+          <span class="text-lg sm:text-xl">⏱️</span>
+          <div class="leading-tight">
+            <div class="text-[10px] sm:text-xs text-amber-700 font-medium">เวลา</div>
+            <div id="hud-timer" class="font-cartoon text-base sm:text-xl font-bold text-amber-900 tracking-wider">00:00</div>
+          </div>
+        </div>
+
+        <div id="hud-score-box" class="flex items-center gap-1.5 bg-sky-50 border-2 border-sky-300 px-3 py-1 rounded-xl">
+          <span class="text-lg sm:text-xl">⭐</span>
+          <div class="leading-tight">
+            <div class="text-[10px] sm:text-xs text-sky-700 font-medium">คะแนน (เต็ม 100)</div>
+            <div id="hud-score" class="font-cartoon text-base sm:text-xl font-bold text-sky-900">0</div>
+          </div>
+        </div>
       </div>
-      <div class="counter"><span id="pond-count">0</span>/6 <span data-template-id="pond-counter-label" class="canva-text"></span>
+
+      <div class="flex items-center gap-2">
+        <button id="btn-sound-toggle" onclick="toggleSound()" title="เปิด/ปิดเสียง"
+          class="btn-cartoon bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-700 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl text-sm sm:text-base font-semibold flex items-center gap-1">
+          <span id="sound-icon">🔊</span>
+          <span class="hidden md:inline" id="sound-label">เปิดเสียง</span>
+        </button>
+
+        <button onclick="openRulesModal(true)"
+          class="btn-cartoon bg-indigo-500 hover:bg-indigo-600 border-2 border-indigo-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-sm sm:text-base font-semibold flex items-center gap-1.5">
+          <span>📖</span>
+          <span>กฎกติกา</span>
+        </button>
       </div>
-      <div id="water-status" class="status hidden" aria-live="polite"><span data-template-id="water-status-text" class="canva-text"></span>
-      </div>
-     </div>
     </div>
-   </section>
-   <section id="stage-2" class="game-stage items-center justify-center" aria-labelledby="feed-title">
-    <div data-template-id="chicken-scene" class="canva-section scene-card rounded-[32px]">
-     <header class="topline">
-      <div class="flex items-center gap-3">
-       <div class="brand-mark" aria-hidden="true"><i data-lucide="sprout"></i>
-       </div><span data-template-id="game-name-2" class="canva-text font-extrabold"></span>
+
+    <div class="mt-2 bg-gradient-to-r from-amber-100 via-yellow-50 to-amber-100 border-2 border-amber-400 rounded-2xl px-4 py-2.5 shadow-md flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5">
+        <span class="text-2xl animate-bounce">🎯</span>
+        <p id="mission-text" class="text-sm sm:text-base md:text-lg font-semibold text-amber-950 leading-snug">
+          ภารกิจ: เตรียมพร้อมเริ่มการเรียนรู้
+        </p>
       </div>
-      <nav class="progress-line" aria-label="ความคืบหน้าของเกม"><span class="progress-dot done"></span><span class="progress-dot current"></span><span class="progress-dot"></span>
-      </nav>
-     </header>
-     <div class="instruction">
-      <h1 id="feed-title" data-template-id="feed-title" class="canva-text font-extrabold"></h1>
-      <p data-template-id="feed-instruction" class="canva-text"></p>
-     </div>
-     <aside data-template-id="feed-objective" class="canva-tag objective-chip"></aside>
-     <div class="scene">
-      <div class="cloud" style="left:14%;top:7%;transform:scale(.78);"></div>
-      <div class="ground"></div>
-      <div class="coop">
-       <div class="coop-door"></div>
-      </div><span class="chicken" style="right:13%;bottom:19%;">🐔</span><span class="chicken" style="right:29%;bottom:14%;font-size:52px;animation-delay:.4s;">🐔</span><span class="chicken" style="right:8%;bottom:9%;font-size:48px;animation-delay:.9s;">🐤</span>
-      <div id="feeding-tray" class="feeding-tray" aria-label="ถาดอาหารไก่"><span data-template-id="tray-label" class="canva-text font-extrabold"></span>
+      <div id="mission-counter-badge" class="hidden shrink-0 bg-amber-500 text-white font-cartoon text-sm sm:text-base px-3 py-1 rounded-xl shadow">
+        0/8
       </div>
-      <div class="food draggable-item" data-kind="food" tabindex="0" style="left:16%;top:27%;"></div>
-      <div class="food draggable-item" data-kind="food" tabindex="0" style="left:34%;top:43%;transform:rotate(-15deg);"></div>
-      <div class="food draggable-item" data-kind="food" tabindex="0" style="left:18%;top:66%;transform:rotate(12deg);"></div>
-      <div class="counter"><span id="food-count">0</span>/3 <span data-template-id="food-counter-label" class="canva-text"></span>
-      </div>
-      <div id="feed-status" class="status hidden" aria-live="polite"><span data-template-id="feed-status-text" class="canva-text"></span>
-      </div>
-      <div id="feed-next-area" class="next-area hidden"><button id="to-compost" data-template-id="next-activity-button" class="canva-button action-btn" type="button"></button>
-      </div>
-     </div>
     </div>
-   </section>
-   <section id="stage-3" class="game-stage items-center justify-center" aria-labelledby="compost-title">
-    <div data-template-id="compost-scene" class="canva-section scene-card rounded-[32px]">
-     <header class="topline">
-      <div class="flex items-center gap-3">
-       <div class="brand-mark" aria-hidden="true"><i data-lucide="sprout"></i>
-       </div><span data-template-id="game-name-3" class="canva-text font-extrabold"></span>
+  </header>
+
+  <!-- ==================== 2. พื้นที่แสดงผลหลัก ==================== -->
+  <main class="w-full max-w-5xl flex-1 flex flex-col items-center justify-center px-3 py-3 sm:py-4">
+
+    <!-- หน้าจอที่ 1: หน้าหลักและกฎกติกา -->
+    <section id="start-screen" class="w-full bg-white/95 backdrop-blur-md border-4 border-emerald-400 rounded-3xl shadow-2xl p-5 sm:p-8 text-center animate-pop">
+      <div class="flex justify-center items-center gap-3 sm:gap-6 mb-3">
+        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-sky-100 rounded-2xl p-2 border-2 border-sky-300 shadow-inner flex items-center justify-center animate-bob" id="hero-svg-pond"></div>
+        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-amber-100 rounded-2xl p-2 border-2 border-amber-300 shadow-inner flex items-center justify-center animate-bob" style="animation-delay: 0.4s;" id="hero-svg-chicken"></div>
+        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 rounded-2xl p-2 border-2 border-emerald-300 shadow-inner flex items-center justify-center animate-bob" style="animation-delay: 0.8s;" id="hero-svg-compost"></div>
       </div>
-      <nav class="progress-line" aria-label="ความคืบหน้าของเกม"><span class="progress-dot done"></span><span class="progress-dot done"></span><span class="progress-dot current"></span>
-      </nav>
-     </header>
-     <div class="instruction">
-      <h1 id="compost-title" data-template-id="compost-title" class="canva-text font-extrabold"></h1>
-      <p data-template-id="compost-instruction" class="canva-text"></p>
-     </div>
-     <aside data-template-id="compost-objective" class="canva-tag objective-chip"></aside>
-     <div class="scene">
-      <div class="ground" style="background:#c69959;"></div>
-      <div id="compost-bin" class="compost-bin" aria-label="ถังปุ๋ยหมัก"><span data-template-id="bin-label" class="canva-text font-extrabold"></span>
+
+      <span class="inline-block bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs sm:text-sm font-semibold px-3 py-1 rounded-full mb-2">
+        🌿 สื่อการเรียนรู้เชิงโต้ตอบด้านสิ่งแวดล้อมและวิทยาศาสตร์ (คะแนนเต็ม 100)
+      </span>
+      <h1 class="text-3xl sm:text-5xl font-bold text-emerald-700 drop-shadow-sm mb-2">
+        การป้องกันน้ำเสียจากแหนแดง
+      </h1>
+      <p class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto mb-5">
+        ร่วมภารกิจกู้ชีพแหล่งน้ำ! เรียนรู้การจัดการ <strong class="text-rose-700">แหนแดง</strong> และ <strong class="text-emerald-700">ตะไคร่น้ำ</strong> อย่างถูกวิธี เพื่อป้องกันน้ำเน่าเสียและนำกลับมาใช้ประโยชน์อย่างยั่งยืน
+      </p>
+
+      <div class="bg-sky-50/90 border-2 border-sky-200 rounded-2xl p-4 sm:p-5 text-left mb-6 space-y-3">
+        <h2 class="text-xl sm:text-2xl font-bold text-sky-800 flex items-center gap-2">
+          <span>📜</span> กฎกติกาและวิธีการเล่น
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm sm:text-base">
+          <div class="bg-white rounded-xl p-3 border border-sky-100 shadow-sm">
+            <div class="font-bold text-indigo-700 mb-1">🖱️ วิธีควบคุมการเล่น</div>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              รองรับทั้งการ <strong>ลากวาง (Drag & Drop)</strong> และการ <strong>คลิก/แตะเลือกวัตถุ</strong> แล้วแตะที่เป้าหมาย เล่นได้ทั้งบนคอมพิวเตอร์ แท็บเล็ต และมือถือ
+            </p>
+          </div>
+
+          <div class="bg-white rounded-xl p-3 border border-sky-100 shadow-sm">
+            <div class="font-bold text-amber-700 mb-1">⏱️ ระบบจับเวลาและคะแนน (เต็ม 100)</div>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              นาฬิกาจับเวลาเดินหน้าเริ่มจาก <strong>00:00 วินาที</strong> จนจบทั้ง 3 ด่าน ระบบจะคำนวณคะแนนสะสมเทียบเป็นสเกล <strong>เต็ม 100 คะแนน</strong>
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-3.5 border border-emerald-200 shadow-sm">
+          <div class="font-bold text-emerald-800 mb-2">🗺️ ลำดับภารกิจทั้ง 3 ด่าน</div>
+          <ul class="space-y-1.5 text-xs sm:text-sm text-slate-700">
+            <li class="flex items-start gap-2">
+              <span class="bg-sky-500 text-white font-bold px-2 py-0.5 rounded-lg text-xs shrink-0 mt-0.5">ด่าน 1</span>
+              <span><strong>บ่อน้ำ:</strong> ใช้กระชอนตักแหนแดงและตะไคร่น้ำขึ้นจากบ่อให้หมด แล้วคัดแยกใส่ตะกร้าแต่ละชนิดให้ถูกต้อง</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="bg-amber-500 text-white font-bold px-2 py-0.5 rounded-lg text-xs shrink-0 mt-0.5">ด่าน 2</span>
+              <span><strong>เล้าไก่:</strong> เลือกพืชน้ำที่ปลอดภัยและมีคุณค่าทางโภชนาการมาคลุกผสมเป็นอาหารให้ไก่กิน</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="bg-emerald-600 text-white font-bold px-2 py-0.5 rounded-lg text-xs shrink-0 mt-0.5">ด่าน 3</span>
+              <span><strong>ลานผสมปุ๋ยหมัก:</strong> กำจัดตะไคร่น้ำด้วยการหมักปุ๋ยอินทรีย์ร่วมกับวัตถุดิบธรรมชาติที่เหมาะสม <em>(ใช้ความรู้และเหตุผลในการวิเคราะห์เลือกส่วนผสมด้วยตนเอง)</em></span>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="ingredient draggable-item" data-kind="correct" tabindex="0" style="left:8%;top:15%;"><span>🫧</span><span data-template-id="algae-label" class="canva-text"></span>
+
+      <button onclick="startGame()"
+        class="btn-cartoon bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 border-2 border-emerald-700 text-white font-cartoon text-2xl sm:text-3xl px-10 py-4 rounded-2xl shadow-xl inline-flex items-center gap-3">
+        <span>🚀</span>
+        <span>เริ่มเกมเลย!</span>
+      </button>
+    </section>
+
+    <!-- ==================== หน้าจอด่านที่ 1: บ่อน้ำ ==================== -->
+    <section id="stage-1" class="hidden w-full bg-white/90 backdrop-blur-md border-4 border-sky-400 rounded-3xl shadow-xl p-3 sm:p-5">
+      <div class="relative w-full h-64 sm:h-80 rounded-2xl pond-water-bg border-4 border-amber-700/40 overflow-hidden mb-4" id="pond-area">
+        <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 800 320" preserveAspectRatio="none">
+          <circle cx="180" cy="110" r="35" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="3" class="water-ripple"/>
+          <circle cx="580" cy="210" r="40" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="3" class="water-ripple" style="animation-delay: 1.5s;"/>
+          <circle cx="400" cy="90" r="28" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" class="water-ripple" style="animation-delay: 0.8s;"/>
+          <ellipse cx="45" cy="295" rx="55" ry="25" fill="#64748b"/>
+          <ellipse cx="95" cy="305" rx="35" ry="18" fill="#94a3b8"/>
+          <path d="M15 290 Q10 250 28 240 Q25 270 32 290 Z" fill="#16a34a"/>
+          <path d="M32 290 Q42 245 55 245 Q45 272 46 290 Z" fill="#22c55e"/>
+          <ellipse cx="755" cy="35" rx="50" ry="22" fill="#64748b"/>
+          <path d="M740 30 Q745 -5 760 5 Q752 20 755 30 Z" fill="#15803d"/>
+        </svg>
+
+        <div id="pond-status-label" class="absolute top-2.5 left-3 bg-white/85 backdrop-blur px-3 py-1 rounded-xl text-xs sm:text-sm font-semibold text-sky-900 shadow pointer-events-none">
+          💧 บ่อน้ำ (คลิกหรือลากกระชอนผ่านพืชน้ำเพื่อตักขึ้น)
+        </div>
+
+        <div id="pond-plants-container" class="absolute inset-0"></div>
       </div>
-      <div class="ingredient draggable-item" data-kind="correct" tabindex="0" style="left:11%;bottom:12%;"><span>💩</span><span data-template-id="manure-label" class="canva-text"></span>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
+        <div class="lg:col-span-6 bg-amber-50 border-2 border-amber-300 rounded-2xl p-3 flex flex-col">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-bold text-amber-900 text-sm sm:text-base flex items-center gap-1.5">
+              <span>🧺</span> ถาดพักพืชน้ำริมบ่อ (<span id="tray-count">0</span> ชิ้น)
+            </span>
+            <span id="tray-hint" class="text-xs text-amber-700">ตักพืชน้ำจากบ่อมาพักที่นี่</span>
+          </div>
+          <div id="holding-tray" class="min-h-[115px] bg-white/80 border-2 border-dashed border-amber-300 rounded-xl p-2 flex flex-wrap items-center justify-center gap-2">
+            <span id="tray-empty-msg" class="text-slate-400 text-xs sm:text-sm">ยังไม่มีพืชน้ำในถาด...</span>
+          </div>
+        </div>
+
+        <div id="sorting-baskets-area" class="lg:col-span-6 grid grid-cols-2 gap-3 opacity-60 pointer-events-none transition-opacity duration-300">
+          <div id="basket-azolla" data-target="azolla" onclick="handleTargetClick('azolla')"
+            class="drop-target bg-rose-50 hover:bg-rose-100 border-3 border-rose-400 rounded-2xl p-3 flex flex-col items-center justify-between text-center cursor-pointer transition-all shadow-sm">
+            <div class="font-cartoon text-base sm:text-lg font-bold text-rose-800 bg-rose-200/80 px-3 py-0.5 rounded-full">
+              ตะกร้าแหนแดง
+            </div>
+            <div class="my-1 w-20 h-16 sm:w-24 sm:h-20 flex items-center justify-center" id="basket-azolla-svg"></div>
+            <div class="text-xs font-semibold text-rose-700">
+              เก็บแล้ว: <span id="count-azolla" class="text-base font-bold">0</span>/4 ชิ้น
+            </div>
+          </div>
+
+          <div id="basket-algae" data-target="algae" onclick="handleTargetClick('algae')"
+            class="drop-target bg-emerald-50 hover:bg-emerald-100 border-3 border-emerald-400 rounded-2xl p-3 flex flex-col items-center justify-between text-center cursor-pointer transition-all shadow-sm">
+            <div class="font-cartoon text-base sm:text-lg font-bold text-emerald-800 bg-emerald-200/80 px-3 py-0.5 rounded-full">
+              ตะกร้าตะไคร่น้ำ
+            </div>
+            <div class="my-1 w-20 h-16 sm:w-24 sm:h-20 flex items-center justify-center" id="basket-algae-svg"></div>
+            <div class="text-xs font-semibold text-emerald-700">
+              เก็บแล้ว: <span id="count-algae" class="text-base font-bold">0</span>/4 ชิ้น
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="ingredient draggable-item" data-kind="correct" tabindex="0" style="right:8%;top:14%;"><span>🍂</span><span data-template-id="leaves-label" class="canva-text"></span>
+    </section>
+
+    <!-- ==================== หน้าจอด่านที่ 2: เล้าไก่ ==================== -->
+    <section id="stage-2" class="hidden w-full bg-gradient-to-b from-amber-50 to-orange-100/90 border-4 border-amber-400 rounded-3xl shadow-xl p-4 sm:p-6">
+      <div class="relative w-full bg-gradient-to-b from-sky-200 via-amber-100 to-amber-200/80 border-2 border-amber-300 rounded-2xl p-4 mb-5 overflow-hidden">
+        <div class="flex justify-around items-end opacity-40 pointer-events-none mb-2">
+          <div class="w-4 h-12 bg-amber-800 rounded-t"></div>
+          <div class="w-4 h-12 bg-amber-800 rounded-t"></div>
+          <div class="w-4 h-12 bg-amber-800 rounded-t"></div>
+          <div class="w-4 h-12 bg-amber-800 rounded-t"></div>
+          <div class="w-4 h-12 bg-amber-800 rounded-t"></div>
+          <div class="w-4 h-12 bg-amber-800 rounded-t"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+          <div class="md:col-span-5 flex flex-col items-center justify-center">
+            <div id="chicken-character-box" class="w-44 h-40 sm:w-52 sm:h-44 flex items-center justify-center transition-transform duration-300"></div>
+            <div id="chicken-mood-bubble" class="mt-1 bg-white border-2 border-amber-300 px-3 py-1 rounded-full text-xs sm:text-sm font-semibold text-amber-900 shadow-sm">
+              🐔 กุ๊กๆ หิวจังเลย! ช่วยเลือกอาหารที่ปลอดภัยให้หน่อยนะ
+            </div>
+          </div>
+
+          <div class="md:col-span-7 flex flex-col items-center justify-center">
+            <div id="chicken-trough" data-target="trough" onclick="handleTargetClick('trough')"
+              class="drop-target w-full max-w-md bg-amber-50/95 hover:bg-white border-4 border-dashed border-amber-500 rounded-3xl p-4 sm:p-5 text-center cursor-pointer transition-all shadow-md">
+              <div class="font-cartoon text-lg sm:text-xl font-bold text-amber-900 mb-1">
+                🥣 รางผสมอาหารไก่
+              </div>
+              <p class="text-xs sm:text-sm text-amber-700 mb-2">
+                ลากพืชน้ำที่ปลอดภัยมาใส่ในรางนี้ (หรือคลิกเลือกตะกร้าด้านล่างแล้วคลิกที่ราง)
+              </p>
+              <div id="trough-svg-box" class="w-48 h-28 mx-auto flex items-center justify-center"></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="ingredient wrong draggable-item" data-kind="wrong" tabindex="0" style="right:9%;bottom:12%;"><span>🧴</span><span data-template-id="plastic-label" class="canva-text"></span>
+
+      <div class="max-w-2xl mx-auto">
+        <div class="text-center text-sm sm:text-base font-bold text-slate-700 mb-3">
+          เลือกวัตถุดิบจากด่านที่ 1 มาผสมเป็นอาหารไก่:
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div id="stage2-item-azolla" data-item="azolla"
+            class="draggable-item bg-white hover:bg-rose-50 border-3 border-rose-400 rounded-2xl p-4 flex flex-col items-center text-center cursor-grab active:cursor-grabbing shadow-md transition-all">
+            <div id="stage2-azolla-svg" class="w-24 h-20 sm:w-28 sm:h-24 mb-2 pointer-events-none"></div>
+            <div class="font-cartoon text-lg sm:text-xl font-bold text-rose-800 pointer-events-none">ตะกร้าแหนแดง</div>
+            <span class="text-xs text-slate-500 mt-1 pointer-events-none">ลากไปที่ราง หรือ แตะเพื่อเลือก</span>
+          </div>
+
+          <div id="stage2-item-algae" data-item="algae"
+            class="draggable-item bg-white hover:bg-emerald-50 border-3 border-emerald-400 rounded-2xl p-4 flex flex-col items-center text-center cursor-grab active:cursor-grabbing shadow-md transition-all">
+            <div id="stage2-algae-svg" class="w-24 h-20 sm:w-28 sm:h-24 mb-2 pointer-events-none"></div>
+            <div class="font-cartoon text-lg sm:text-xl font-bold text-emerald-800 pointer-events-none">ตะกร้าตะไคร่น้ำ</div>
+            <span class="text-xs text-slate-500 mt-1 pointer-events-none">ลากไปที่ราง หรือ แตะเพื่อเลือก</span>
+          </div>
+        </div>
       </div>
-      <div class="ingredient wrong draggable-item" data-kind="wrong" tabindex="0" style="left:28%;top:50%;"><span>☣️</span><span data-template-id="chemical-label" class="canva-text"></span>
+    </section>
+
+    <!-- ==================== หน้าจอด่านที่ 3: ลานผสมปุ๋ยหมัก ==================== -->
+    <section id="stage-3" class="hidden w-full bg-gradient-to-b from-lime-50 to-emerald-100/90 border-4 border-emerald-500 rounded-3xl shadow-xl p-4 sm:p-6">
+      <div class="flex flex-col items-center justify-center mb-5">
+        <div id="compost-pit" data-target="compost" onclick="handleTargetClick('compost')"
+          class="drop-target w-full max-w-lg bg-amber-900/10 hover:bg-amber-900/15 border-4 border-dashed border-amber-700 rounded-3xl p-4 text-center cursor-pointer transition-all shadow-inner">
+          <div class="flex items-center justify-between mb-1 px-2">
+            <span class="font-cartoon text-lg sm:text-2xl font-bold text-amber-950">🌱 บ่อหมักปุ๋ยอินทรีย์</span>
+            <span id="compost-slot-badge" class="bg-emerald-600 text-white font-cartoon text-sm sm:text-base px-3 py-0.5 rounded-full shadow">
+              ส่วนผสม: 0 / 3 ชิ้น
+            </span>
+          </div>
+
+          <div id="compost-pit-svg" class="w-56 h-36 sm:w-64 sm:h-40 mx-auto my-1 flex items-center justify-center"></div>
+
+          <div class="flex justify-center gap-2 mt-2">
+            <div id="compost-slot-0" class="w-24 h-9 bg-white/80 border-2 border-amber-400 rounded-xl flex items-center justify-center text-xs font-semibold text-amber-800">
+              ช่องที่ 1
+            </div>
+            <div id="compost-slot-1" class="w-24 h-9 bg-white/80 border-2 border-amber-400 rounded-xl flex items-center justify-center text-xs font-semibold text-amber-800">
+              ช่องที่ 2
+            </div>
+            <div id="compost-slot-2" class="w-24 h-9 bg-white/80 border-2 border-amber-400 rounded-xl flex items-center justify-center text-xs font-semibold text-amber-800">
+              ช่องที่ 3
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="ingredient wrong draggable-item" data-kind="wrong" tabindex="0" style="right:28%;top:50%;"><span>🥩</span><span data-template-id="meat-label" class="canva-text"></span>
+
+      <div>
+        <div class="text-center text-sm sm:text-base font-bold text-slate-700 mb-3">
+          เลือกวัตถุดิบที่เหมาะสมใส่ลงในบ่อหมัก (ลากวาง หรือ แตะเลือกวัตถุดิบแล้วแตะบ่อหมัก):
+        </div>
+        <div id="compost-items-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5 sm:gap-3"></div>
       </div>
-      <div class="counter"><span id="compost-count">0</span>/3 <span data-template-id="compost-counter-label" class="canva-text"></span>
+    </section>
+
+    <!-- ==================== หน้าจอสรุปผล (End Screen) ==================== -->
+    <section id="end-screen" class="hidden w-full bg-white/95 backdrop-blur-md border-4 border-amber-400 rounded-3xl shadow-2xl p-5 sm:p-8 text-center animate-pop">
+      <div id="end-medal-svg" class="w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-2 animate-bob"></div>
+
+      <span class="inline-block bg-amber-100 text-amber-800 border border-amber-300 text-xs sm:text-sm font-bold px-3 py-1 rounded-full mb-1">
+        🎉 ภารกิจสำเร็จครบทั้ง 3 ด่าน!
+      </span>
+
+      <h2 id="end-rank-title" class="text-2xl sm:text-4xl font-bold text-emerald-700 mb-2">
+        นักอนุรักษ์สิ่งแวดล้อมดีเด่น
+      </h2>
+      <p id="end-rank-desc" class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto mb-5">
+        ยอดเยี่ยมมาก! คุณสามารถจัดการแหนแดงและตะไคร่น้ำได้อย่างถูกวิธี ช่วยป้องกันน้ำเน่าเสียและสร้างประโยชน์กลับคืนสู่ธรรมชาติ
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto mb-6">
+        <div class="bg-sky-50 border-2 border-sky-300 rounded-2xl p-4 shadow-sm">
+          <div class="text-sm text-sky-700 font-semibold">⭐ คะแนนรวมทั้งหมด</div>
+          <div id="end-total-score" class="font-cartoon text-4xl sm:text-5xl font-bold text-sky-900 mt-1">
+            0 / 100
+          </div>
+          <div id="end-raw-detail" class="text-xs text-sky-600 mt-1">(คะแนนดิบ 0 / 23 คะแนน)</div>
+        </div>
+
+        <div class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 shadow-sm flex flex-col justify-center">
+          <div class="text-sm text-amber-700 font-semibold">⏱️ สถิติเวลาที่ใช้ทั้งหมด</div>
+          <div id="end-total-time" class="font-cartoon text-3xl sm:text-4xl font-bold text-amber-900 mt-1">
+            ใช้เวลาไป 00:00 นาที
+          </div>
+          <div class="text-xs text-amber-600 mt-1">บันทึกคะแนนเข้าสู่ระบบเรียบร้อย</div>
+        </div>
       </div>
-      <div id="rejection-message" class="rejection" aria-live="polite"><span data-template-id="rejection-text" class="canva-text"></span>
+
+      <div class="bg-emerald-50/90 border-2 border-emerald-200 rounded-2xl p-4 text-left max-w-3xl mx-auto mb-6">
+        <h3 class="font-bold text-emerald-800 text-base sm:text-lg mb-2 flex items-center gap-1.5">
+          <span>💡</span> สรุปองค์ความรู้สำคัญที่ได้รับ
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs sm:text-sm text-slate-700">
+          <div class="bg-white p-3 rounded-xl border border-emerald-100">
+            <div class="font-bold text-sky-700 mb-1">1. การควบคุมปริมาณพืชน้ำ</div>
+            <p>ตักแหนแดงและตะไคร่น้ำส่วนเกินออกจากบ่อ เพื่อเปิดทางให้แสงแดดส่องถึงและเพิ่มออกซิเจนในน้ำ ป้องกันน้ำเน่าเสีย</p>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-emerald-100">
+            <div class="font-bold text-rose-700 mb-1">2. แหนแดงเป็นอาหารสัตว์</div>
+            <p>แหนแดงมีโปรตีนสูง 20–30% ปลอดภัยต่อสัตว์เลี้ยง ส่วนตะไคร่น้ำในแหล่งน้ำเสียอาจมีสารพิษและเชื้อโรค ห้ามให้สัตว์กิน</p>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-emerald-100">
+            <div class="font-bold text-emerald-700 mb-1">3. ปุ๋ยหมักอินทรีย์จากตะไคร่น้ำ</div>
+            <p>นำตะไคร่น้ำไปหมักร่วมกับมูลสัตว์และใบไม้แห้ง ปราศจากขยะพลาสติก สารเคมี และเศษแก้ว จะได้ปุ๋ยอินทรีย์บำรุงดินชั้นดี</p>
+          </div>
+        </div>
       </div>
-     </div>
-    </div>
-   </section>
-   <section id="water-modal" class="modal-wrap" role="dialog" aria-modal="true" aria-labelledby="water-modal-title">
-    <div class="modal">
-     <div class="modal-icon">
-      💧
-     </div>
-     <h2 id="water-modal-title" data-template-id="water-message-title" class="canva-text"></h2>
-     <p data-template-id="water-message" class="canva-text"></p><button id="to-feed" data-template-id="water-next-button" class="canva-button action-btn" type="button"></button>
-    </div>
-   </section>
-   <section id="compost-modal" class="modal-wrap" role="dialog" aria-modal="true" aria-labelledby="compost-modal-title">
-    <div class="modal">
-     <div class="modal-icon">
-      🌱
-     </div>
-     <h2 id="compost-modal-title" data-template-id="compost-message-title" class="canva-text"></h2>
-     <p data-template-id="compost-message" class="canva-text"></p><button id="show-final" data-template-id="complete-button" class="canva-button action-btn" type="button"></button>
-    </div>
-   </section>
-   <section id="final-screen" class="final-screen" aria-labelledby="complete-title">
-    <div data-template-id="final-card" class="canva-card final-card">
-     <div class="reward-bottle" aria-hidden="true">
-      🧪
-     </div>
-     <h1 id="complete-title" data-template-id="complete-title" class="canva-text font-extrabold"></h1>
-     <p data-template-id="complete-copy" class="canva-text mx-auto max-w-md mt-3 mb-4"></p>
-     <div data-template-id="reward-label" class="canva-banner inline-block rounded-2xl px-5 py-3 font-extrabold"></div>
-     <div class="mt-7"><button id="restart-game" data-template-id="restart-button" class="canva-button action-btn" type="button"></button>
-     </div>
-    </div>
-   </section>
+
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <button onclick="resetAndStartGame()"
+          class="btn-cartoon bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 border-2 border-emerald-800 text-white font-cartoon text-xl sm:text-2xl px-8 py-3.5 rounded-2xl shadow-lg inline-flex items-center gap-2">
+          <span>🔄</span>
+          <span>เล่นอีกครั้ง</span>
+        </button>
+
+        <button onclick="openRulesModal(false)"
+          class="btn-cartoon bg-indigo-500 hover:bg-indigo-600 border-2 border-indigo-700 text-white font-cartoon text-xl sm:text-2xl px-6 py-3.5 rounded-2xl shadow-lg inline-flex items-center gap-2">
+          <span>📖</span>
+          <span>ดูกฎกติกา</span>
+        </button>
+      </div>
+    </section>
+
   </main>
-  <script src="/_sdk/0d3107a88dd31248.editing_sdk.js" integrity="sha512-YxJYPIC1TZ/l8asjpXojbfYA1LiLTr3Fh6BPE6fDLKLWTkDIhVGqsl6xMTuKf5GPOv3sZeQW9jrwgZcsiAARIQ=="></script>
+
+  <!-- ==================== 3. หน้าต่าง Pop-up แจ้งเตือนและให้ความรู้ ==================== -->
+  <div id="feedback-modal" class="hidden fixed inset-0 z-50 bg-slate-900/65 backdrop-blur-sm flex items-center justify-center p-4">
+    <div id="feedback-card" class="bg-white border-4 border-emerald-400 rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl text-center animate-pop">
+      <div id="feedback-icon" class="w-20 h-20 mx-auto mb-2 flex items-center justify-center text-5xl">
+        🌟
+      </div>
+      <div id="feedback-score-badge" class="inline-block font-cartoon text-lg sm:text-xl font-bold px-4 py-1 rounded-full mb-2 bg-emerald-100 text-emerald-800">
+        +6 คะแนน
+      </div>
+      <h3 id="feedback-title" class="text-xl sm:text-2xl font-bold text-slate-800 mb-2">
+        หัวข้อแจ้งเตือน
+      </h3>
+      <div id="feedback-body" class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 text-left text-sm sm:text-base text-slate-700 leading-relaxed mb-5">
+        คำอธิบายความรู้ทางวิทยาศาสตร์
+      </div>
+      <button id="feedback-close-btn" onclick="closeFeedbackModal()"
+        class="btn-cartoon w-full bg-emerald-500 hover:bg-emerald-600 border-2 border-emerald-700 text-white font-cartoon text-xl sm:text-2xl py-3 rounded-2xl shadow-md">
+        เข้าใจแล้ว
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== 4. หน้าต่าง Pop-up ทบทวนกฎกติกา ==================== -->
+  <div id="rules-modal" class="hidden fixed inset-0 z-50 bg-slate-900/65 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white border-4 border-indigo-400 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-5 sm:p-6 shadow-2xl animate-pop">
+      <div class="flex items-center justify-between border-b-2 border-indigo-100 pb-3 mb-4">
+        <h3 class="text-2xl sm:text-3xl font-bold text-indigo-800 flex items-center gap-2">
+          <span>📖</span> กฎกติกาการเล่นเกม
+        </h3>
+        <span id="rules-pause-tag" class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full">
+          ⏸️ หยุดเวลาชั่วคราว
+        </span>
+      </div>
+
+      <div class="space-y-3 text-sm sm:text-base text-slate-700 mb-5">
+        <div class="bg-sky-50 border border-sky-200 rounded-2xl p-3.5">
+          <div class="font-bold text-sky-900 mb-1">🎯 เป้าหมายของเกม</div>
+          <p class="text-xs sm:text-sm">
+            ป้องกันน้ำเน่าเสียด้วยการจัดการ <strong>แหนแดง</strong> และ <strong>ตะไคร่น้ำ</strong> ให้ครบทั้ง 3 ด่าน โดยใช้เวลาน้อยที่สุดและเก็บคะแนนให้ได้มากที่สุด (เต็ม 100 คะแนน)
+          </p>
+        </div>
+
+        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3.5">
+          <div class="font-bold text-amber-900 mb-1">⭐ เกณฑ์การให้คะแนน (เทียบเป็นเต็ม 100 คะแนน)</div>
+          <ul class="list-disc list-inside text-xs sm:text-sm space-y-1">
+            <li><strong>ด่านที่ 1 (บ่อน้ำ):</strong> ตักพืชน้ำครบ (+1) และคัดแยกใส่ตะกร้าถูกต้อง (+1 ต่อชิ้น) / แยกผิด (-2 คะแนน)</li>
+            <li><strong>ด่านที่ 2 (เล้าไก่):</strong> เลือกอาหารที่ปลอดภัยให้ไก่ (+6 คะแนน) / เลือกผิดทำให้ไก่ป่วย (-10 คะแนน)</li>
+            <li><strong>ด่านที่ 3 (ลานปุ๋ยหมัก):</strong> เลือกวัตถุดิบธรรมชาติที่เหมาะสม 3 อย่าง (+1 ต่อชิ้น และโบนัส +5 คะแนน) / ใส่สิ่งแปลกปลอม (-5 คะแนน)</li>
+            <li>เมื่อจบเกม ระบบจะเทียบคะแนนดิบ (เต็ม 23) เป็น <strong>คะแนนเต็ม 100</strong> โดยอัตโนมัติ</li>
+          </ul>
+        </div>
+
+        <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3.5">
+          <div class="font-bold text-emerald-900 mb-1">🕹️ วิธีควบคุม</div>
+          <p class="text-xs sm:text-sm">
+            • <strong>ด่านที่ 1.1:</strong> คลิกหรือลากกระชอนผ่านพืชน้ำในบ่อเพื่อตักขึ้น<br/>
+            • <strong>ด่านที่ 1.2, 2 และ 3:</strong> ลากวัตถุไปวางในเป้าหมาย หรือ คลิก/แตะเลือกวัตถุแล้วคลิก/แตะที่เป้าหมาย
+          </p>
+        </div>
+      </div>
+
+      <button onclick="closeRulesModal()"
+        class="btn-cartoon w-full bg-indigo-500 hover:bg-indigo-600 border-2 border-indigo-700 text-white font-cartoon text-xl sm:text-2xl py-3 rounded-2xl shadow-md">
+        <span id="rules-close-btn-text">กลับสู่เกม</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="drag-ghost" class="hidden w-20 h-20"></div>
+  <div id="pond-net-cursor" class="hidden"></div>
+
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      lucide.createIcons();
+    const MAX_RAW_SCORE = 23;
+    const MAX_SCALED_SCORE = 100;
 
-      let pondCollected = 0, fedCount = 0, composted = 0, activeDrag = null, resultSaved = false;
-      const stages = [document.getElementById("stage-1"), document.getElementById("stage-2"), document.getElementById("stage-3")];
-      const dataHandler = { onDataChanged() {} };
-      if (window.dataSdk) window.dataSdk.init(dataHandler);
+    function getScaledScore(raw) {
+      const clampedRaw = Math.max(0, raw);
+      return Math.min(MAX_SCALED_SCORE, Math.round((clampedRaw / MAX_RAW_SCORE) * MAX_SCALED_SCORE));
+    }
 
-      function showStage(stage) {
-        stages.forEach(item => item.classList.remove("active"));
-        stage.classList.add("active");
+    const SVG_ASSETS = {
+      azolla: `
+        <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-sm">
+          <ellipse cx="50" cy="54" rx="40" ry="30" fill="#7f1d1d" opacity="0.25"/>
+          <g stroke="#450a0a" stroke-width="1.5">
+            <path d="M25 48 C18 35, 34 25, 44 38 C52 24, 68 32, 60 46 C75 42, 82 58, 66 64 C72 76, 54 82, 46 70 C34 80, 18 70, 26 58 C14 55, 16 44, 25 48 Z" fill="#b91c1c"/>
+            <path d="M32 45 C26 34, 40 28, 48 39 C56 28, 68 36, 60 47 C72 46, 76 58, 63 62 C66 72, 52 76, 46 66 C36 74, 24 65, 31 55 C22 52, 24 43, 32 45 Z" fill="#65a30d"/>
+            <path d="M38 48 C34 40, 44 36, 50 44 C56 36, 64 42, 58 50 C66 50, 68 58, 59 61 C61 68, 51 70, 47 63 C40 68, 32 62, 37 54 C31 52, 32 46, 38 48 Z" fill="#dc2626"/>
+            <circle cx="48" cy="52" r="6" fill="#84cc16"/>
+            <circle cx="38" cy="46" r="4" fill="#ea580c"/>
+            <circle cx="58" cy="48" r="4.5" fill="#4d7c0f"/>
+            <circle cx="44" cy="60" r="4" fill="#b91c1c"/>
+            <circle cx="55" cy="59" r="3.5" fill="#65a30d"/>
+          </g>
+        </svg>`,
+
+      algae: `
+        <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-sm">
+          <ellipse cx="50" cy="56" rx="40" ry="28" fill="#064e3b" opacity="0.25"/>
+          <path d="M22 55 C15 40, 32 25, 48 32 C62 22, 82 35, 76 52 C86 65, 70 80, 52 75 C35 82, 16 70, 22 55 Z" fill="#22c55e" stroke="#15803d" stroke-width="2"/>
+          <path d="M26 48 Q38 32 50 46 T72 44" fill="none" stroke="#86efac" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M24 58 Q40 44 54 58 T74 56" fill="none" stroke="#16a34a" stroke-width="4" stroke-linecap="round"/>
+          <path d="M30 66 Q45 54 60 66 T70 64" fill="none" stroke="#bbf7d0" stroke-width="3" stroke-linecap="round"/>
+          <path d="M35 38 Q48 52 62 36" fill="none" stroke="#15803d" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="36" cy="44" r="3.5" fill="#dcfce7" opacity="0.85"/>
+          <circle cx="62" cy="52" r="4" fill="#dcfce7" opacity="0.85"/>
+          <circle cx="48" cy="63" r="3" fill="#dcfce7" opacity="0.85"/>
+        </svg>`,
+
+      net: `
+        <svg viewBox="-45 -45 130 130" style="position: absolute; left: -45px; top: -45px; width: 130px; height: 130px; overflow: visible;" class="drop-shadow-md">
+          <g id="pond-net-inner">
+            <line x1="20" y1="20" x2="68" y2="68" stroke="#78350f" stroke-width="11" stroke-linecap="round"/>
+            <line x1="20" y1="20" x2="68" y2="68" stroke="#d97706" stroke-width="6" stroke-linecap="round"/>
+            <ellipse cx="0" cy="0" rx="30" ry="24" transform="rotate(-35 0 0)" fill="#e0f2fe" fill-opacity="0.72" stroke="#0284c7" stroke-width="4.5"/>
+            <g transform="rotate(-35 0 0)" stroke="#38bdf8" stroke-width="1.6" opacity="0.9">
+              <line x1="-22" y1="-8" x2="22" y2="-8"/>
+              <line x1="-25" y1="0" x2="25" y2="0"/>
+              <line x1="-22" y1="8" x2="22" y2="8"/>
+              <line x1="-10" y1="-19" x2="-10" y2="19"/>
+              <line x1="0" y1="-21" x2="0" y2="21"/>
+              <line x1="10" y1="-19" x2="10" y2="19"/>
+            </g>
+            <circle cx="0" cy="0" r="3.5" fill="#0284c7" opacity="0.65"/>
+          </g>
+        </svg>`,
+
+      basket: (accentColor) => `
+        <svg viewBox="0 0 100 80" class="w-full h-full drop-shadow">
+          <path d="M15 25 L85 25 L75 70 C74 74, 26 74, 25 70 Z" fill="#d97706" stroke="#92400e" stroke-width="3"/>
+          <path d="M12 22 L88 22 L86 30 L14 30 Z" fill="${accentColor}" stroke="#78350f" stroke-width="2.5" rx="4"/>
+          <path d="M25 38 L75 38 M27 50 L73 50 M29 62 L71 62" stroke="#92400e" stroke-width="2"/>
+          <path d="M35 30 L38 70 M50 30 L50 70 M65 30 L62 70" stroke="#92400e" stroke-width="2"/>
+        </svg>`,
+
+      chicken: (state = 'normal') => {
+        if (state === 'sick') {
+          return `
+            <svg viewBox="0 0 200 160" class="w-full h-full">
+              <text x="45" y="35" font-size="20">💫</text>
+              <text x="125" y="30" font-size="20">💫</text>
+              <g transform="translate(100, 95) rotate(-75) translate(-100, -95)">
+                <ellipse cx="100" cy="100" rx="45" ry="36" fill="#fef3c7" stroke="#d97706" stroke-width="3"/>
+                <circle cx="72" cy="68" r="24" fill="#fef3c7" stroke="#d97706" stroke-width="3"/>
+                <path d="M62 45 C60 35, 70 35, 72 43 C75 34, 84 36, 82 46 Z" fill="#fca5a5" stroke="#b91c1c" stroke-width="2"/>
+                <path d="M60 62 L68 70 M68 62 L60 70" stroke="#dc2626" stroke-width="3.5" stroke-linecap="round"/>
+                <polygon points="48,70 34,75 48,80" fill="#f59e0b" stroke="#b45309" stroke-width="2"/>
+                <ellipse cx="105" cy="108" rx="22" ry="13" transform="rotate(25 105 108)" fill="#fde68a" stroke="#d97706" stroke-width="2.5"/>
+              </g>
+            </svg>`;
+        }
+        const isHappy = state === 'happy';
+        return `
+          <svg viewBox="0 0 200 160" class="w-full h-full">
+            ${isHappy ? '<text x="35" y="35" font-size="22">❤️</text><text x="145" y="35" font-size="22">❤️</text><text x="90" y="22" font-size="20">✨</text>' : ''}
+            <path d="M85 130 L85 148 M78 148 L92 148 M110 130 L110 148 M103 148 L117 148" stroke="#ea580c" stroke-width="4" stroke-linecap="round"/>
+            <ellipse cx="98" cy="100" rx="46" ry="36" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+            <path d="M138 90 Q162 65 155 95 Q168 85 152 108 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2.5"/>
+            <circle cx="68" cy="65" r="25" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+            <path d="M58 42 C56 28, 67 28, 69 39 C73 27, 84 30, 80 43 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="2"/>
+            <circle cx="54" cy="82" r="6" fill="#ef4444"/>
+            ${isHappy
+              ? '<path d="M57 63 Q62 56 67 63" fill="none" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/>'
+              : '<circle cx="62" cy="61" r="4" fill="#1e293b"/><circle cx="63" cy="60" r="1.5" fill="#ffffff"/>'
+            }
+            <circle cx="71" cy="70" r="5" fill="#fda4af" opacity="0.7"/>
+            <polygon points="44,65 28,71 44,76" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+            <path d="M84 95 Q108 82 122 102 Q105 118 84 108 Z" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2.5"/>
+            <g transform="translate(138, 112)">
+              <circle cx="20" cy="20" r="16" fill="#facc15" stroke="#ca8a04" stroke-width="2.5"/>
+              <circle cx="14" cy="16" r="2.5" fill="#1e293b"/>
+              <polygon points="4,18 -3,21 4,23" fill="#f97316"/>
+              <path d="M16 36 L16 42 M24 36 L24 42" stroke="#ea580c" stroke-width="2.5"/>
+            </g>
+          </svg>`;
+      },
+
+      trough: (content = 'base') => `
+        <svg viewBox="0 0 220 110" class="w-full h-full">
+          ${content === 'base' ? '<ellipse cx="110" cy="52" rx="82" ry="18" fill="#fde047" stroke="#eab308" stroke-width="2"/>' : ''}
+          ${content === 'azolla' ? '<ellipse cx="110" cy="50" rx="84" ry="20" fill="#84cc16" stroke="#b91c1c" stroke-width="3"/><circle cx="80" cy="48" r="6" fill="#dc2626"/><circle cx="115" cy="46" r="7" fill="#dc2626"/><circle cx="145" cy="50" r="6" fill="#dc2626"/>' : ''}
+          ${content === 'algae' ? '<ellipse cx="110" cy="50" rx="84" ry="20" fill="#16a34a" stroke="#14532d" stroke-width="3"/><path d="M60 50 Q90 38 120 52 T165 48" fill="none" stroke="#86efac" stroke-width="4"/>' : ''}
+          <path d="M20 52 L200 52 L185 92 L35 92 Z" fill="#b45309" stroke="#78350f" stroke-width="3.5"/>
+          <rect x="16" y="48" width="188" height="10" rx="5" fill="#d97706" stroke="#78350f" stroke-width="2.5"/>
+          <path d="M35 92 L25 105 M185 92 L195 105" stroke="#78350f" stroke-width="5" stroke-linecap="round"/>
+        </svg>`,
+
+      compostPit: (count = 0, completed = false) => `
+        <svg viewBox="0 0 260 150" class="w-full h-full">
+          <ellipse cx="130" cy="95" rx="112" ry="44" fill="#78350f" stroke="#451a03" stroke-width="4"/>
+          <ellipse cx="130" cy="90" rx="98" ry="35" fill="${completed ? '#3f2e21' : '#a16207'}"/>
+          ${count >= 1 ? '<ellipse cx="105" cy="92" rx="45" ry="18" fill="#22c55e" opacity="0.9"/>' : ''}
+          ${count >= 2 ? '<ellipse cx="155" cy="92" rx="45" ry="18" fill="#713f12" opacity="0.95"/>' : ''}
+          ${count >= 3 ? '<ellipse cx="130" cy="84" rx="68" ry="22" fill="#d97706" opacity="0.9"/>' : ''}
+          ${completed ? `
+            <ellipse cx="130" cy="85" rx="88" ry="28" fill="#291d12" stroke="#1c1917" stroke-width="2"/>
+            <path d="M130 82 L130 42" stroke="#16a34a" stroke-width="5" stroke-linecap="round"/>
+            <path d="M130 56 Q105 38 98 54 Q114 66 130 56 Z" fill="#22c55e" stroke="#15803d" stroke-width="2"/>
+            <path d="M130 48 Q155 30 162 46 Q146 58 130 48 Z" fill="#4ade80" stroke="#15803d" stroke-width="2"/>
+            <text x="72" y="45" font-size="18">✨</text>
+            <text x="172" y="45" font-size="18">✨</text>
+          ` : ''}
+        </svg>`,
+
+      manure: `
+        <svg viewBox="0 0 100 100" class="w-full h-full">
+          <ellipse cx="50" cy="76" rx="36" ry="12" fill="#451a03" opacity="0.25"/>
+          <path d="M22 72 C18 58, 32 54, 34 54 C30 42, 44 36, 48 38 C48 26, 62 28, 60 38 C72 38, 76 50, 70 55 C82 58, 82 72, 70 74 Z" fill="#78350f" stroke="#451a03" stroke-width="2.5"/>
+          <path d="M35 64 Q50 60 65 64 M40 50 Q50 47 60 50" stroke="#92400e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M72 36 Q78 24 85 30 Q78 36 72 36 Z" fill="#22c55e"/>
+        </svg>`,
+
+      dryLeaves: `
+        <svg viewBox="0 0 100 100" class="w-full h-full">
+          <g transform="rotate(-20 42 52)">
+            <path d="M20 55 Q42 25 68 55 Q42 75 20 55 Z" fill="#ea580c" stroke="#9a3412" stroke-width="2.5"/>
+            <path d="M16 55 L66 55" stroke="#9a3412" stroke-width="2"/>
+          </g>
+          <g transform="rotate(25 60 56)">
+            <path d="M36 58 Q60 30 84 58 Q60 78 36 58 Z" fill="#d97706" stroke="#78350f" stroke-width="2.5"/>
+            <path d="M32 58 L82 58" stroke="#78350f" stroke-width="2"/>
+          </g>
+        </svg>`,
+
+      plasticBag: `
+        <svg viewBox="0 0 100 100" class="w-full h-full">
+          <path d="M32 22 L32 38 L24 42 L26 80 C26 84, 74 84, 74 80 L76 42 L68 38 L68 22 L58 22 L58 36 L42 36 L42 22 Z" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
+          <path d="M34 52 Q50 60 66 52 M36 66 Q50 58 64 66" fill="none" stroke="#7dd3fc" stroke-width="2"/>
+        </svg>`,
+
+      chemicalBottle: `
+        <svg viewBox="0 0 100 100" class="w-full h-full">
+          <rect x="42" y="16" width="16" height="10" rx="2" fill="#ef4444" stroke="#991b1b" stroke-width="2"/>
+          <path d="M38 26 L62 26 L68 42 L68 82 C68 85, 32 85, 32 82 L32 42 Z" fill="#facc15" stroke="#ca8a04" stroke-width="2.5"/>
+          <rect x="38" y="46" width="24" height="24" rx="4" fill="#ffffff" stroke="#ef4444" stroke-width="2"/>
+          <text x="50" y="64" font-size="16" text-anchor="middle">☠️</text>
+        </svg>`,
+
+      brokenGlass: `
+        <svg viewBox="0 0 100 100" class="w-full h-full">
+          <polygon points="22,74 36,30 52,55 46,78" fill="#bae6fd" stroke="#0284c7" stroke-width="2.5"/>
+          <polygon points="48,76 62,26 78,68 62,80" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
+          <polygon points="35,78 52,58 66,78" fill="#7dd3fc" stroke="#0369a1" stroke-width="2"/>
+          <path d="M36 30 L32 22 M62 26 L66 18" stroke="#0284c7" stroke-width="2" stroke-linecap="round"/>
+        </svg>`,
+
+      medal: (tier) => {
+        const colors = {
+          gold: { main: '#facc15', rim: '#ca8a04', ribbon: '#ef4444', icon: '🏆' },
+          silver: { main: '#e2e8f0', rim: '#64748b', ribbon: '#3b82f6', icon: '🥈' },
+          bronze: { main: '#fdba74', rim: '#c2410c', ribbon: '#10b981', icon: '🌱' }
+        }[tier] || { main: '#facc15', rim: '#ca8a04', ribbon: '#ef4444', icon: '🏆' };
+
+        return `
+          <svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-lg">
+            <polygon points="35,10 55,10 65,50 45,50" fill="${colors.ribbon}"/>
+            <polygon points="85,10 65,10 55,50 75,50" fill="${colors.ribbon}" opacity="0.85"/>
+            <circle cx="60" cy="72" r="38" fill="${colors.main}" stroke="${colors.rim}" stroke-width="5"/>
+            <circle cx="60" cy="72" r="29" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="4 3"/>
+            <text x="60" y="83" font-size="34" text-anchor="middle">${colors.icon}</text>
+          </svg>`;
       }
+    };
 
-      function dropItem(element, x, y) {
-        const kind = element.dataset.kind;
-        const zone = kind === "pond" ? document.getElementById("scoop-zone") : null;
-        const zoneRect = zone ? zone.getBoundingClientRect() : null;
-        const droppedInScoop = zoneRect && x >= zoneRect.left && x <= zoneRect.right && y >= zoneRect.top && y <= zoneRect.bottom;
-        const target = document.elementFromPoint(x, y);
-        const tray = document.getElementById("feeding-tray");
-        const trayRect = tray.getBoundingClientRect();
-        const droppedInTray = kind === "food" && x >= trayRect.left && x <= trayRect.right && y >= trayRect.top && y <= trayRect.bottom;
-        const bin = document.getElementById("compost-bin");
-        const binRect = bin.getBoundingClientRect();
-        const droppedInBin = x >= binRect.left && x <= binRect.right && y >= binRect.top && y <= binRect.bottom;
-        element.classList.remove("dragging");
-        activeDrag = null;
+    /* ==================== ระบบเสียง ==================== */
+    let audioCtx = null;
+    let soundEnabled = true;
 
-        if (kind === "pond" && droppedInScoop && !element.classList.contains("collected")) {
-          element.classList.add("collected");
-          element.style.position = "";
-          element.style.left = "";
-          element.style.top = "";
-          element.style.transform = "";
-          pondCollected++;
-          document.getElementById("pond-count").textContent = pondCollected;
-          if (pondCollected === 6) {
-            document.getElementById("water-status").classList.remove("hidden");
-            setTimeout(() => document.getElementById("water-modal").classList.add("show"), 500);
-          }
-          return;
-        }
-
-        if (element._originalParent && element.parentElement !== element._originalParent) {
-          element._originalParent.appendChild(element);
-        }
-        if (element.dataset.originalStyle) element.setAttribute("style", element.dataset.originalStyle);
-
-        if (kind === "food" && droppedInTray && !element.classList.contains("fed")) {
-          element.classList.add("fed");
-          fedCount++;
-          document.getElementById("food-count").textContent = fedCount;
-          if (fedCount === 3) {
-            document.getElementById("feed-status").classList.remove("hidden");
-            document.getElementById("feed-next-area").classList.remove("hidden");
-          }
-        }
-        if ((kind === "correct" || kind === "wrong") && droppedInBin) {
-          if (kind === "correct" && !element.classList.contains("sorted")) {
-            element.classList.add("sorted");
-            composted++;
-            document.getElementById("compost-count").textContent = composted;
-            if (composted === 3) setTimeout(() => document.getElementById("compost-modal").classList.add("show"), 450);
-          } else if (kind === "wrong") {
-            const note = document.getElementById("rejection-message");
-            note.classList.add("show");
-            setTimeout(() => note.classList.remove("show"), 1600);
-          }
-        }
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) audioCtx = new AudioContext();
       }
+      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    }
 
-      function beginDrag(element, event) {
-        if (element.classList.contains("collected") || element.classList.contains("fed") || element.classList.contains("sorted")) return;
-        activeDrag = element;
-        element._originalParent = element.parentElement;
-        element.dataset.originalStyle = element.getAttribute("style") || "";
-        const rect = element.getBoundingClientRect();
-        activeDrag.dataset.offsetX = event.clientX - rect.left;
-        activeDrag.dataset.offsetY = event.clientY - rect.top;
-        element.classList.add("dragging");
-        // Keep the measured dimensions while moving out of the scaled scene.
-        element.style.width = rect.width + "px";
-        element.style.height = rect.height + "px";
-        element.style.minHeight = rect.height + "px";
-        element.style.position = "fixed";
-        element.style.left = rect.left + "px";
-        element.style.top = rect.top + "px";
-        document.body.appendChild(element);
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('sound-icon').textContent = soundEnabled ? '🔊' : '🔇';
+      document.getElementById('sound-label').textContent = soundEnabled ? 'เปิดเสียง' : 'ปิดเสียง';
+      if (soundEnabled) {
+        initAudio();
+        playPop();
       }
+    }
 
-      function moveDrag(event) {
-        if (!activeDrag) return;
-        event.preventDefault();
-        activeDrag.style.left = (event.clientX - Number(activeDrag.dataset.offsetX)) + "px";
-        activeDrag.style.top = (event.clientY - Number(activeDrag.dataset.offsetY)) + "px";
-      }
+    function playPop() {
+      if (!soundEnabled) return;
+      initAudio();
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(420, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(680, audioCtx.currentTime + 0.09);
+      gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.1);
+    }
 
-      document.querySelectorAll(".draggable-item").forEach(element => {
-        element.addEventListener("pointerdown", event => {
-          event.preventDefault();
-          beginDrag(element, event);
-          element.setPointerCapture(event.pointerId);
-        });
-        element.addEventListener("pointermove", moveDrag);
-        element.addEventListener("pointerup", event => {
-          if (activeDrag === element) dropItem(element, event.clientX, event.clientY);
-        });
-        element.addEventListener("pointercancel", event => {
-          if (activeDrag === element) dropItem(element, event.clientX, event.clientY);
-        });
-      });
+    function playSplash() {
+      if (!soundEnabled) return;
+      initAudio();
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(750, audioCtx.currentTime + 0.15);
+      gain.gain.setValueAtTime(0.22, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.18);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.18);
+    }
 
-      document.getElementById("to-feed").addEventListener("click", () => {
-        document.getElementById("water-modal").classList.remove("show");
-        showStage(stages[1]);
+    function playSuccess() {
+      if (!soundEnabled) return;
+      initAudio();
+      if (!audioCtx) return;
+      const notes = [523.25, 659.25, 783.99];
+      notes.forEach((freq, idx) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        const start = audioCtx.currentTime + idx * 0.08;
+        osc.frequency.setValueAtTime(freq, start);
+        gain.gain.setValueAtTime(0.2, start);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.25);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(start);
+        osc.stop(start + 0.25);
       });
-      document.getElementById("to-compost").addEventListener("click", () => showStage(stages[2]));
-      document.getElementById("show-final").addEventListener("click", async () => {
-        document.getElementById("compost-modal").classList.remove("show");
-        document.getElementById("final-screen").classList.add("show");
-        if (!resultSaved && window.dataSdk) {
-          resultSaved = true;
-          await window.dataSdk.create({
-            player_name: "ผู้เล่น",
-            score: 100,
-            stage1_completed: true,
-            stage2_completed: true,
-            stage3_completed: true,
-            all_stages_completed: true,
-            completed_at: new Date().toISOString()
-          });
-        }
+    }
+
+    function playFanfare() {
+      if (!soundEnabled) return;
+      initAudio();
+      if (!audioCtx) return;
+      const notes = [523.25, 659.25, 783.99, 1046.50];
+      notes.forEach((freq, idx) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        const start = audioCtx.currentTime + idx * 0.11;
+        osc.frequency.setValueAtTime(freq, start);
+        gain.gain.setValueAtTime(0.24, start);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.35);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(start);
+        osc.stop(start + 0.35);
       });
-      document.getElementById("restart-game").addEventListener("click", () => {
-        pondCollected = 0; fedCount = 0; composted = 0; resultSaved = false;
-        document.getElementById("pond-count").textContent = "0";
-        document.getElementById("food-count").textContent = "0";
-        document.getElementById("compost-count").textContent = "0";
-        document.querySelectorAll(".plant").forEach(el => el.classList.remove("collected"));
-        document.querySelectorAll(".food").forEach(el => el.classList.remove("fed"));
-        document.querySelectorAll(".ingredient").forEach(el => el.classList.remove("sorted"));
-        document.getElementById("water-status").classList.add("hidden");
-        document.getElementById("feed-status").classList.add("hidden");
-        document.getElementById("feed-next-area").classList.add("hidden");
-        document.getElementById("final-screen").classList.remove("show");
-        showStage(stages[0]);
+    }
+
+    function playError() {
+      if (!soundEnabled) return;
+      initAudio();
+      if (!audioCtx) return;
+      const notes = [220, 185];
+      notes.forEach((freq, idx) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        const start = audioCtx.currentTime + idx * 0.14;
+        osc.frequency.setValueAtTime(freq, start);
+        gain.gain.setValueAtTime(0.16, start);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.22);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(start);
+        osc.stop(start + 0.22);
       });
+    }
+
+    /* ==================== สถานะหลักของเกม ==================== */
+    const gameState = {
+      score: 0,
+      secondsElapsed: 0,
+      timerInterval: null,
+      isPaused: false,
+      isPlaying: false,
+      currentStage: 1,
+      stage1Phase: 'scoop',
+      scoopedCount: 0,
+      sortedAzolla: 0,
+      sortedAlgae: 0,
+      compostAdded: [],
+      selectedItem: null,
+      feedbackCallback: null
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('hero-svg-pond').innerHTML = SVG_ASSETS.azolla;
+      document.getElementById('hero-svg-chicken').innerHTML = SVG_ASSETS.chicken('normal');
+      document.getElementById('hero-svg-compost').innerHTML = SVG_ASSETS.compostPit(3, true);
+      setupPointerDragAndTap();
     });
+
+    function formatTime(totalSeconds) {
+      const mins = Math.floor(totalSeconds / 60);
+      const secs = totalSeconds % 60;
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function startStopwatch() {
+      stopStopwatch();
+      gameState.timerInterval = setInterval(() => {
+        if (!gameState.isPaused && gameState.isPlaying) {
+          gameState.secondsElapsed++;
+          document.getElementById('hud-timer').textContent = formatTime(gameState.secondsElapsed);
+        }
+      }, 1000);
+    }
+
+    function stopStopwatch() {
+      if (gameState.timerInterval) {
+        clearInterval(gameState.timerInterval);
+        gameState.timerInterval = null;
+      }
+    }
+
+    function updateScore(delta, clientX = null, clientY = null) {
+      gameState.score += delta;
+      const currentScaled = getScaledScore(gameState.score);
+      const scoreEl = document.getElementById('hud-score');
+      scoreEl.textContent = `${currentScaled} / 100`;
+
+      const scoreBox = document.getElementById('hud-score-box');
+      scoreBox.classList.remove('animate-pop', 'animate-shake');
+      void scoreBox.offsetWidth;
+      scoreBox.classList.add(delta >= 0 ? 'animate-pop' : 'animate-shake');
+
+      let x = clientX;
+      let y = clientY;
+      if (x === null || y === null) {
+        const rect = scoreBox.getBoundingClientRect();
+        x = rect.left + rect.width / 2;
+        y = rect.bottom + 10;
+      }
+
+      const floatEl = document.createElement('div');
+      floatEl.className = 'floating-score';
+      floatEl.textContent = delta > 0 ? `+${delta} แต้ม` : `${delta} แต้ม`;
+      floatEl.style.color = delta > 0 ? '#16a34a' : '#dc2626';
+      floatEl.style.left = `${x}px`;
+      floatEl.style.top = `${y}px`;
+      document.body.appendChild(floatEl);
+      setTimeout(() => floatEl.remove(), 1150);
+
+      if (delta > 0) {
+        spawnParticles(x, y, ['#facc15', '#4ade80', '#38bdf8', '#f472b6']);
+      }
+    }
+
+    function spawnParticles(x, y, colors) {
+      for (let i = 0; i < 14; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'particle-dot';
+        const size = Math.random() * 8 + 6;
+        const angle = (Math.PI * 2 * i) / 14 + Math.random() * 0.3;
+        const dist = 40 + Math.random() * 55;
+        dot.style.width = `${size}px`;
+        dot.style.height = `${size}px`;
+        dot.style.backgroundColor = colors[i % colors.length];
+        dot.style.left = `${x}px`;
+        dot.style.top = `${y}px`;
+        dot.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
+        dot.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
+        document.body.appendChild(dot);
+        setTimeout(() => dot.remove(), 700);
+      }
+    }
+
+    function showScreen(screenId) {
+      ['start-screen', 'stage-1', 'stage-2', 'stage-3', 'end-screen'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(screenId).classList.remove('hidden');
+
+      const hud = document.getElementById('game-hud');
+      if (screenId.startsWith('stage-')) {
+        hud.classList.remove('hidden');
+      } else {
+        hud.classList.add('hidden');
+      }
+    }
+
+    function openRulesModal(fromActiveGame) {
+      playPop();
+      document.getElementById('pond-net-cursor').classList.add('hidden');
+      if (fromActiveGame && gameState.isPlaying) {
+        gameState.isPaused = true;
+        document.getElementById('rules-pause-tag').classList.remove('hidden');
+        document.getElementById('rules-close-btn-text').textContent = 'กลับสู่เกม';
+      } else {
+        document.getElementById('rules-pause-tag').classList.add('hidden');
+        document.getElementById('rules-close-btn-text').textContent = 'ปิดหน้าต่าง';
+      }
+      document.getElementById('rules-modal').classList.remove('hidden');
+    }
+
+    function closeRulesModal() {
+      playPop();
+      document.getElementById('rules-modal').classList.add('hidden');
+      if (gameState.isPlaying) {
+        gameState.isPaused = false;
+      }
+    }
+
+    function showFeedbackModal({ isPositive, scoreText, icon, title, body, btnText = 'เข้าใจแล้ว', onClose = null }) {
+      gameState.isPaused = true;
+      gameState.feedbackCallback = onClose;
+      document.getElementById('pond-net-cursor').classList.add('hidden');
+
+      const card = document.getElementById('feedback-card');
+      const badge = document.getElementById('feedback-score-badge');
+      const btn = document.getElementById('feedback-close-btn');
+
+      card.className = `bg-white border-4 ${isPositive ? 'border-emerald-400' : 'border-rose-400'} rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl text-center animate-pop`;
+      badge.className = `inline-block font-cartoon text-lg sm:text-xl font-bold px-4 py-1 rounded-full mb-2 ${isPositive ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`;
+      btn.className = `btn-cartoon w-full ${isPositive ? 'bg-emerald-500 hover:bg-emerald-600 border-emerald-700' : 'bg-rose-500 hover:bg-rose-600 border-rose-700'} border-2 text-white font-cartoon text-xl sm:text-2xl py-3 rounded-2xl shadow-md`;
+
+      document.getElementById('feedback-icon').innerHTML = icon;
+      badge.textContent = scoreText;
+      document.getElementById('feedback-title').textContent = title;
+      document.getElementById('feedback-body').innerHTML = body;
+      btn.textContent = btnText;
+
+      document.getElementById('feedback-modal').classList.remove('hidden');
+    }
+
+    function closeFeedbackModal() {
+      playPop();
+      document.getElementById('feedback-modal').classList.add('hidden');
+      gameState.isPaused = false;
+      if (typeof gameState.feedbackCallback === 'function') {
+        const cb = gameState.feedbackCallback;
+        gameState.feedbackCallback = null;
+        cb();
+      }
+    }
+
+    /* ==================== ด่านที่ 1: บ่อน้ำ ==================== */
+    function startGame() {
+      initAudio();
+      playPop();
+      resetAndStartGame();
+    }
+
+    function resetAndStartGame() {
+      gameState.score = 0;
+      gameState.secondsElapsed = 0;
+      gameState.isPaused = false;
+      gameState.isPlaying = true;
+      gameState.currentStage = 1;
+      gameState.selectedItem = null;
+
+      document.getElementById('hud-score').textContent = '0 / 100';
+      document.getElementById('hud-timer').textContent = '00:00';
+
+      startStopwatch();
+      initStage1();
+    }
+
+    function initStage1() {
+      gameState.currentStage = 1;
+      gameState.stage1Phase = 'scoop';
+      gameState.scoopedCount = 0;
+      gameState.sortedAzolla = 0;
+      gameState.sortedAlgae = 0;
+      clearSelection();
+
+      showScreen('stage-1');
+      document.getElementById('hud-stage-badge').textContent = 'ด่านที่ 1/3: บ่อน้ำ';
+      document.getElementById('mission-text').textContent = 'ภารกิจ 1.1: ใช้กระชอนตักแหนแดงและตะไคร่น้ำขึ้นจากบ่อให้หมดเพื่อป้องกันน้ำเน่าเสีย';
+      const counterBadge = document.getElementById('mission-counter-badge');
+      counterBadge.classList.remove('hidden');
+      counterBadge.textContent = 'ตักแล้ว 0/8';
+
+      document.getElementById('tray-count').textContent = '0';
+      document.getElementById('tray-hint').textContent = 'ตักพืชน้ำจากบ่อมาพักที่นี่';
+      document.getElementById('holding-tray').innerHTML = '<span id="tray-empty-msg" class="text-slate-400 text-xs sm:text-sm">ยังไม่มีพืชน้ำในถาด...</span>';
+
+      const basketsArea = document.getElementById('sorting-baskets-area');
+      basketsArea.classList.add('opacity-60', 'pointer-events-none');
+      document.getElementById('basket-azolla-svg').innerHTML = SVG_ASSETS.basket('#f43f5e');
+      document.getElementById('basket-algae-svg').innerHTML = SVG_ASSETS.basket('#10b981');
+      document.getElementById('count-azolla').textContent = '0';
+      document.getElementById('count-algae').textContent = '0';
+
+      const pondArea = document.getElementById('pond-area');
+      pondArea.classList.add('pond-scooping-cursor');
+      const container = document.getElementById('pond-plants-container');
+      container.innerHTML = '';
+
+      const plantTypes = [
+        'azolla', 'algae', 'azolla', 'algae',
+        'azolla', 'algae', 'azolla', 'algae'
+      ];
+      plantTypes.sort(() => Math.random() - 0.5);
+
+      const slots = [
+        { left: 12, top: 24 }, { left: 34, top: 20 }, { left: 57, top: 23 }, { left: 78, top: 26 },
+        { left: 15, top: 58 }, { left: 37, top: 62 }, { left: 59, top: 57 }, { left: 80, top: 60 }
+      ];
+
+      plantTypes.forEach((type, idx) => {
+        const slot = slots[idx];
+        const offsetX = (Math.random() - 0.5) * 5;
+        const offsetY = (Math.random() - 0.5) * 6;
+
+        const plantEl = document.createElement('div');
+        plantEl.id = `pond-plant-${idx}`;
+        plantEl.dataset.type = type;
+        plantEl.dataset.idx = idx;
+        plantEl.className = 'pond-plant absolute w-16 h-16 sm:w-20 sm:h-20 cursor-pointer animate-bob transition-transform hover:scale-110';
+        plantEl.style.left = `${slot.left + offsetX}%`;
+        plantEl.style.top = `${slot.top + offsetY}%`;
+        plantEl.style.animationDelay = `${idx * 0.25}s`;
+        plantEl.innerHTML = SVG_ASSETS[type];
+
+        plantEl.addEventListener('pointerdown', (e) => {
+          e.stopPropagation();
+          moveNetToPointer(e.clientX, e.clientY, e.pointerType);
+          scoopPlantFromPond(plantEl, e.clientX, e.clientY);
+        });
+
+        container.appendChild(plantEl);
+      });
+
+      setupPondNetSweeping();
+    }
+
+    function moveNetToPointer(clientX, clientY, pointerType = 'mouse') {
+      const netCursor = document.getElementById('pond-net-cursor');
+      if (gameState.currentStage !== 1 || gameState.stage1Phase !== 'scoop' || gameState.isPaused) {
+        netCursor.classList.add('hidden');
+        return;
+      }
+      netCursor.style.transform = `translate3d(${clientX}px, ${clientY}px, 0)`;
+      if (pointerType !== 'touch') {
+        netCursor.classList.remove('hidden');
+      }
+    }
+
+    function setupPondNetSweeping() {
+      const pondArea = document.getElementById('pond-area');
+      const netCursor = document.getElementById('pond-net-cursor');
+      netCursor.innerHTML = SVG_ASSETS.net;
+
+      pondArea.onpointerenter = (e) => {
+        if (gameState.stage1Phase === 'scoop' && !gameState.isPaused) {
+          moveNetToPointer(e.clientX, e.clientY, e.pointerType);
+        }
+      };
+
+      pondArea.onpointerleave = () => {
+        netCursor.classList.add('hidden');
+      };
+
+      pondArea.onpointerdown = (e) => {
+        if (gameState.stage1Phase !== 'scoop' || gameState.isPaused) return;
+        netCursor.classList.remove('hidden');
+        moveNetAndCheckSweep(e);
+      };
+
+      pondArea.onpointermove = (e) => {
+        if (gameState.stage1Phase !== 'scoop' || gameState.isPaused) return;
+        if (e.pointerType === 'touch') {
+          netCursor.classList.remove('hidden');
+        }
+        moveNetAndCheckSweep(e);
+      };
+
+      pondArea.onpointerup = (e) => {
+        if (e.pointerType === 'touch') {
+          netCursor.classList.add('hidden');
+        }
+      };
+    }
+
+    function moveNetAndCheckSweep(e) {
+      moveNetToPointer(e.clientX, e.clientY, e.pointerType);
+
+      const plants = document.querySelectorAll('.pond-plant');
+      plants.forEach(plant => {
+        if (plant.dataset.scooped === 'true') return;
+        const rect = plant.getBoundingClientRect();
+        const plantCenterX = rect.left + rect.width / 2;
+        const plantCenterY = rect.top + rect.height / 2;
+        const distance = Math.hypot(e.clientX - plantCenterX, e.clientY - plantCenterY);
+        const scoopRadius = Math.max(rect.width, rect.height) * 0.55;
+
+        if (distance <= scoopRadius) {
+          scoopPlantFromPond(plant, e.clientX, e.clientY);
+        }
+      });
+    }
+
+    function scoopPlantFromPond(plantEl, clientX, clientY) {
+      if (!plantEl || plantEl.dataset.scooped === 'true' || gameState.stage1Phase !== 'scoop') return;
+      plantEl.dataset.scooped = 'true';
+      playSplash();
+
+      const netInner = document.getElementById('pond-net-inner');
+      if (netInner) {
+        netInner.classList.remove('net-scoop-action');
+        void netInner.offsetWidth;
+        netInner.classList.add('net-scoop-action');
+      }
+
+      const type = plantEl.dataset.type;
+      const idx = plantEl.dataset.idx;
+
+      plantEl.style.transition = 'all 0.25s ease-out';
+      plantEl.style.transform = 'scale(0.2) translateY(-40px)';
+      plantEl.style.opacity = '0';
+      setTimeout(() => plantEl.remove(), 250);
+
+      const tray = document.getElementById('holding-tray');
+      const emptyMsg = document.getElementById('tray-empty-msg');
+      if (emptyMsg) emptyMsg.remove();
+
+      const trayItem = document.createElement('div');
+      trayItem.id = `tray-item-${idx}`;
+      trayItem.dataset.item = type;
+      trayItem.dataset.stage = '1';
+      trayItem.className = 'draggable-item w-14 h-14 sm:w-16 sm:h-16 bg-white rounded-xl border-2 border-amber-300 p-1 shadow-sm cursor-grab active:cursor-grabbing transition-transform hover:scale-105 animate-pop';
+      trayItem.innerHTML = `<div class="w-full h-full pointer-events-none">${SVG_ASSETS[type]}</div>`;
+      tray.appendChild(trayItem);
+
+      gameState.scoopedCount++;
+      document.getElementById('tray-count').textContent = gameState.scoopedCount;
+      document.getElementById('mission-counter-badge').textContent = `ตักแล้ว ${gameState.scoopedCount}/8`;
+
+      if (gameState.scoopedCount === 8) {
+        setTimeout(() => {
+          playSuccess();
+          updateScore(1, clientX, clientY);
+          startStage1SortingPhase();
+        }, 300);
+      }
+    }
+
+    function startStage1SortingPhase() {
+      gameState.stage1Phase = 'sort';
+      document.getElementById('pond-area').classList.remove('pond-scooping-cursor');
+      document.getElementById('pond-net-cursor').classList.add('hidden');
+      document.getElementById('pond-status-label').textContent = '✨ บ่อน้ำใสสะอาดแล้ว! ขั้นต่อไปคัดแยกพืชน้ำลงตะกร้า';
+
+      document.getElementById('mission-text').textContent = 'ภารกิจ 1.2: คัดแยกแหนแดงและตะไคร่น้ำลงในตะกร้าทั้ง 2 ใบให้ถูกต้อง (ลากวาง หรือ คลิกเลือกแล้วคลิกตะกร้า)';
+      document.getElementById('mission-counter-badge').textContent = 'แยกแล้ว 0/8';
+      document.getElementById('tray-hint').textContent = 'ลากหรือแตะพืชน้ำไปใส่ตะกร้า';
+
+      const basketsArea = document.getElementById('sorting-baskets-area');
+      basketsArea.classList.remove('opacity-60', 'pointer-events-none');
+      basketsArea.classList.add('animate-pop');
+    }
+
+    function handleStage1Drop(itemEl, targetBasketType, dropX, dropY) {
+      if (gameState.stage1Phase !== 'sort') return;
+      const plantType = itemEl.dataset.item;
+
+      if (plantType === targetBasketType) {
+        playSuccess();
+        updateScore(1, dropX, dropY);
+        itemEl.remove();
+
+        if (plantType === 'azolla') {
+          gameState.sortedAzolla++;
+          document.getElementById('count-azolla').textContent = gameState.sortedAzolla;
+          const b = document.getElementById('basket-azolla');
+          b.classList.remove('animate-pop');
+          void b.offsetWidth;
+          b.classList.add('animate-pop');
+        } else {
+          gameState.sortedAlgae++;
+          document.getElementById('count-algae').textContent = gameState.sortedAlgae;
+          const b = document.getElementById('basket-algae');
+          b.classList.remove('animate-pop');
+          void b.offsetWidth;
+          b.classList.add('animate-pop');
+        }
+
+        const totalSorted = gameState.sortedAzolla + gameState.sortedAlgae;
+        document.getElementById('tray-count').textContent = 8 - totalSorted;
+        document.getElementById('mission-counter-badge').textContent = `แยกแล้ว ${totalSorted}/8`;
+
+        if (totalSorted === 8) {
+          document.getElementById('holding-tray').innerHTML = '<span class="text-emerald-600 font-bold text-sm">🎉 คัดแยกครบเรียบร้อย!</span>';
+          setTimeout(() => {
+            playFanfare();
+            showFeedbackModal({
+              isPositive: true,
+              scoreText: 'ผ่านด่านที่ 1 สำเร็จ!',
+              icon: '🌊',
+              title: 'ยอดเยี่ยม! บ่อน้ำกลับมาใสสะอาดแล้ว',
+              body: `การตัก <strong>แหนแดง</strong> และ <strong>ตะไคร่น้ำ</strong> ส่วนเกินขึ้นจากบ่อช่วยเปิดทางให้แสงแดดส่องถึงใต้น้ำ พืชใต้น้ำสังเคราะห์แสงสร้างออกซิเจนได้ตามปกติ ป้องกันปัญหาน้ำเน่าเสีย และตอนนี้เราพร้อมนำพืชน้ำที่คัดแยกไว้ไปใช้ประโยชน์ต่อในด่านที่ 2 แล้ว!`,
+              btnText: 'ไปด่านที่ 2: เล้าไก่ 🐔',
+              onClose: () => initStage2()
+            });
+          }, 350);
+        }
+      } else {
+        playError();
+        updateScore(-2, dropX, dropY);
+        itemEl.classList.remove('animate-shake');
+        void itemEl.offsetWidth;
+        itemEl.classList.add('animate-shake');
+
+        showFeedbackModal({
+          isPositive: false,
+          scoreText: '-2 แต้ม',
+          icon: '🔍',
+          title: 'แยกประเภทผิด! ลองสังเกตลักษณะใหม่นะ',
+          body: `
+            <p class="mb-2 font-semibold text-rose-700">วิธีสังเกตความแตกต่างระหว่างแหนแดงกับตะไคร่น้ำ:</p>
+            <ul class="list-disc list-inside space-y-1.5 text-sm">
+              <li><strong class="text-rose-700">แหนแดง (Azolla):</strong> เป็นเฟิร์นน้ำขนาดเล็ก มี<strong>ใบเล็กๆ ซ้อนกันเป็นเกล็ด สีเขียวอมแดงหรือน้ำตาลแดง</strong> ลอยแผ่เป็นแพบนผิวน้ำ</li>
+              <li><strong class="text-emerald-700">ตะไคร่น้ำ (Algae):</strong> เป็นสาหร่าย<strong>เส้นใยสีเขียวสดจับตัวเป็นก้อนเมือกลื่น</strong> พันกันเป็นกระจุก</li>
+            </ul>
+          `,
+          btnText: 'เข้าใจแล้ว (แยกใหม่อีกครั้ง)'
+        });
+      }
+    }
+
+    /* ==================== ด่านที่ 2: เล้าไก่ ==================== */
+    function initStage2() {
+      gameState.currentStage = 2;
+      clearSelection();
+      showScreen('stage-2');
+
+      document.getElementById('hud-stage-badge').textContent = 'ด่านที่ 2/3: เล้าไก่';
+      document.getElementById('mission-text').textContent = 'ภารกิจด่านที่ 2: เลือกพืชน้ำที่ปลอดภัยและมีประโยชน์นำมาคลุกผสมในรางอาหารให้ไก่กิน';
+      document.getElementById('mission-counter-badge').classList.add('hidden');
+
+      document.getElementById('chicken-character-box').innerHTML = SVG_ASSETS.chicken('normal');
+      document.getElementById('chicken-mood-bubble').textContent = '🐔 กุ๊กๆ หิวจังเลย! ช่วยเลือกอาหารที่ปลอดภัยให้หน่อยนะ';
+      document.getElementById('trough-svg-box').innerHTML = SVG_ASSETS.trough('base');
+
+      document.getElementById('stage2-azolla-svg').innerHTML = SVG_ASSETS.azolla;
+      document.getElementById('stage2-algae-svg').innerHTML = SVG_ASSETS.algae;
+    }
+
+    function handleStage2Drop(itemEl, dropX, dropY) {
+      const choice = itemEl.dataset.item;
+
+      if (choice === 'azolla') {
+        playFanfare();
+        updateScore(6, dropX, dropY);
+        document.getElementById('trough-svg-box').innerHTML = SVG_ASSETS.trough('azolla');
+        document.getElementById('chicken-character-box').innerHTML = SVG_ASSETS.chicken('happy');
+        document.getElementById('chicken-character-box').classList.add('animate-bounce');
+        document.getElementById('chicken-mood-bubble').textContent = '🐔 อร่อยจังเลย! มีโปรตีนสูง ร่างกายแข็งแรงสุดๆ ❤️';
+
+        setTimeout(() => {
+          document.getElementById('chicken-character-box').classList.remove('animate-bounce');
+          showFeedbackModal({
+            isPositive: true,
+            scoreText: '+6 แต้ม',
+            icon: '🐔',
+            title: 'เยี่ยมมาก! ไก่กินอาหารอย่างเอร็ดอร่อยและแข็งแรง',
+            body: `
+              <p class="mb-2"><strong>แหนแดง (Azolla)</strong> เป็นพืชน้ำที่มีคุณค่าทางโภชนาการสูงมาก เหมาะสำหรับนำมาแปรรูปเป็นอาหารสัตว์:</p>
+              <ul class="list-disc list-inside space-y-1 text-sm">
+                <li>มี<strong>โปรตีนสูงถึง 20–30%</strong> ของน้ำหนักแห้ง</li>
+                <li>อุดมด้วยกรดอะมิโนจำเป็น วิตามิน และแร่ธาตุครบถ้วน</li>
+                <li>ช่วยให้สัตว์เลี้ยงเจริญเติบโตแข็งแรง ลดต้นทุนค่าอาหารสัตว์ และไม่เป็นอันตรายต่อสัตว์</li>
+              </ul>
+            `,
+            btnText: 'ไปด่านที่ 3: ลานผสมปุ๋ยหมัก 🌱',
+            onClose: () => initStage3()
+          });
+        }, 700);
+      } else {
+        playError();
+        updateScore(-10, dropX, dropY);
+        document.getElementById('trough-svg-box').innerHTML = SVG_ASSETS.trough('algae');
+        document.getElementById('chicken-character-box').innerHTML = SVG_ASSETS.chicken('sick');
+        document.getElementById('chicken-character-box').classList.add('animate-shake');
+        document.getElementById('chicken-mood-bubble').textContent = '😵 โอ๊ย... ปวดท้อง มึนหัว แย่แล้ว!';
+
+        setTimeout(() => {
+          document.getElementById('chicken-character-box').classList.remove('animate-shake');
+          showFeedbackModal({
+            isPositive: false,
+            scoreText: '-10 แต้ม',
+            icon: '⚠️',
+            title: 'อันตราย! ไก่กินตะไคร่น้ำแล้วป่วยและตาย',
+            body: `
+              <p class="font-bold text-rose-700 mb-1.5">ทำไมไก่กินตะไคร่น้ำแล้วถึงตาย?</p>
+              <p class="text-sm mb-2">
+                ตะไคร่น้ำในแหล่งน้ำเสียมักมี<strong>สาหร่ายสีเขียวแกมน้ำเงิน (ไซยาโนแบคทีเรีย)</strong> ปะปนอยู่ ซึ่งสร้างสารพิษร้ายแรง เช่น <strong>ไมโครซิสติน (Microcystin)</strong>
+              </p>
+              <p class="text-sm">
+                นอกจากนี้ เส้นใยของตะไคร่น้ำยังเป็นแหล่งสะสม<strong>เชื้อโรค ปรสิต และโลหะหนัก</strong>จากน้ำเสีย เมื่อไก่กินเข้าไปจะเกิดภาวะพิษเฉียบพลัน ตับวาย และระบบย่อยอาหารล้มเหลว จนทำให้ไก่ตายได้!
+              </p>
+            `,
+            btnText: 'เข้าใจแล้ว (ลองเลือกใหม่อีกครั้ง)',
+            onClose: () => {
+              document.getElementById('trough-svg-box').innerHTML = SVG_ASSETS.trough('base');
+              document.getElementById('chicken-character-box').innerHTML = SVG_ASSETS.chicken('normal');
+              document.getElementById('chicken-mood-bubble').textContent = '🐔 ลองเลือกอาหารที่ปลอดภัยให้ไก่ใหม่อีกครั้งนะ!';
+            }
+          });
+        }, 650);
+      }
+    }
+
+    /* ==================== ด่านที่ 3: ลานผสมปุ๋ยหมัก ==================== */
+    const COMPOST_ITEMS_DATA = [
+      { id: 'algae', name: 'ตะไคร่น้ำ', valid: true, svg: SVG_ASSETS.algae },
+      { id: 'plasticBag', name: 'ถุงพลาสติก', valid: false, svg: SVG_ASSETS.plasticBag },
+      { id: 'manure', name: 'มูลสัตว์', valid: true, svg: SVG_ASSETS.manure },
+      { id: 'chemicalBottle', name: 'ขวดสารเคมี/น้ำยาล้างจาน', valid: false, svg: SVG_ASSETS.chemicalBottle },
+      { id: 'dryLeaves', name: 'ใบไม้แห้ง', valid: true, svg: SVG_ASSETS.dryLeaves },
+      { id: 'brokenGlass', name: 'เศษแก้ว', valid: false, svg: SVG_ASSETS.brokenGlass }
+    ];
+
+    const CONTAMINANT_EXPLANATIONS = {
+      plasticBag: {
+        title: 'ถุงพลาสติกไม่ใช่ส่วนผสมปุ๋ยหมัก!',
+        reason: '<strong>ถุงพลาสติก</strong>ไม่สามารถย่อยสลายได้ตามธรรมชาติ เมื่อปะปนอยู่ในกองปุ๋ยจะแตกตัวกลายเป็น <strong>"ไมโครพลาสติก" (Microplastics)</strong> ตกค้างในดิน ขัดขวางการชอนไชของรากพืช และปนเปื้อนเข้าสู่ห่วงโซ่อาหารที่เป็นอันตรายต่อคนและสัตว์'
+      },
+      chemicalBottle: {
+        title: 'ขวดสารเคมี/น้ำยาล้างจานทำลายปุ๋ยหมัก!',
+        reason: '<strong>สารเคมีและสารลดแรงตึงผิวในน้ำยาล้างจาน</strong>มีฤทธิ์ฆ่าจุลินทรีย์ที่มีประโยชน์ในกองปุ๋ย ทำให้กระบวนการย่อยสลายล้มเหลว และเมื่อนำปุ๋ยปนเปื้อนไปใส่ต้นไม้จะทำลายรากพืช ทำให้ดินเสื่อมสภาพและปนเปื้อนลงสู่แหล่งน้ำ'
+      },
+      brokenGlass: {
+        title: 'เศษแก้วก่อให้เกิดอันตรายร้ายแรง!',
+        reason: '<strong>เศษแก้ว</strong>ไม่ย่อยสลายทางชีวภาพ และมีความคมสูง เมื่อปะปนในปุ๋ยหมักจะบาดทำร้ายเกษตรกรที่สัมผัสปุ๋ย รวมถึงทำอันตรายต่อไส้เดือนและสิ่งมีชีวิตหน้าดินที่มีประโยชน์ต่อระบบนิเวศ'
+      }
+    };
+
+    function initStage3() {
+      gameState.currentStage = 3;
+      gameState.compostAdded = [];
+      clearSelection();
+      showScreen('stage-3');
+
+      document.getElementById('hud-stage-badge').textContent = 'ด่านที่ 3/3: ลานผสมปุ๋ยหมัก';
+      document.getElementById('mission-text').textContent = 'ภารกิจด่านที่ 3: กำจัดตะไคร่น้ำอย่างถูกวิธี! เลือกวัตถุดิบธรรมชาติที่เหมาะสม 3 อย่างใส่ลงในบ่อหมักเพื่อทำปุ๋ยอินทรีย์คุณภาพดี';
+      const counterBadge = document.getElementById('mission-counter-badge');
+      counterBadge.classList.remove('hidden');
+      counterBadge.textContent = 'ใส่แล้ว 0/3 ชิ้น';
+
+      document.getElementById('compost-slot-badge').textContent = 'ส่วนผสม: 0 / 3 ชิ้น';
+      document.getElementById('compost-pit-svg').innerHTML = SVG_ASSETS.compostPit(0, false);
+
+      for (let i = 0; i < 3; i++) {
+        const slot = document.getElementById(`compost-slot-${i}`);
+        slot.textContent = `ช่องที่ ${i + 1}`;
+        slot.className = 'w-24 h-9 bg-white/80 border-2 border-amber-400 rounded-xl flex items-center justify-center text-xs font-semibold text-amber-800';
+      }
+
+      const grid = document.getElementById('compost-items-grid');
+      grid.innerHTML = '';
+
+      COMPOST_ITEMS_DATA.forEach(item => {
+        const card = document.createElement('div');
+        card.id = `compost-card-${item.id}`;
+        card.dataset.item = item.id;
+        card.className = 'draggable-item bg-white hover:bg-emerald-50 border-3 border-slate-300 rounded-2xl p-2.5 sm:p-3 flex flex-col items-center justify-between text-center cursor-grab active:cursor-grabbing shadow-sm transition-all';
+        card.innerHTML = `
+          <div class="w-16 h-16 sm:w-20 sm:h-20 mb-1 pointer-events-none">${item.svg}</div>
+          <div class="font-bold text-xs sm:text-sm text-slate-800 leading-tight pointer-events-none">${item.name}</div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function handleStage3Drop(itemEl, dropX, dropY) {
+      const itemId = itemEl.dataset.item;
+      const itemData = COMPOST_ITEMS_DATA.find(i => i.id === itemId);
+      if (!itemData) return;
+
+      if (itemData.valid) {
+        if (gameState.compostAdded.includes(itemId)) return;
+
+        playSuccess();
+        updateScore(1, dropX, dropY);
+        gameState.compostAdded.push(itemId);
+
+        itemEl.classList.add('opacity-40', 'pointer-events-none', 'bg-emerald-100');
+        itemEl.classList.remove('draggable-item');
+
+        const count = gameState.compostAdded.length;
+        document.getElementById('compost-slot-badge').textContent = `ส่วนผสม: ${count} / 3 ชิ้น`;
+        document.getElementById('mission-counter-badge').textContent = `ใส่แล้ว ${count}/3 ชิ้น`;
+
+        const slot = document.getElementById(`compost-slot-${count - 1}`);
+        slot.textContent = `✓ ${itemData.name}`;
+        slot.className = 'w-24 h-9 bg-emerald-500 border-2 border-emerald-700 rounded-xl flex items-center justify-center text-xs font-bold text-white shadow-sm animate-pop';
+
+        const isCompleted = count === 3;
+        document.getElementById('compost-pit-svg').innerHTML = SVG_ASSETS.compostPit(count, isCompleted);
+
+        if (isCompleted) {
+          setTimeout(() => {
+            playFanfare();
+            updateScore(5, dropX, dropY);
+            showFeedbackModal({
+              isPositive: true,
+              scoreText: 'โบนัส +5 แต้ม!',
+              icon: '🌱',
+              title: 'สำเร็จ! ได้ปุ๋ยหมักอินทรีย์คุณภาพดีเยี่ยม',
+              body: `
+                <p class="mb-2">การนำ <strong>ตะไคร่น้ำ</strong> มาหมักร่วมกับ <strong>มูลสัตว์</strong> และ <strong>ใบไม้แห้ง</strong> เป็นการกำจัดตะไคร่น้ำอย่างถูกวิธีและยั่งยืน:</p>
+                <ul class="list-disc list-inside space-y-1 text-sm">
+                  <li><strong>ตะไคร่น้ำ</strong>มีธาตุไนโตรเจนสูง ช่วยเร่งการทำงานของจุลินทรีย์ย่อยสลาย</li>
+                  <li>เมื่อหมักร่วมกับมูลสัตว์และใบไม้แห้งจะได้<strong>ปุ๋ยหมักอินทรีย์คุณภาพดี</strong> ช่วยบำรุงดินให้ร่วนซุยและเพิ่มธาตุอาหารให้พืช</li>
+                  <li>ช่วยลดขยะอินทรีย์และป้องกันไม่ให้ตะไคร่น้ำเน่าเสียในแหล่งน้ำ</li>
+                </ul>
+              `,
+              btnText: 'ดูสรุปผลการเล่น 🏆',
+              onClose: () => finishGame()
+            });
+          }, 450);
+        }
+      } else {
+        playError();
+        updateScore(-5, dropX, dropY);
+
+        const pit = document.getElementById('compost-pit');
+        pit.classList.remove('animate-shake');
+        void pit.offsetWidth;
+        pit.classList.add('animate-shake');
+
+        itemEl.classList.remove('animate-shake');
+        void itemEl.offsetWidth;
+        itemEl.classList.add('animate-shake');
+
+        const info = CONTAMINANT_EXPLANATIONS[itemId];
+        showFeedbackModal({
+          isPositive: false,
+          scoreText: '-5 แต้ม',
+          icon: '🚫',
+          title: info.title,
+          body: `<p class="text-sm leading-relaxed">${info.reason}</p>`,
+          btnText: 'เข้าใจแล้ว (เลือกวัตถุดิบธรรมชาติใหม่)'
+        });
+      }
+    }
+
+    /* ==================== หน้าจอสรุปผล & ส่งคะแนน 100 กลับหน้าหลัก ==================== */
+    function finishGame() {
+      gameState.isPlaying = false;
+      stopStopwatch();
+      clearSelection();
+      showScreen('end-screen');
+
+      const rawScoreClamped = Math.max(0, gameState.score);
+      const scaledScore = getScaledScore(rawScoreClamped);
+      const formattedTime = formatTime(gameState.secondsElapsed);
+
+      document.getElementById('end-total-score').textContent = `${scaledScore} / 100`;
+      document.getElementById('end-raw-detail').textContent = `(คะแนนดิบ ${rawScoreClamped} / ${MAX_RAW_SCORE} แต้ม)`;
+      document.getElementById('end-total-time').textContent = `ใช้เวลาไป ${formattedTime} นาที`;
+
+      let tier = 'gold';
+      let rankTitle = '🏆 นักอนุรักษ์สิ่งแวดล้อมดีเด่น';
+      let rankDesc = 'ยอดเยี่ยมไร้ที่ติ! คุณมีความรู้ความเข้าใจในการป้องกันน้ำเสียและการใช้ประโยชน์จากแหนแดงและตะไคร่น้ำอย่างครบวงจร';
+
+      if (scaledScore >= 85) {
+        tier = 'gold';
+        rankTitle = '🏆 นักอนุรักษ์สิ่งแวดล้อมดีเด่น';
+        rankDesc = 'ยอดเยี่ยมไร้ที่ติ! คุณมีความรู้ความเข้าใจในการป้องกันน้ำเสียและการใช้ประโยชน์จากแหนแดงและตะไคร่น้ำอย่างครบวงจร';
+      } else if (scaledScore >= 55) {
+        tier = 'silver';
+        rankTitle = '🥈 ผู้พิทักษ์แหล่งน้ำระดับเหรียญเงิน';
+        rankDesc = 'เก่งมาก! คุณสามารถคัดแยกพืชน้ำและเลือกแนวทางจัดการสิ่งแวดล้อมได้อย่างเหมาะสม ลองทบทวนจุดที่พลาดเพื่อคว้าเหรียญทองนะ';
+      } else {
+        tier = 'bronze';
+        rankTitle = '🌱 นักเรียนรู้สิ่งแวดล้อมมือใหม่';
+        rankDesc = 'พยายามได้ดี! คุณได้เรียนรู้บทเรียนสำคัญทางวิทยาศาสตร์และสิ่งแวดล้อมแล้ว ลองกด "เล่นอีกครั้ง" เพื่อทำคะแนนให้สูงขึ้นนะ';
+      }
+
+      document.getElementById('end-medal-svg').innerHTML = SVG_ASSETS.medal(tier);
+      document.getElementById('end-rank-title').textContent = rankTitle;
+      document.getElementById('end-rank-desc').textContent = rankDesc;
+
+      // ส่งผลคะแนนเต็ม 100 กลับไปยังหน้าหลัก (index.html) เพื่อบันทึกความก้าวหน้า
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({
+          type: "SCIENCE_GAME_RESULT",
+          gameId: 5,
+          gameName: "Bio Azolla",
+          score: scaledScore,
+          completed: true,
+          timeUsed: gameState.secondsElapsed
+        }, "*");
+      }
+    }
+
+    /* ==================== ระบบควบคุม Drag & Drop และ Click/Tap ==================== */
+    function clearSelection() {
+      if (gameState.selectedItem) {
+        gameState.selectedItem.classList.remove('item-selected');
+        gameState.selectedItem = null;
+      }
+      document.querySelectorAll('.drop-target').forEach(t => t.classList.remove('drop-target-active'));
+    }
+
+    function selectItemForTap(el) {
+      playPop();
+      if (gameState.selectedItem === el) {
+        clearSelection();
+        return;
+      }
+      clearSelection();
+      gameState.selectedItem = el;
+      el.classList.add('item-selected');
+
+      if (gameState.currentStage === 1 && gameState.stage1Phase === 'sort') {
+        document.getElementById('basket-azolla').classList.add('drop-target-active');
+        document.getElementById('basket-algae').classList.add('drop-target-active');
+      } else if (gameState.currentStage === 2) {
+        document.getElementById('chicken-trough').classList.add('drop-target-active');
+      } else if (gameState.currentStage === 3) {
+        document.getElementById('compost-pit').classList.add('drop-target-active');
+      }
+    }
+
+    function handleTargetClick(targetName) {
+      if (!gameState.selectedItem) return;
+      const itemEl = gameState.selectedItem;
+      const targetEl = event.currentTarget;
+      const rect = targetEl.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      clearSelection();
+      executeDropAction(itemEl, targetName, centerX, centerY);
+    }
+
+    function executeDropAction(itemEl, targetName, x, y) {
+      if (gameState.currentStage === 1 && gameState.stage1Phase === 'sort') {
+        if (targetName === 'azolla' || targetName === 'algae') {
+          handleStage1Drop(itemEl, targetName, x, y);
+        }
+      } else if (gameState.currentStage === 2 && targetName === 'trough') {
+        handleStage2Drop(itemEl, x, y);
+      } else if (gameState.currentStage === 3 && targetName === 'compost') {
+        handleStage3Drop(itemEl, x, y);
+      }
+    }
+
+    function setupPointerDragAndTap() {
+      let activeDragEl = null;
+      let startX = 0;
+      let startY = 0;
+      let isDragging = false;
+      const ghost = document.getElementById('drag-ghost');
+
+      document.addEventListener('pointerdown', (e) => {
+        if (gameState.isPaused || !gameState.isPlaying) return;
+        const item = e.target.closest('.draggable-item');
+        if (!item) return;
+        if (gameState.currentStage === 1 && gameState.stage1Phase !== 'sort') return;
+
+        activeDragEl = item;
+        startX = e.clientX;
+        startY = e.clientY;
+        isDragging = false;
+      });
+
+      document.addEventListener('pointermove', (e) => {
+        if (!activeDragEl) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+
+        if (!isDragging && Math.hypot(dx, dy) > 8) {
+          isDragging = true;
+          clearSelection();
+          playPop();
+          activeDragEl.style.opacity = '0.45';
+
+          const svgInner = activeDragEl.querySelector('svg');
+          ghost.innerHTML = svgInner ? svgInner.outerHTML : '';
+          ghost.classList.remove('hidden');
+
+          if (gameState.currentStage === 1) {
+            document.getElementById('basket-azolla').classList.add('drop-target-active');
+            document.getElementById('basket-algae').classList.add('drop-target-active');
+          } else if (gameState.currentStage === 2) {
+            document.getElementById('chicken-trough').classList.add('drop-target-active');
+          } else if (gameState.currentStage === 3) {
+            document.getElementById('compost-pit').classList.add('drop-target-active');
+          }
+        }
+
+        if (isDragging) {
+          ghost.style.left = `${e.clientX}px`;
+          ghost.style.top = `${e.clientY}px`;
+        }
+      });
+
+      document.addEventListener('pointerup', (e) => {
+        if (!activeDragEl) return;
+        const itemEl = activeDragEl;
+        activeDragEl = null;
+
+        if (isDragging) {
+          itemEl.style.opacity = '1';
+          ghost.classList.add('hidden');
+          document.querySelectorAll('.drop-target').forEach(t => t.classList.remove('drop-target-active'));
+
+          const elemBelow = document.elementFromPoint(e.clientX, e.clientY);
+          const targetEl = elemBelow ? elemBelow.closest('.drop-target') : null;
+          if (targetEl && targetEl.dataset.target) {
+            executeDropAction(itemEl, targetEl.dataset.target, e.clientX, e.clientY);
+          }
+        } else {
+          selectItemForTap(itemEl);
+        }
+        isDragging = false;
+      });
+
+      document.addEventListener('pointercancel', () => {
+        if (activeDragEl) {
+          activeDragEl.style.opacity = '1';
+          activeDragEl = null;
+        }
+        isDragging = false;
+        ghost.classList.add('hidden');
+        document.querySelectorAll('.drop-target').forEach(t => t.classList.remove('drop-target-active'));
+      });
+    }
   </script>
- </body>
+</body>
 </html>
