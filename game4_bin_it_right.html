@@ -1,47 +1,651 @@
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // เติมข้อความภาษาไทยในป้ายที่ว่างเมื่อเปิดบน GitHub
-    const labels = {
-      "game-title": "Bin It Right - คัดแยกขยะรักษ์โลก",
-      "game-instructions": "ลากขยะแต่ละชิ้นไปทิ้งลงถังขยะ 4 ประเภทให้ถูกต้อง",
-      "timer-label": "เวลาที่เหลือ",
-      "score-label": "คะแนน",
-      "progress-label": "คัดแยกแล้ว",
-      "wet-bin-label": "ขยะเปียก (สีเขียว)",
-      "general-bin-label": "ขยะทั่วไป (สีน้ำเงิน)",
-      "recycle-bin-label": "ขยะรีไซเคิล (สีเหลือง)",
-      "hazard-bin-label": "ขยะอันตราย (สีแดง)",
-      "summary-title": "สรุปผลการคัดแยกขยะ",
-      "final-score-label": "คะแนนที่ได้",
-      "final-time-label": "เวลาที่ใช้",
-      "final-sorted-label": "จำนวนที่แยกได้",
-      "restart-button": "เล่นใหม่อีกครั้ง"
-    };
+<!doctype html>
+<html lang="th">
+ <head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20261015-04-7abc9b0","C":{"Abril Fatface":"YACgEZbkUVE,0","Albert Sans":"YAHO2HRfeh4,0","Alfa Slab One":"YACgEYS9sJU,0","Anton":"YACgEcYqQ-A,0","Archivo Black":"YACgEZulLoA,0","Archivo":"YAHO2-t-jNE,0","Arial":"YAGyDvJ_4Ts,0","Baloo 2":"YAHO2IcQUcM,0","Barlow Condensed":"YAFdJljEuFc,0","Barlow":"YAFdJsyuOPM,1","Bebas Neue":"YACgESME5ew,0","Bricolage Grotesque":"YAFyMcdwzpc,0","Cairo":"YAFdtXpDzlQ,0","Canva Sans":"YAFdJjTk5UU,1","Caveat":"YALBs2ploWQ,0","Cinzel":"YACgEeV8bIQ,0","Cormorant Garamond":"YAFdJhX-538,0","Courier New":"YAGzXiGs0_8,0","Courier Prime":"YAD1aFjegN8,0","DM Sans":"YAD1aU3sLnI,0","DM Serif Display":"YAD1aYG82rc,0","Figtree":"YAHO2b-mV7A,0","Forum":"YACgEcnnqB4,0","Fraunces":"YAFdJpU7Kkk,0","Fredoka":"YACgEZml080,0","Georgia":"YAGzXkO0pEM,0","Hanken Grotesk":"YAHO2VB9G0I,0","Helvetica":"YAFcf7zkXN0,0","IBM Plex Mono":"YAFdJkmvhGI,0","IBM Plex Sans":"YAFdJgT0SHI,0","Impact":"YAFcfnjI7Vk,0","Instrument Sans":"YAHO2bKyaSQ,0","Instrument Serif":"YAHFeOnZNEk,0","Inter":"YAFdJvSyp_k,3","Italiana":"YAHO2Toik_w,0","Jacques Francois":"YAHO2a5g66Q,0","JetBrains Mono":"YAFdJksXcAk,0","Josefin Sans":"YAFdJjvw9Ps,0","Karla":"YAHO2V2NSXM,0","Lato":"YAFdJuFCnaw,0","Libre Baskerville":"YACgEUFdPdA,0","Libre Caslon Display":"YAHO2XhLmt0,0","Lobster":"YAD8SnSjSFI,0","Lora":"YACgEXvxf8Q,0","Manrope":"YAHO2b2feC4,0","Merriweather":"YACgEXvHxxs,0","Montserrat":"YAFdtQi73Xs,0","Noto Sans JP":"YAFdJiHXlcI,0","Noto Sans KR":"YAGsojZj-RQ,0","Nunito Sans":"YAFdtQJYB9w,1","Nunito":"YAFdJoNRMmU,1","Oleo Script":"YACgEQQ14jI,0","Open Sans":"YAFdJt8dAY0,1","Oswald":"YACgEQY10lw,0","Outfit":"YAHO2nVlg14,0","Pacifico":"YADLjORQ1u4,0","Playfair Display":"YAFdJhem5V8,1","Plus Jakarta Sans":"YAHO2gdhi18,0","Poppins":"YAFdJjbTu24,1","Press Start 2P":"YAFyGr-8pmQ,0","Public Sans":"YAFdJj8NdaU,1","Quicksand":"YAFdJpYtCxE,1","Raleway":"YAFdJhmxbVQ,1","Roboto Slab":"YAFdJswIKAg,0","Rockwell":"YAFcfyVZnN0,0","Rye":"YACgEdQP21k,0","STIX Two Text":"YAHO2joycuk,0","Sarabun":"YAFdJssSnME,0","Schibsted Grotesk":"YAHO2sWydRk,0","Segoe UI":"YAHNdRD1Klw,0","Source Sans 3":"YAG4lO1Mj10,0","Space Grotesk":"YAHO2sjPCSM,0","Space Mono":"YADW1-vpsoc,0","Spectral":"YAHO2rVUHIM,0","Times New Roman":"YAGzXW3gftg,0","Trebuchet MS":"YAFcfrglpVA,0","Ubuntu":"YACgERDU--Q,0","Verdana":"YAGzXTctYtQ,0","Work Sans":"YAGXhLOKv44,0","Yellowtail":"YACgEYG4kG4,0"}}');</script><script src="/_sdk/05db820ba1544614.telemetry_sdk.js" integrity="sha512-a7JzkQDDcioSXpM61nxTfeRW7PcxWQy5+BrhyeTFmQFsXJ+Gncm0y50u7fTA7qOPegFnRgqCfa0mGUOK1yjDWQ=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bin It Right</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&amp;family=Fredoka:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #16364a;
+      --cream: #fff9e7;
+      --river: #64c8e8;
+      --leaf: #53ad57;
+    }
 
-    Object.entries(labels).forEach(([id, text]) => {
-      const el = document.querySelector(`[data-template-id="${id}"]`);
-      if (el && !el.textContent.trim()) el.textContent = text;
-    });
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans Thai", sans-serif;
+      color: var(--ink);
+      overflow-x: hidden;
+    }
 
-    // ส่งคะแนนกลับหน้าหลักอัตโนมัติเมื่อหน้าจอสรุปผลเปิดขึ้น
-    const overlay = document.getElementById("endOverlay");
-    if (!overlay) return;
+    .game-shell {
+      width: 100%;
+      min-height: calc(100 * min(var(--vh, 1vh), 1vh));
+      padding: clamp(12px, 2vw, 24px);
+      background:
+        radial-gradient(circle at 10% 8%, rgba(255,255,255,.78) 0 3%, transparent 3.2%),
+        linear-gradient(180deg, #9be0f4 0%, #d9f4b8 55%, #f6d68b 55%, #f6d68b 100%);
+    }
 
-    new MutationObserver(() => {
-      if (overlay.classList.contains("active") && window.parent && window.parent !== window) {
-        const scoreNum = parseInt(document.getElementById("finalScore").textContent) || 0;
-        const sortedNum = parseInt(document.getElementById("finalSorted").textContent) || 0;
-        const timeUsedNum = parseInt(document.getElementById("finalTime").textContent) || 0;
+    .game-frame {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      border: 5px solid #fffdf2;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 18px 0 rgba(31, 91, 78, .18), 0 26px 48px rgba(14, 69, 86, .22);
+      background: #fff9e7;
+    }
 
-        window.parent.postMessage({
-          type: "SCIENCE_GAME_RESULT",
-          gameId: 4,
-          gameName: "Bin It Right",
-          score: scoreNum,
-          completed: sortedNum >= 20,
-          timeUsed: timeUsedNum
-        }, "*");
+    .title-font { font-family: "Fredoka", "Noto Sans Thai", sans-serif; }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      padding: 16px clamp(16px, 3vw, 28px);
+      border-bottom: 4px solid rgba(33, 117, 99, .14);
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(96px, 1fr));
+      gap: 10px;
+    }
+
+    .stat-card {
+      min-width: 100px;
+      padding: 8px 12px;
+      border-radius: 16px;
+      text-align: center;
+      background: #fffdf2;
+      border: 2px solid rgba(25, 92, 104, .12);
+    }
+
+    .stat-label { font-size: .72rem; font-weight: 700; opacity: .72; }
+    .stat-value { display: block; font-family: "Fredoka", sans-serif; font-size: 1.3rem; font-weight: 700; line-height: 1.2; }
+
+    .scene {
+      position: relative;
+      min-height: 560px;
+      overflow: hidden;
+      isolation: isolate;
+      background: linear-gradient(#91ddf4 0 48%, #bfe688 48% 66%, #e8c56f 66%);
+    }
+
+    .cloud {
+      position: absolute;
+      width: 110px;
+      height: 32px;
+      border-radius: 40px;
+      background: rgba(255,255,255,.88);
+      filter: drop-shadow(0 4px 0 rgba(98,178,190,.15));
+    }
+    .cloud::before, .cloud::after {
+      content: "";
+      position: absolute;
+      bottom: 5px;
+      border-radius: 50%;
+      background: inherit;
+    }
+    .cloud::before { left: 18px; width: 48px; height: 48px; }
+    .cloud::after { right: 16px; width: 38px; height: 38px; }
+
+    .hill {
+      position: absolute;
+      top: 27%;
+      width: 44%;
+      height: 190px;
+      border-radius: 50% 50% 0 0;
+      background: #75bd64;
+      z-index: -1;
+    }
+    .hill.one { left: -5%; }
+    .hill.two { right: -5%; background: #5bad5e; }
+
+    .tree {
+      position: absolute;
+      bottom: 29%;
+      width: 32px;
+      height: 82px;
+      border-radius: 18px;
+      background: #9b6639;
+      z-index: 1;
+    }
+    .tree::before {
+      content: "";
+      position: absolute;
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      left: -25px;
+      top: -52px;
+      background: radial-gradient(circle at 32% 28%, #a2d86b 0 11%, #62ad52 12% 67%, #438d46 68%);
+      box-shadow: 16px 9px 0 -5px #559f48;
+    }
+
+    .river {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 19%;
+      height: 24%;
+      background: #5bc7e5;
+      transform: skewY(-2deg);
+      z-index: 0;
+      border-top: 5px solid rgba(255,255,255,.55);
+      border-bottom: 5px solid rgba(255,255,255,.45);
+    }
+    .river::after {
+      content: "〰 〰 〰 〰 〰 〰 〰 〰 〰 〰";
+      position: absolute;
+      top: 30%;
+      width: 100%;
+      font-size: 38px;
+      color: rgba(255,255,255,.46);
+      letter-spacing: 12px;
+      white-space: nowrap;
+    }
+
+    .hint-toast {
+      position: absolute;
+      left: 50%;
+      top: 18px;
+      z-index: 20;
+      width: min(92%, 550px);
+      transform: translate(-50%, -18px);
+      border-radius: 16px;
+      padding: 10px 18px;
+      text-align: center;
+      font-weight: 700;
+      color: #184055;
+      background: #fffdf0;
+      box-shadow: 0 7px 0 rgba(35, 104, 85, .15);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease, transform .22s ease;
+    }
+    .hint-toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .hint-toast.good { background: #dff6d6; color: #23632d; }
+    .hint-toast.bad { background: #fff1c5; color: #7c4a12; }
+
+    .waste-item {
+      position: absolute;
+      z-index: 8;
+      width: 62px;
+      height: 62px;
+      display: grid;
+      place-items: center;
+      border: 3px solid #fffdf4;
+      border-radius: 19px;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      font-size: 34px;
+      box-shadow: 0 6px 0 rgba(54, 94, 70, .19);
+      transition: transform .16s ease, box-shadow .16s ease, opacity .25s ease;
+    }
+    .waste-item:hover, .waste-item:focus-visible { transform: translateY(-5px) rotate(-4deg) scale(1.08); outline: 3px solid #174e65; outline-offset: 3px; }
+    .waste-item.dragging { z-index: 50; cursor: grabbing; transform: scale(1.16) rotate(5deg); box-shadow: 0 12px 16px rgba(28,67,83,.26); }
+    .waste-item.sorted { opacity: 0; transform: scale(.2) rotate(180deg); pointer-events: none; }
+
+    .bin-zone {
+      position: relative;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(8px, 1.7vw, 18px);
+      padding: 14px clamp(14px, 3vw, 30px) 20px;
+      background: rgba(255,248,220,.9);
+      border-top: 5px solid rgba(105, 83, 32, .12);
+    }
+
+    .bin {
+      min-height: 118px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      border: 4px solid rgba(255,255,255,.92);
+      border-radius: 20px 20px 15px 15px;
+      color: #fff;
+      box-shadow: inset 0 -9px 0 rgba(0,0,0,.12), 0 5px 0 rgba(95,77,35,.14);
+      transition: transform .16s ease, filter .16s ease;
+    }
+    .bin.drop-active { transform: translateY(-7px) scale(1.035); filter: brightness(1.12); }
+    .bin-icon { font-size: 40px; line-height: 1; }
+    .bin-label { font-size: clamp(.78rem, 1.5vw, .98rem); font-weight: 800; text-align: center; line-height: 1.2; }
+
+    .end-overlay {
+      position: absolute;
+      z-index: 100;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      background: rgba(13, 58, 77, .63);
+      backdrop-filter: blur(4px);
+    }
+    .end-overlay.active { display: flex; animation: fadeIn .3s ease; }
+    .summary-card {
+      width: min(100%, 470px);
+      padding: 30px;
+      border: 5px solid #fffdf0;
+      border-radius: 28px;
+      text-align: center;
+      box-shadow: 0 15px 0 rgba(10,45,59,.2);
+    }
+    .summary-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+      margin: 20px 0 24px;
+    }
+    .summary-stat {
+      padding: 12px 7px;
+      border-radius: 15px;
+      background: rgba(255,255,255,.82);
+      color: #16435a;
+    }
+    .summary-number { display: block; font-family: "Fredoka", sans-serif; font-size: 1.45rem; font-weight: 700; }
+    .summary-label { display: block; font-size: .74rem; font-weight: 700; }
+    .restart-btn {
+      border: 0;
+      border-radius: 16px;
+      padding: 13px 24px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 5px 0 rgba(71,92,22,.25);
+      transition: transform .15s ease;
+    }
+    .restart-btn:hover, .restart-btn:focus-visible { transform: translateY(-3px); outline: 3px solid #174e65; outline-offset: 3px; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    @media (max-width: 740px) {
+      .topbar { grid-template-columns: 1fr; }
+      .stat-grid { grid-template-columns: repeat(3, 1fr); }
+      .scene { min-height: 500px; }
+      .waste-item { width: 53px; height: 53px; font-size: 29px; border-radius: 16px; }
+      .bin-zone { grid-template-columns: repeat(2, 1fr); }
+      .bin { min-height: 88px; }
+      .bin-icon { font-size: 31px; }
+    }
+
+    @media (max-width: 420px) {
+      .game-shell { padding: 6px; }
+      .game-frame { border-radius: 18px; border-width: 3px; }
+      .topbar { padding: 12px; }
+      .stat-card { min-width: 0; padding: 7px 3px; }
+      .stat-value { font-size: 1.05rem; }
+      .scene { min-height: 475px; }
+    }
+  </style>
+  <script src="/_sdk/570d53629f0b998d.data_sdk.js" type="text/javascript" integrity="sha512-JEN39+V+Nvv9ZZOVS8vNk1iA9ErZJHTdgOw9KzPuMiK7m0I+KPEr/wmTnCFIQVsDjCZgJWfGnFi1IQh2Io2qyA=="></script>
+  <script src="/_sdk/f195026a424c1f85.resizing_sdk.js" type="text/javascript" integrity="sha512-8On4Z+AXh1abEzZJ9Dbn9wOvFg+k1LsAaAzKGQ7LlfgXajZ9xEmZaZ1QVzv0AWhCZtCsEpWSOG9DgLri06TS7A=="></script>
+ </head>
+ <body data-template-id="__page-root">
+  <div class="game-shell">
+   <div class="game-frame">
+    <header data-template-id="game-header" class="canva-header topbar">
+     <div>
+      <h1 data-template-id="game-title" class="canva-text title-font m-0 text-3xl font-bold"></h1>
+      <p data-template-id="game-instructions" class="canva-text mt-1 mb-0 text-sm font-semibold"></p>
+     </div>
+     <section class="stat-grid" aria-label="สถานะเกม">
+      <div class="stat-card">
+       <span data-template-id="timer-label" class="canva-text stat-label"></span> <span id="timer" class="stat-value" aria-live="polite">100</span>
+      </div>
+      <div class="stat-card">
+       <span data-template-id="score-label" class="canva-text stat-label"></span> <span id="score" class="stat-value" aria-live="polite">0 / 200</span>
+      </div>
+      <div class="stat-card">
+       <span data-template-id="progress-label" class="canva-text stat-label"></span> <span id="progress" class="stat-value" aria-live="polite">0 / 20</span>
+      </div>
+     </section>
+    </header>
+    <main>
+     <section data-template-id="game-scene" class="canva-section scene" aria-label="พื้นที่เล่นเกมคัดแยกขยะ">
+      <div class="cloud" style="left:8%; top:11%;"></div>
+      <div class="cloud" style="right:11%; top:16%; transform:scale(.7);"></div>
+      <div class="hill one"></div>
+      <div class="hill two"></div>
+      <div class="tree" style="left:10%;"></div>
+      <div class="tree" style="right:13%; bottom:31%; transform:scale(.78);"></div>
+      <div class="river"></div>
+      <div id="hintToast" class="hint-toast" role="status" aria-live="polite"></div><button type="button" class="waste-item" data-template-id="waste-apple" data-name="แกนแอปเปิล" data-category="wet" style="left:8%; top:50%; background:#f2e7bd;" aria-label="แกนแอปเปิล"> 🍎 </button> <button type="button" class="waste-item" data-template-id="waste-banana" data-name="เปลือกกล้วย" data-category="wet" style="left:20%; top:68%; background:#fff1a8;" aria-label="เปลือกกล้วย"> 🍌 </button> <button type="button" class="waste-item" data-template-id="waste-fishbone" data-name="ก้างปลา" data-category="wet" style="left:37%; top:48%; background:#e9f0d5;" aria-label="ก้างปลา"> 🐟 </button> <button type="button" class="waste-item" data-template-id="waste-leaf" data-name="ใบไม้แห้ง" data-category="wet" style="left:78%; top:49%; background:#d8edbd;" aria-label="ใบไม้แห้ง"> 🍂 </button> <button type="button" class="waste-item" data-template-id="waste-food" data-name="เศษอาหาร" data-category="wet" style="left:61%; top:68%; background:#ffe1ad;" aria-label="เศษอาหาร"> 🍚 </button> <button type="button" class="waste-item" data-template-id="waste-bag" data-name="ถุงพลาสติก" data-category="general" style="left:12%; top:34%; background:#d7e9ee;" aria-label="ถุงพลาสติก"> 🛍️ </button> <button type="button" class="waste-item" data-template-id="waste-wrapper" data-name="ซองขนม" data-category="general" style="left:48%; top:62%; background:#f7c7d4;" aria-label="ซองขนม"> 🍬 </button> <button type="button" class="waste-item" data-template-id="waste-tissue" data-name="กระดาษทิชชูใช้แล้ว" data-category="general" style="left:69%; top:35%; background:#f3eeee;" aria-label="กระดาษทิชชูใช้แล้ว"> 🧻 </button> <button type="button" class="waste-item" data-template-id="waste-straw" data-name="หลอดพลาสติก" data-category="general" style="left:29%; top:36%; background:#e6c1c8;" aria-label="หลอดพลาสติก"> 🥤 </button> <button type="button" class="waste-item" data-template-id="waste-foam" data-name="กล่องโฟม" data-category="general" style="left:87%; top:67%; background:#f2f3ed;" aria-label="กล่องโฟม"> 🍱 </button> <button type="button" class="waste-item" data-template-id="waste-bottle" data-name="ขวดพลาสติก" data-category="recycle" style="left:43%; top:35%; background:#c7edf5;" aria-label="ขวดพลาสติก"> 🧴 </button> <button type="button" class="waste-item" data-template-id="waste-paper" data-name="กระดาษหนังสือพิมพ์" data-category="recycle" style="left:54%; top:42%; background:#f3dfa5;" aria-label="กระดาษหนังสือพิมพ์"> 📰 </button> <button type="button" class="waste-item" data-template-id="waste-can" data-name="กระป๋องอะลูมิเนียม" data-category="recycle" style="left:25%; top:55%; background:#d6e1e7;" aria-label="กระป๋องอะลูมิเนียม"> 🥫 </button> <button type="button" class="waste-item" data-template-id="waste-glass" data-name="ขวดแก้ว" data-category="recycle" style="left:72%; top:58%; background:#b9dfca;" aria-label="ขวดแก้ว"> 🍾 </button> <button type="button" class="waste-item" data-template-id="waste-box" data-name="กล่องกระดาษ" data-category="recycle" style="left:6%; top:69%; background:#e3c799;" aria-label="กล่องกระดาษ"> 📦 </button> <button type="button" class="waste-item" data-template-id="waste-battery" data-name="ถ่านไฟฉาย" data-category="hazard" style="left:34%; top:70%; background:#363e49;" aria-label="ถ่านไฟฉาย"> 🔋 </button> <button type="button" class="waste-item" data-template-id="waste-bulb" data-name="หลอดไฟ" data-category="hazard" style="left:83%; top:38%; background:#fff5a8;" aria-label="หลอดไฟ"> 💡 </button> <button type="button" class="waste-item" data-template-id="waste-spray" data-name="กระป๋องสเปรย์" data-category="hazard" style="left:57%; top:53%; background:#cad8ec;" aria-label="กระป๋องสเปรย์"> 🧯 </button> <button type="button" class="waste-item" data-template-id="waste-chemical" data-name="ขวดสารเคมี" data-category="hazard" style="left:17%; top:47%; background:#e6b6cd;" aria-label="ขวดสารเคมี"> ⚗️ </button> <button type="button" class="waste-item" data-template-id="waste-medicine" data-name="ยาหมดอายุ" data-category="hazard" style="left:89%; top:55%; background:#f0d0d1;" aria-label="ยาหมดอายุ"> 💊 </button>
+     </section>
+     <section class="bin-zone" aria-label="ถังขยะสำหรับคัดแยก">
+      <div class="bin" data-template-id="wet-bin" data-category="wet" style="background:#43a750;" tabindex="0">
+       <div class="bin-icon">
+        🍃
+       </div><span data-template-id="wet-bin-label" class="canva-text bin-label"></span>
+      </div>
+      <div class="bin" data-template-id="general-bin" data-category="general" style="background:#2f87c8;" tabindex="0">
+       <div class="bin-icon">
+        🗑️
+       </div><span data-template-id="general-bin-label" class="canva-text bin-label"></span>
+      </div>
+      <div class="bin" data-template-id="recycle-bin" data-category="recycle" style="background:#e0ad24;" tabindex="0">
+       <div class="bin-icon">
+        ♻️
+       </div><span data-template-id="recycle-bin-label" class="canva-text bin-label"></span>
+      </div>
+      <div class="bin" data-template-id="hazard-bin" data-category="hazard" style="background:#d94b4b;" tabindex="0">
+       <div class="bin-icon">
+        ☢️
+       </div><span data-template-id="hazard-bin-label" class="canva-text bin-label"></span>
+      </div>
+     </section>
+    </main>
+   </div>
+  </div>
+  <div id="endOverlay" class="end-overlay" role="dialog" aria-modal="true" aria-labelledby="summaryTitle">
+   <section data-template-id="summary-card" class="canva-card summary-card">
+    <div class="text-5xl mb-2">
+     🌍
+    </div>
+    <h2 id="summaryTitle" data-template-id="summary-title" class="canva-text title-font m-0 text-3xl font-bold"></h2>
+    <p id="summaryMessage" class="mt-2 mb-0 font-semibold"></p>
+    <div class="summary-stats">
+     <div class="summary-stat">
+      <span id="finalScore" class="summary-number">0</span> <span data-template-id="final-score-label" class="canva-text summary-label"></span>
+     </div>
+     <div class="summary-stat">
+      <span id="finalTime" class="summary-number">0</span> <span data-template-id="final-time-label" class="canva-text summary-label"></span>
+     </div>
+     <div class="summary-stat">
+      <span id="finalSorted" class="summary-number">0</span> <span data-template-id="final-sorted-label" class="canva-text summary-label"></span>
+     </div>
+    </div><button id="restartButton" data-template-id="restart-button" class="canva-button restart-btn" type="button"></button>
+   </section>
+  </div>
+  <script src="/_sdk/0d3107a88dd31248.editing_sdk.js" integrity="sha512-YxJYPIC1TZ/l8asjpXojbfYA1LiLTr3Fh6BPE6fDLKLWTkDIhVGqsl6xMTuKf5GPOv3sZeQW9jrwgZcsiAARIQ=="></script>
+  <script>
+    (() => {
+      const TOTAL_TIME = 100;
+      const categoryNames = {
+        wet: "ถังขยะเปียก (สีเขียว)",
+        general: "ถังขยะทั่วไป (สีน้ำเงิน)",
+        recycle: "ถังขยะรีไซเคิล (สีเหลือง)",
+        hazard: "ถังขยะอันตราย (สีแดง)"
+      };
+
+      const scene = document.querySelector(".scene");
+      const items = [...document.querySelectorAll(".waste-item")];
+      const bins = [...document.querySelectorAll(".bin")];
+      const hint = document.getElementById("hintToast");
+      const timerEl = document.getElementById("timer");
+      const scoreEl = document.getElementById("score");
+      const progressEl = document.getElementById("progress");
+      const overlay = document.getElementById("endOverlay");
+      const restartButton = document.getElementById("restartButton");
+      const summaryMessage = document.getElementById("summaryMessage");
+
+      let score = 0;
+      let sorted = 0;
+      let timeLeft = TOTAL_TIME;
+      let timerId = null;
+      let activeItem = null;
+      let dragOffsetX = 0;
+      let dragOffsetY = 0;
+      let gameEnded = false;
+      let hintTimer = null;
+      let lastPointerX = 0;
+      let lastPointerY = 0;
+      let dataReady = false;
+
+      const dataHandler = {
+        onDataChanged() {
+          dataReady = true;
+        }
+      };
+
+      async function saveGameResult(completed) {
+        if (!dataReady || !window.dataSdk) return;
+        const result = await window.dataSdk.create({
+          player_name: "ผู้เล่น",
+          score,
+          total_sorted: sorted,
+          time_used: TOTAL_TIME - timeLeft,
+          completed,
+          played_at: new Date().toISOString()
+        });
+        if (!result.isOk) showHint("บันทึกคะแนนไม่สำเร็จ ลองเล่นใหม่อีกครั้งนะ", "bad");
       }
-    }).observe(overlay, { attributes: true, attributeFilter: ["class"] });
-  });
-</script>
+
+      const originalPositions = new Map(
+        items.map(item => [item, { left: item.style.left, top: item.style.top }])
+      );
+
+      function updateStats() {
+        timerEl.textContent = timeLeft;
+        scoreEl.textContent = score + " / 200";
+        progressEl.textContent = sorted + " / 20";
+      }
+
+      function showHint(message, type) {
+        hint.textContent = message;
+        hint.className = "hint-toast show " + type;
+        clearTimeout(hintTimer);
+        hintTimer = setTimeout(() => hint.className = "hint-toast", 2800);
+      }
+
+      function playTone(success) {
+        try {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          const audio = new AudioContext();
+          const oscillator = audio.createOscillator();
+          const gain = audio.createGain();
+          oscillator.type = success ? "sine" : "triangle";
+          oscillator.frequency.setValueAtTime(success ? 660 : 220, audio.currentTime);
+          if (success) oscillator.frequency.exponentialRampToValueAtTime(880, audio.currentTime + .16);
+          gain.gain.setValueAtTime(.0001, audio.currentTime);
+          gain.gain.exponentialRampToValueAtTime(.16, audio.currentTime + .02);
+          gain.gain.exponentialRampToValueAtTime(.0001, audio.currentTime + .22);
+          oscillator.connect(gain);
+          gain.connect(audio.destination);
+          oscillator.start();
+          oscillator.stop(audio.currentTime + .23);
+        } catch (e) {}
+      }
+
+      function startTimer() {
+        clearInterval(timerId);
+        timerId = setInterval(() => {
+          if (gameEnded) return;
+          timeLeft -= 1;
+          updateStats();
+          if (timeLeft <= 0) endGame(false);
+        }, 1000);
+      }
+
+      function endGame(completed) {
+        if (gameEnded) return;
+        gameEnded = true;
+        clearInterval(timerId);
+        activeItem = null;
+        bins.forEach(bin => bin.classList.remove("drop-active"));
+
+        document.getElementById("finalScore").textContent = score + " / 200";
+        document.getElementById("finalTime").textContent = (TOTAL_TIME - timeLeft) + " วินาที";
+        document.getElementById("finalSorted").textContent = sorted + " / 20";
+        summaryMessage.textContent = completed
+          ? "ยอดเยี่ยม! คุณช่วยโลกด้วยการคัดแยกขยะได้ครบแล้ว"
+          : "หมดเวลาแล้ว ลองเล่นใหม่เพื่อช่วยคัดแยกขยะให้ครบทุกชิ้นนะ";
+        saveGameResult(completed);
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({
+            type: "SCIENCE_GAME_RESULT",
+            gameId: 4,
+            gameName: "Bin It Right",
+            score: score,
+            completed: Boolean(completed),
+            timeUsed: TOTAL_TIME - timeLeft
+          }, "*");
+        }
+        overlay.classList.add("active");
+        restartButton.focus();
+      }
+
+      function itemCenter(item) {
+        const rect = item.getBoundingClientRect();
+        return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+      }
+
+      function findBin(item) {
+        const point = itemCenter(item);
+        return bins.find(bin => {
+          const rect = bin.getBoundingClientRect();
+          return point.x >= rect.left && point.x <= rect.right && point.y >= rect.top && point.y <= rect.bottom;
+        });
+      }
+
+      function checkDrop(item, dropX = lastPointerX, dropY = lastPointerY) {
+        const target = bins.find(bin => {
+          const rect = bin.getBoundingClientRect();
+          return dropX >= rect.left && dropX <= rect.right && dropY >= rect.top && dropY <= rect.bottom;
+        });
+        if (!target) return;
+
+        if (target.dataset.category === item.dataset.category) {
+          item.classList.add("sorted");
+          item.disabled = true;
+          score += 10;
+          sorted += 1;
+          updateStats();
+          playTone(true);
+          showHint("ถูกต้อง! เก่งมากเลย 🎉", "good");
+          if (sorted === items.length) {
+            setTimeout(() => endGame(true), 450);
+          }
+        } else {
+          playTone(false);
+          showHint("ยังไม่ถูกต้อง ลองใหม่อีกครั้งนะ", "bad");
+          const origin = originalPositions.get(item);
+          item.style.left = origin.left;
+          item.style.top = origin.top;
+        }
+      }
+
+      function beginDrag(event, item) {
+        if (gameEnded || item.classList.contains("sorted")) return;
+        event.preventDefault();
+        activeItem = item;
+        const rect = item.getBoundingClientRect();
+        dragOffsetX = event.clientX - rect.left;
+        dragOffsetY = event.clientY - rect.top;
+        item.classList.add("dragging");
+        showHint(item.dataset.name, "good");
+        if (item.setPointerCapture) item.setPointerCapture(event.pointerId);
+      }
+
+      function moveDrag(event) {
+        if (!activeItem) return;
+        lastPointerX = event.clientX;
+        lastPointerY = event.clientY;
+        const sceneRect = scene.getBoundingClientRect();
+        const width = activeItem.offsetWidth;
+        const height = activeItem.offsetHeight;
+        const x = Math.max(0, Math.min(sceneRect.width - width, event.clientX - sceneRect.left - dragOffsetX));
+        const y = Math.max(0, Math.min(sceneRect.height - height, event.clientY - sceneRect.top - dragOffsetY));
+        activeItem.style.left = x + "px";
+        activeItem.style.top = y + "px";
+
+        const target = bins.find(bin => {
+          const rect = bin.getBoundingClientRect();
+          return event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+        });
+        bins.forEach(bin => bin.classList.toggle("drop-active", bin === target));
+      }
+
+      function finishDrag(event) {
+        if (!activeItem) return;
+        if (event) {
+          lastPointerX = event.clientX;
+          lastPointerY = event.clientY;
+        }
+        const item = activeItem;
+        activeItem = null;
+        item.classList.remove("dragging");
+        bins.forEach(bin => bin.classList.remove("drop-active"));
+        checkDrop(item, lastPointerX, lastPointerY);
+      }
+
+      items.forEach(item => {
+        item.addEventListener("pointerdown", event => beginDrag(event, item));
+        item.addEventListener("mouseenter", () => {
+          if (!gameEnded && !item.classList.contains("sorted")) showHint(item.dataset.name, "good");
+        });
+        item.addEventListener("focus", () => {
+          if (!gameEnded) showHint(item.dataset.name, "good");
+        });
+      });
+
+      window.addEventListener("pointermove", moveDrag);
+      window.addEventListener("pointerup", finishDrag);
+      window.addEventListener("pointercancel", finishDrag);
+
+      restartButton.addEventListener("click", () => {
+        clearInterval(timerId);
+        score = 0;
+        sorted = 0;
+        timeLeft = TOTAL_TIME;
+        gameEnded = false;
+        items.forEach(item => {
+          const origin = originalPositions.get(item);
+          item.style.left = origin.left;
+          item.style.top = origin.top;
+          item.classList.remove("sorted", "dragging");
+          item.disabled = false;
+        });
+        overlay.classList.remove("active");
+        hint.className = "hint-toast";
+        updateStats();
+        startTimer();
+      });
+
+      updateStats();
+      startTimer();
+      lucide.createIcons();
+      const labels = {
+        "game-title": "Bin It Right - คัดแยกขยะรักษ์โลก",
+        "game-instructions": "ลากขยะแต่ละชิ้นไปทิ้งลงถังขยะ 4 ประเภทให้ถูกต้อง",
+        "timer-label": "เวลาที่เหลือ",
+        "score-label": "คะแนน",
+        "progress-label": "คัดแยกแล้ว",
+        "wet-bin-label": "ขยะเปียก (สีเขียว)",
+        "general-bin-label": "ขยะทั่วไป (สีน้ำเงิน)",
+        "recycle-bin-label": "ขยะรีไซเคิล (สีเหลือง)",
+        "hazard-bin-label": "ขยะอันตราย (สีแดง)",
+        "summary-title": "สรุปผลการคัดแยกขยะ",
+        "final-score-label": "คะแนนที่ได้",
+        "final-time-label": "เวลาที่ใช้",
+        "final-sorted-label": "จำนวนที่แยกได้",
+        "restart-button": "เล่นใหม่อีกครั้ง"
+      };
+      Object.entries(labels).forEach(([id, text]) => {
+        const el = document.querySelector(`[data-template-id="${id}"]`);
+        if (el && !el.textContent.trim()) el.textContent = text;
+      });
+
+      if (window.dataSdk) {
+        window.dataSdk.init(dataHandler).then(result => {
+          if (!result.isOk) showHint("ยังเชื่อมต่อ Canva Sheet ไม่ได้", "bad");
+        });
+      }
+    })();
+  </script>
+ </body>
+</html>
