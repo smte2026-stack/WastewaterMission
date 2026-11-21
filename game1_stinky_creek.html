@@ -1431,14 +1431,6 @@
                     player.vx = -4;
                 } else {
                     triggerVictory();
-                    window.parent.postMessage({
-  type: "SCIENCE_GAME_RESULT",
-  gameId: 1,
-  gameName: "Stinky Creek",
-  score: score,
-  completed: true,
-  timeUsed: timerSeconds
-}, "*");
                 }
             }
         }
@@ -1599,6 +1591,18 @@
             document.getElementById('victory-badge').textContent = badgeText;
 
             document.getElementById('victory-screen').classList.remove('hidden');
+
+            // ส่งผลคะแนนกลับไปยังหน้าหลัก (index.html) เพื่อบันทึกความก้าวหน้าและอัปเดต Top 5
+            if (window.parent && window.parent !== window) {
+                window.parent.postMessage({
+                    type: "SCIENCE_GAME_RESULT",
+                    gameId: 1,
+                    gameName: "Stinky Creek",
+                    score: score,
+                    completed: true,
+                    timeUsed: timerSeconds
+                }, "*");
+            }
         }
 
         function gameLoop() {
