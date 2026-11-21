@@ -3,223 +3,387 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ศูนย์รวมเกมวิทยาศาสตร์ & สิ่งแวดล้อม ม.3</title>
+  <title>Clean Flow Village | ชุดเกมการเรียนรู้วิทยาศาสตร์ ม.3</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { font-family: 'Kanit', sans-serif; }
     body {
-      background: linear-gradient(135deg, #ecfdf5 0%, #e0f2fe 50%, #f0fdf4 100%);
+      background-color: #0b1220;
+      color: #f8fafc;
       min-height: 100vh;
     }
+    .hero-banner {
+      background: linear-gradient(115deg, #0e3e56 0%, #0c2c40 48%, #063834 100%);
+      border: 1px solid rgba(45, 212, 191, 0.28);
+      box-shadow: 0 20px 50px -15px rgba(6, 182, 212, 0.18);
+    }
+    .dark-card {
+      background-color: #11192c;
+      border: 1px solid #1e293b;
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+    .dark-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(56, 189, 248, 0.45);
+      box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.55);
+    }
+    .survey-card {
+      background-color: #11192c;
+      border: 1px solid rgba(245, 158, 11, 0.42);
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+    .survey-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(251, 191, 36, 0.8);
+      box-shadow: 0 14px 30px -10px rgba(245, 158, 11, 0.2);
+    }
+    .stat-box {
+      background-color: #11192c;
+      border: 1px solid #1e293b;
+    }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0b1220; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
   </style>
 </head>
-<body class="text-slate-800">
+<body class="antialiased selection:bg-emerald-400 selection:text-slate-950">
 
   <!-- ==================== 1. หน้าลงทะเบียน / เข้าสู่ระบบ ==================== -->
-  <div id="auth-view" class="min-h-screen flex items-center justify-center p-4">
-    <div class="max-w-md w-full bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border-4 border-teal-200 p-6 md:p-8">
+  <div id="auth-view" class="min-h-screen flex items-center justify-center p-4 bg-[radial-gradient(ellipse_at_top,_#0e3a53_0%,_#0b1220_65%)]">
+    <div class="max-w-md w-full bg-[#11192c]/95 backdrop-blur-md rounded-3xl shadow-2xl border border-teal-500/30 p-6 md:p-8">
       <div class="text-center mb-6">
-        <div class="w-16 h-16 bg-gradient-to-tr from-teal-500 to-sky-500 text-white rounded-2xl flex items-center justify-center text-3xl mx-auto mb-3 shadow-lg">
-          <i class="fa-solid fa-flask-vial"></i>
+        <div class="w-16 h-16 bg-gradient-to-tr from-cyan-500 to-emerald-400 text-slate-950 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-3 shadow-lg shadow-emerald-500/20">
+          <i class="fa-solid fa-water"></i>
         </div>
-        <h1 class="text-2xl md:text-3xl font-extrabold text-teal-900">Science Quest M.3</h1>
-        <p class="text-sm text-slate-500 mt-1">ตะลุย 5 ภารกิจเกมวิทยาศาสตร์และการจัดการสิ่งแวดล้อม</p>
-        <div class="mt-2 inline-block bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold px-3 py-1 rounded-full">
-          <i class="fa-solid fa-circle-info"></i> เล่นได้เกมละ 3 ครั้ง • วัดระดับความเข้าใจจากคะแนนเฉลี่ย
-        </div>
+        <span class="inline-block bg-cyan-950/90 border border-cyan-500/40 text-cyan-300 text-xs font-semibold px-3 py-0.5 rounded-full mb-2">
+          ชุดเกมการเรียนรู้วิทยาศาสตร์ ม.3
+        </span>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Clean Flow Village</h1>
+        <p class="text-xs md:text-sm text-slate-400 mt-1">การบำบัดน้ำเสีย &amp; การจัดการสิ่งแวดล้อม (เล่นได้ด่านละ 3 ครั้ง)</p>
       </div>
 
-      <div class="grid grid-cols-2 bg-slate-100 p-1 rounded-2xl mb-5">
-        <button id="tab-login" onclick="switchAuthMode('login')" class="py-2 rounded-xl font-bold text-sm bg-white text-teal-700 shadow transition">
+      <div class="grid grid-cols-2 bg-[#0b1220] p-1 rounded-2xl mb-5 border border-slate-800">
+        <button id="tab-login" onclick="switchAuthMode('login')" class="py-2 rounded-xl font-bold text-sm bg-emerald-400 text-slate-950 shadow transition">
           เข้าสู่ระบบเดิม
         </button>
-        <button id="tab-register" onclick="switchAuthMode('register')" class="py-2 rounded-xl font-bold text-sm text-slate-500 hover:text-slate-700 transition">
+        <button id="tab-register" onclick="switchAuthMode('register')" class="py-2 rounded-xl font-bold text-sm text-slate-400 hover:text-white transition">
           ลงทะเบียนใหม่
         </button>
       </div>
 
       <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
         <div>
-          <label class="block text-sm font-bold text-slate-700 mb-1">ชื่อเล่น (Nickname)</label>
+          <label class="block text-xs font-bold text-slate-300 mb-1.5">ชื่อเล่นผู้เรียน (Nickname)</label>
           <div class="relative">
-            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500">
               <i class="fa-solid fa-user"></i>
             </span>
             <input type="text" id="input-nickname" required maxlength="20" placeholder="เช่น น้องน้ำใส, กัปตันวิทย์"
-              class="w-full pl-10 pr-4 py-3 rounded-xl border-2 border-slate-200 focus:border-teal-500 focus:outline-none font-medium">
+              class="w-full pl-10 pr-4 py-3 rounded-xl bg-[#0b1220] border border-slate-700 text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none font-medium">
           </div>
         </div>
 
         <div>
-          <label class="block text-sm font-bold text-slate-700 mb-1">รหัสผ่านตัวเลข 5 หลัก (PIN)</label>
+          <label class="block text-xs font-bold text-slate-300 mb-1.5">รหัสผ่านตัวเลข 5 หลัก (PIN)</label>
           <div class="relative">
-            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500">
               <i class="fa-solid fa-key"></i>
             </span>
-            <input type="password" id="input-pin" required maxlength="5" pattern="\d{5}" inputmode="numeric" placeholder="กรอกตัวเลข 5 หลัก เช่น 12345"
-              class="w-full pl-10 pr-12 py-3 rounded-xl border-2 border-slate-200 focus:border-teal-500 focus:outline-none font-bold tracking-widest text-lg">
-            <button type="button" onclick="togglePinVisibility()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
+            <input type="password" id="input-pin" required maxlength="5" pattern="\d{5}" inputmode="numeric" placeholder="ตัวเลข 5 หลัก เช่น 12345"
+              class="w-full pl-10 pr-12 py-3 rounded-xl bg-[#0b1220] border border-slate-700 text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none font-bold tracking-widest text-lg">
+            <button type="button" onclick="togglePinVisibility()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-white">
               <i id="pin-eye-icon" class="fa-solid fa-eye"></i>
             </button>
           </div>
         </div>
 
-        <div id="auth-error" class="hidden bg-rose-50 border border-rose-200 text-rose-600 text-xs font-bold p-3 rounded-xl"></div>
+        <div id="auth-error" class="hidden bg-rose-950/70 border border-rose-500/50 text-rose-300 text-xs font-semibold p-3 rounded-xl"></div>
 
-        <button type="submit" id="auth-submit-btn" class="w-full py-3.5 bg-gradient-to-r from-teal-500 to-sky-500 hover:from-teal-600 hover:to-sky-600 text-white font-extrabold rounded-xl shadow-lg transition transform active:scale-95 flex items-center justify-center gap-2">
-          <i class="fa-solid fa-right-to-bracket"></i>
-          <span id="auth-submit-text">เข้าสู่ระบบและเริ่มเล่นเกม</span>
+        <button type="submit" id="auth-submit-btn" class="w-full py-3.5 bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-extrabold rounded-xl shadow-lg shadow-emerald-500/20 transition transform active:scale-95 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-play"></i>
+          <span id="auth-submit-text">เข้าสู่ระบบและเริ่มผจญภัย</span>
         </button>
       </form>
 
-      <div id="connection-badge" class="mt-5 pt-4 border-t border-slate-100 text-center text-xs text-slate-500"></div>
+      <div id="connection-badge" class="mt-5 pt-4 border-t border-slate-800 text-center text-xs text-slate-400"></div>
     </div>
   </div>
 
-  <!-- ==================== 2. หน้าหลัก (แดชบอร์ด + 5 เกม + Top 5) ==================== -->
-  <div id="dashboard-view" class="hidden max-w-6xl mx-auto p-4 md:p-6 space-y-6">
-    
-    <!-- Header Bar -->
-    <header class="bg-white rounded-3xl p-4 md:p-5 shadow-md border-2 border-teal-100 flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <div class="w-12 h-12 bg-teal-500 text-white rounded-2xl flex items-center justify-center text-2xl shadow">
-          <i class="fa-solid fa-gamepad"></i>
+  <!-- ==================== 2. หน้าหลัก Clean Flow Village ==================== -->
+  <div id="dashboard-view" class="hidden min-h-screen flex flex-col">
+
+    <!-- Top Navigation Bar -->
+    <nav class="sticky top-0 z-30 bg-[#0d1526]/95 backdrop-blur-md border-b border-slate-800/90 px-4 lg:px-8 py-2.5">
+      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+        
+        <!-- Brand Logo -->
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-cyan-500/15 border border-cyan-400/40 text-cyan-400 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-water"></i>
+          </div>
+          <div>
+            <div class="font-extrabold text-base md:text-lg leading-tight text-cyan-400">Clean Flow Village</div>
+            <div class="text-[11px] text-slate-400 leading-tight">วิทยาศาสตร์ ม.3 • การบำบัดน้ำเสีย &amp; สภาพแวดล้อม</div>
+          </div>
         </div>
-        <div>
-          <h1 class="text-xl md:text-2xl font-extrabold text-teal-900">ศูนย์รวมเกมวิทยาศาสตร์ ม.3</h1>
-          <p class="text-xs md:text-sm text-slate-500">
-            สวัสดีคุณ <span id="user-display-name" class="font-bold text-teal-700"></span> • <span id="sync-status-label" class="font-semibold"></span>
+
+        <!-- Quick Stage Pills (ด่านที่ 1 - 6) -->
+        <div id="nav-stage-pills" class="hidden xl:flex items-center gap-1.5 flex-wrap"></div>
+
+        <!-- User Profile & Controls -->
+        <div class="flex items-center gap-2">
+          <div class="hidden sm:flex items-center gap-2 bg-[#131d33] border border-slate-700/80 px-3 py-1.5 rounded-xl text-xs">
+            <i class="fa-solid fa-user-astronaut text-emerald-400"></i>
+            <span id="user-display-name" class="font-bold text-white"></span>
+          </div>
+          <button onclick="refreshData()" title="อัปเดตข้อมูลล่าสุด" class="px-2.5 py-1.5 bg-[#131d33] hover:bg-slate-800 text-cyan-300 border border-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1">
+            <i class="fa-solid fa-rotate"></i>
+          </button>
+          <button onclick="logout()" title="ออกจากระบบ" class="px-2.5 py-1.5 bg-rose-950/50 hover:bg-rose-900/60 text-rose-300 border border-rose-800/60 rounded-xl text-xs font-bold transition flex items-center gap-1">
+            <i class="fa-solid fa-right-from-bracket"></i> <span class="hidden md:inline">ออก</span>
+          </button>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="max-w-6xl w-full mx-auto px-4 md:px-6 py-6 md:py-8 space-y-6 flex-1">
+
+      <!-- กล่องแจ้งเตือนข้อผิดพลาด (ถ้ามี) -->
+      <div id="sheet-alert-box" class="hidden bg-rose-950/70 border border-rose-500/50 text-rose-200 p-3.5 rounded-2xl text-xs flex items-center justify-between gap-3">
+        <div><i class="fa-solid fa-triangle-exclamation text-rose-400 mr-1.5"></i> <span id="sheet-alert-msg"></span></div>
+        <button onclick="document.getElementById('sheet-alert-box').classList.add('hidden')" class="text-rose-300 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- 1. Hero Banner -->
+      <section class="hero-banner rounded-3xl p-6 md:p-9 relative overflow-hidden">
+        <div class="relative z-10 max-w-3xl space-y-4">
+          <div class="inline-flex items-center gap-2 bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-semibold px-3.5 py-1 rounded-full">
+            ชุดเกมการเรียนรู้วิทยาศาสตร์ ม.3
+          </div>
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+            Clean Flow Village
+          </h1>
+          <p class="text-slate-300 text-sm md:text-base leading-relaxed">
+            ยินดีต้อนรับสู่นวัตกรรมการเรียนรู้การบำบัดน้ำเสียและการจัดการสิ่งแวดล้อม ร่วมผจญภัยผ่าน 5 ภารกิจหลัก และร่วมตอบแบบประเมินความพึงพอใจเพื่อสะสมคะแนนรวม!
           </p>
-        </div>
-      </div>
 
-      <div class="flex flex-wrap items-center gap-2">
-        <button onclick="refreshData()" class="px-3 py-2 bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold text-xs rounded-xl border border-sky-200 transition flex items-center gap-1.5">
-          <i class="fa-solid fa-rotate"></i> รีเฟรชข้อมูล
-        </button>
-        <button onclick="logout()" class="px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs rounded-xl border border-rose-200 transition flex items-center gap-1.5">
-          <i class="fa-solid fa-right-from-bracket"></i> ออกจากระบบ
-        </button>
-      </div>
-    </header>
-
-    <!-- กล่องแจ้งเตือนข้อผิดพลาดการเชื่อมต่อ Google Sheet (ถ้ามี) -->
-    <div id="sheet-alert-box" class="hidden bg-rose-50 border-2 border-rose-300 text-rose-800 p-4 rounded-2xl text-xs md:text-sm space-y-1">
-      <div class="font-extrabold flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation text-rose-600"></i> แจ้งเตือนระบบ:</div>
-      <p id="sheet-alert-msg"></p>
-    </div>
-
-    <!-- รายงานระดับความเข้าใจของผู้เล่น & สถิติ Top 5 -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      
-      <!-- รายงานคะแนนเฉลี่ยและระดับความเข้าใจ -->
-      <section class="lg:col-span-7 bg-white rounded-3xl p-5 md:p-6 shadow-md border-2 border-teal-100 flex flex-col justify-between">
-        <div>
-          <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
-            <h2 class="text-lg font-extrabold text-teal-900 flex items-center gap-2">
-              <i class="fa-solid fa-brain text-teal-500"></i> คะแนนระดับความเข้าใจของคุณ (เฉลี่ยจาก 3 ครั้ง)
-            </h2>
-            <span id="last-played-text" class="text-xs text-slate-400">อัปเดตล่าสุด: -</span>
-          </div>
-
-          <!-- 3 การ์ดสรุปผล -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
-            <div class="bg-gradient-to-br from-teal-50 to-emerald-50 p-3.5 rounded-2xl border-2 border-teal-200 text-center">
-              <span class="text-xs text-teal-800 font-bold block">คะแนนระดับความเข้าใจรวม</span>
-              <span id="stat-understanding-pct" class="text-2xl md:text-3xl font-black text-teal-700">0%</span>
-              <span id="stat-understanding-badge" class="mt-1 inline-block text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-600">ยังไม่มีข้อมูล</span>
-            </div>
-
-            <div class="bg-sky-50 p-3.5 rounded-2xl border border-sky-200 text-center">
-              <span class="text-xs text-sky-700 font-bold block">ผลรวมคะแนนเฉลี่ย 5 เกม</span>
-              <span id="stat-total-avg" class="text-2xl md:text-3xl font-black text-sky-700">0.00</span>
-              <span class="text-[11px] text-sky-600 block mt-1">เต็ม 629 คะแนนเฉลี่ย</span>
-            </div>
-
-            <div class="bg-amber-50 p-3.5 rounded-2xl border border-amber-200 text-center">
-              <span class="text-xs text-amber-700 font-bold block">ภารกิจที่ผ่านแล้ว</span>
-              <span id="stat-completed-count" class="text-2xl md:text-3xl font-black text-amber-600">0 / 5</span>
-              <span class="text-[11px] text-amber-700 block mt-1">เล่นได้สูงสุดเกมละ 3 ครั้ง</span>
-            </div>
-          </div>
-
-          <!-- แถบวัดระดับความเข้าใจ -->
-          <div class="mb-4">
-            <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
-              <span>มาตรวัดระดับความเข้าใจภาพรวมทั้ง 5 บทเรียน</span>
-              <span id="bar-label">0%</span>
-            </div>
-            <div class="w-full h-4 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
-              <div id="overall-progress-bar" class="h-full bg-gradient-to-r from-teal-400 via-emerald-400 to-sky-500 rounded-full transition-all duration-500" style="width: 0%"></div>
-            </div>
+          <div class="pt-2 flex flex-wrap items-center gap-3">
+            <button onclick="startContinuousAdventure()" class="px-6 py-3 bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-extrabold text-sm md:text-base rounded-xl shadow-lg shadow-emerald-500/20 transition transform active:scale-95 flex items-center gap-2">
+              <i class="fa-solid fa-play"></i> เริ่มการผจญภัย (เล่นต่อเนื่อง)
+            </button>
+            <button onclick="scrollToStats()" class="px-5 py-3 bg-[#0e1b2e]/85 hover:bg-[#152640] text-cyan-200 border border-cyan-500/40 font-bold text-sm md:text-base rounded-xl transition flex items-center gap-2">
+              <i class="fa-solid fa-shield-halved text-cyan-400"></i> ดูสถิติและคะแนน
+            </button>
           </div>
         </div>
-
-        <!-- สรุปคะแนนเฉลี่ยรายเกม -->
-        <div id="mini-progress-list" class="space-y-2 pt-3 border-t border-slate-100 text-xs"></div>
       </section>
 
-      <!-- สถิติผู้เล่นระดับความเข้าใจสูงสุด 5 อันดับ -->
-      <section class="lg:col-span-5 bg-white rounded-3xl p-5 md:p-6 shadow-md border-2 border-amber-200">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-lg font-extrabold text-amber-800 flex items-center gap-2">
-            <i class="fa-solid fa-trophy text-amber-500"></i> ระดับความเข้าใจสูงสุด 5 อันดับ
+      <!-- 2. แถวการ์ดสรุปสถานะ 4 ช่อง -->
+      <section class="grid grid-cols-2 lg:grid-cols-4 gap-3.5 md:gap-4">
+        
+        <!-- ช่องที่ 1: คะแนนเฉลี่ยรวม -->
+        <div class="stat-box rounded-2xl p-4 flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center text-xl shrink-0">
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="text-[11px] text-slate-400 font-medium truncate">คะแนนเฉลี่ยรวม (3 ครั้ง)</div>
+            <div id="stat-total-avg" class="text-xl md:text-2xl font-extrabold text-amber-400 leading-tight">0.00</div>
+          </div>
+        </div>
+
+        <!-- ช่องที่ 2: ด่านที่ผ่านแล้ว -->
+        <div class="stat-box rounded-2xl p-4 flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-xl shrink-0">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="text-[11px] text-slate-400 font-medium truncate">ด่านที่ผ่านแล้ว</div>
+            <div id="stat-completed-count" class="text-xl md:text-2xl font-extrabold text-emerald-400 leading-tight">0 / 6</div>
+          </div>
+        </div>
+
+        <!-- ช่องที่ 3: ระดับความเข้าใจเฉลี่ย -->
+        <div class="stat-box rounded-2xl p-4 flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 flex items-center justify-center text-xl shrink-0">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="text-[11px] text-slate-400 font-medium truncate">ระดับความเข้าใจเฉลี่ย</div>
+            <div class="flex items-baseline gap-1.5">
+              <span id="stat-understanding-pct" class="text-xl md:text-2xl font-extrabold text-cyan-400 leading-tight">0%</span>
+              <span id="stat-understanding-short" class="text-[11px] font-bold text-slate-400 truncate"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ช่องที่ 4: สถานะการประเมิน -->
+        <div class="stat-box rounded-2xl p-4 flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-purple-500/15 border border-purple-500/30 text-purple-400 flex items-center justify-center text-xl shrink-0">
+            <i class="fa-solid fa-clipboard-check"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="text-[11px] text-slate-400 font-medium truncate">สถานะการประเมิน</div>
+            <div id="stat-survey-status" class="text-lg md:text-xl font-extrabold text-amber-400 leading-tight">ยังไม่ทำ</div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 3. หัวข้อ ด่านการเรียนรู้ทั้งหมด (6 ด่าน) -->
+      <section class="space-y-4 pt-1">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <h2 class="text-base md:text-lg font-extrabold text-white flex items-center gap-2">
+            <span class="w-6 h-6 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xs">
+              <i class="fa-solid fa-gamepad"></i>
+            </span>
+            <span>ด่านการเรียนรู้ทั้งหมด (6 ด่าน)</span>
           </h2>
-          <span class="text-xs bg-amber-100 text-amber-800 font-bold px-2.5 py-1 rounded-full">Top 5</span>
+          <span class="text-xs text-slate-400">
+            * แต่ละเกมเล่นได้สูงสุด <strong class="text-emerald-400">3 ครั้ง</strong> เพื่อคำนวณคะแนนเฉลี่ยวัดระดับความเข้าใจ
+          </span>
         </div>
 
-        <div id="leaderboard-container" class="space-y-2.5">
-          <div class="text-center text-sm text-slate-400 py-8">ยังไม่มีข้อมูลสถิติคะแนน</div>
-        </div>
+        <!-- Grid 6 ด่าน (3 คอลัมน์ x 2 แถว) -->
+        <div id="games-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
       </section>
 
-    </div>
+      <!-- 4. ตารางรายละเอียดคะแนนเฉลี่ยรายครั้ง + Top 5 ระดับความเข้าใจ -->
+      <section id="stats-leaderboard-section" class="pt-4 grid grid-cols-1 lg:grid-cols-12 gap-5">
+        
+        <!-- รายงานระดับความเข้าใจรายบทเรียน -->
+        <div class="lg:col-span-7 dark-card rounded-3xl p-5 md:p-6 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 class="text-base md:text-lg font-extrabold text-white flex items-center gap-2">
+              <i class="fa-solid fa-chart-column text-emerald-400"></i> สรุปคะแนนเฉลี่ยระดับความเข้าใจรายด่าน
+            </h3>
+            <span id="stat-understanding-badge" class="text-xs font-extrabold px-3 py-1 rounded-full bg-slate-800 text-slate-300">ยังไม่มีข้อมูล</span>
+          </div>
 
-    <!-- รายการเกมทั้ง 5 เกม -->
-    <section>
-      <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
-        <h2 class="text-xl font-extrabold text-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-layer-group text-teal-600"></i> เลือกด่านเกมวิทยาศาสตร์ทั้ง 5 เกม (จำกัดเกมละ 3 ครั้ง)
-        </h2>
-      </div>
-      <div id="games-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-    </section>
+          <div>
+            <div class="flex justify-between text-xs text-slate-400 mb-1.5">
+              <span>ความเข้าใจสะสมเฉลี่ยทั้ง 5 เกม</span>
+              <span id="bar-label" class="font-bold text-emerald-400">0%</span>
+            </div>
+            <div class="w-full h-3 bg-[#0b1220] rounded-full overflow-hidden p-0.5 border border-slate-800">
+              <div id="overall-progress-bar" class="h-full bg-gradient-to-r from-cyan-400 via-emerald-400 to-amber-400 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+          </div>
 
+          <div id="mini-progress-list" class="space-y-2.5 pt-1"></div>
+        </div>
+
+        <!-- Top 5 Leaderboard -->
+        <div class="lg:col-span-5 dark-card rounded-3xl p-5 md:p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base md:text-lg font-extrabold text-amber-400 flex items-center gap-2">
+              <i class="fa-solid fa-trophy"></i> ระดับความเข้าใจสูงสุด 5 อันดับ
+            </h3>
+            <span class="text-[11px] bg-amber-500/15 text-amber-300 border border-amber-500/30 font-bold px-2.5 py-0.5 rounded-full">Top 5</span>
+          </div>
+
+          <div id="leaderboard-container" class="space-y-2.5">
+            <div class="text-center text-xs text-slate-500 py-8">ยังไม่มีข้อมูลสถิติคะแนน</div>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
   </div>
 
   <!-- ==================== 3. หน้าต่างเล่นเกม (Modal Iframe เต็มจอ) ==================== -->
   <div id="game-player-modal" class="hidden fixed inset-0 z-50 bg-slate-950 flex flex-col">
-    <div class="bg-slate-900 text-white px-4 py-2.5 flex flex-wrap items-center justify-between gap-2 border-b border-slate-700">
+    <div class="bg-[#0d1526] text-white px-4 py-2.5 flex flex-wrap items-center justify-between gap-2 border-b border-slate-800">
       <div class="flex items-center gap-3">
-        <button id="btn-close-game" onclick="closeGameModal()" class="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs md:text-sm rounded-xl transition flex items-center gap-1.5">
-          <i class="fa-solid fa-arrow-left"></i> <span id="close-game-text">กลับหน้าหลัก & ดูคะแนนเฉลี่ย</span>
+        <button id="btn-close-game" onclick="closeGameModal()" class="px-3.5 py-1.5 bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-extrabold text-xs md:text-sm rounded-xl transition flex items-center gap-1.5">
+          <i class="fa-solid fa-arrow-left"></i> <span id="close-game-text">กลับหน้าหลัก &amp; ดูคะแนนเฉลี่ย</span>
         </button>
         <span id="active-game-title" class="font-bold text-sm md:text-base text-cyan-300 truncate">กำลังเล่นเกม...</span>
       </div>
-      <div class="flex items-center gap-3 text-xs">
-        <span id="modal-attempt-badge" class="bg-teal-900 text-teal-200 border border-teal-600 px-3 py-1 rounded-full font-bold">
+      <div class="flex items-center gap-2.5 text-xs">
+        <span id="modal-attempt-badge" class="bg-cyan-950 text-cyan-300 border border-cyan-500/40 px-3 py-1 rounded-full font-bold">
           ครั้งที่ 1 / 3
         </span>
-        <span class="text-slate-300 hidden sm:inline">
+        <span class="text-slate-400 hidden sm:inline">
           ผู้เล่น: <span id="modal-player-name" class="font-bold text-emerald-400"></span>
         </span>
       </div>
     </div>
 
-    <!-- แถบแจ้งเตือนเมื่อเล่นครบ 3 ครั้งแล้วขณะอยู่ในหน้าต่างเกม -->
-    <div id="modal-limit-banner" class="hidden bg-rose-600 text-white px-4 py-2.5 text-center text-xs md:text-sm font-extrabold flex items-center justify-center gap-2">
+    <div id="modal-limit-banner" class="hidden bg-rose-600 text-white px-4 py-2 text-center text-xs md:text-sm font-extrabold flex items-center justify-center gap-2">
       <i class="fa-solid fa-lock"></i>
-      <span>คุณเล่นเกมนี้ครบ 3 ครั้งตามกำหนดแล้ว! ระบบได้คำนวณคะแนนเฉลี่ยเรียบร้อย กรุณากดปุ่ม "กลับหน้าหลัก" ด้านบนซ้าย</span>
+      <span>คุณเล่นเกมนี้ครบ 3 ครั้งตามกำหนดแล้ว! ระบบคำนวณคะแนนเฉลี่ยเรียบร้อย กรุณากดปุ่ม "กลับหน้าหลัก"</span>
     </div>
 
     <iframe id="game-iframe" src="" class="w-full flex-1 border-0 bg-white"></iframe>
   </div>
 
-  <!-- แจ้งเตือนเมื่อบันทึกคะแนนสำเร็จ -->
-  <div id="save-toast" class="hidden fixed bottom-5 right-5 z-50 bg-emerald-600 text-white px-5 py-3 rounded-2xl shadow-2xl font-bold text-sm flex items-center gap-2">
-    <i class="fa-solid fa-circle-check text-xl"></i>
+  <!-- ==================== 4. หน้าต่างด่านที่ 6: แบบประเมินความพึงพอใจ ==================== -->
+  <div id="survey-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="max-w-lg w-full bg-[#11192c] border border-amber-500/40 rounded-3xl shadow-2xl p-6 md:p-7 space-y-5">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-amber-500/15 border border-amber-500/40 text-amber-400 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-clipboard-list"></i>
+          </div>
+          <div>
+            <span class="text-[11px] font-bold text-amber-400 uppercase tracking-wider">ด่านที่ 6 • ขั้นตอนสุดท้าย</span>
+            <h3 class="text-xl font-extrabold text-white">แบบประเมินความพึงพอใจ</h3>
+          </div>
+        </div>
+        <button onclick="closeSurveyModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <p class="text-xs text-slate-300 leading-relaxed">
+        ร่วมประเมินความพึงพอใจต่อนวัตกรรมสื่อการเรียนรู้ <strong class="text-cyan-300">Clean Flow Village</strong> เพื่อบันทึกสถานะสำเร็จครบทั้ง 6 ด่าน
+      </p>
+
+      <form id="survey-form" onsubmit="submitSurvey(event)" class="space-y-4">
+        <div class="space-y-3 bg-[#0b1220] p-4 rounded-2xl border border-slate-800 text-xs">
+          <div>
+            <label class="block font-bold text-slate-200 mb-1">1. ความสนุกและรูปแบบภาพกราฟิกของเกมทั้ง 5 ด่าน</label>
+            <select id="q1-rating" class="w-full bg-[#11192c] border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-amber-400 focus:outline-none">
+              <option value="5">⭐⭐⭐⭐⭐ 5 - ดีมากที่สุด</option>
+              <option value="4">⭐⭐⭐⭐ 4 - ดีมาก</option>
+              <option value="3">⭐⭐⭐ 3 - ปานกลาง</option>
+              <option value="2">⭐⭐ 2 - พอใช้</option>
+              <option value="1">⭐ 1 - ควรปรับปรุง</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-200 mb-1">2. ความเข้าใจเนื้อหาวิทยาศาสตร์เรื่องการบำบัดน้ำเสีย ม.3</label>
+            <select id="q2-rating" class="w-full bg-[#11192c] border border-slate-700 rounded-xl px-3 py-2 text-white focus:border-amber-400 focus:outline-none">
+              <option value="5">⭐⭐⭐⭐⭐ 5 - เข้าใจชัดเจนมาก</option>
+              <option value="4">⭐⭐⭐⭐ 4 - เข้าใจดี</option>
+              <option value="3">⭐⭐⭐ 3 - เข้าใจปานกลาง</option>
+              <option value="2">⭐⭐ 2 - เข้าใจเล็กน้อย</option>
+              <option value="1">⭐ 1 - ยังไม่ค่อยเข้าใจ</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-200 mb-1">3. ข้อเสนอแนะเพิ่มเติม (ถ้ามี)</label>
+            <textarea id="q3-comment" rows="2" placeholder="พิมพ์ความคิดเห็นหรือความประทับใจ..." class="w-full bg-[#11192c] border border-slate-700 rounded-xl px-3 py-2 text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"></textarea>
+          </div>
+        </div>
+
+        <button type="submit" id="survey-submit-btn" class="w-full py-3 bg-orange-500 hover:bg-orange-400 text-slate-950 font-extrabold text-sm rounded-xl shadow-lg shadow-orange-500/20 transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-paper-plane"></i> ส่งแบบประเมินและบันทึกผล
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast แจ้งเตือน -->
+  <div id="save-toast" class="hidden fixed bottom-5 right-5 z-50 bg-emerald-400 text-slate-950 px-5 py-3 rounded-2xl shadow-2xl font-extrabold text-xs md:text-sm flex items-center gap-2">
+    <i class="fa-solid fa-circle-check text-lg"></i>
     <span id="save-toast-text">บันทึกคะแนนเรียบร้อยแล้ว!</span>
   </div>
 
@@ -231,19 +395,79 @@
 
     const MAX_PLAYS = 3;
 
-    const GAMES_CONFIG = [
-      { id: 1, title: "1. Stinky Creek (บำบัดน้ำเสียทางกายภาพ)", desc: "ผจญภัยเก็บกล่องคำถาม 10 ข้อ ตะลุยด่านฟื้นฟูลำธารน้ำเสียทางกายภาพ ม.3", file: "game1_stinky_creek.html", maxScore: 23, icon: "🌊", color: "from-cyan-500 to-teal-600" },
-      { id: 2, title: "2. Dirty Drop (แยกสารแขวนลอย)", desc: "ห้องแล็บพาสเทล ลากสารแขวนลอยทั้ง 6 ชนิดลงอุปกรณ์แยกสารที่ถูกต้อง", file: "game2_dirty_drop.html", maxScore: 6, icon: "🧪", color: "from-teal-400 to-emerald-500" },
-      { id: 3, title: "3. Foul Pool (บำบัดน้ำเสียทางชีวภาพ)", desc: "จับคู่กระบวนการและเครื่องมือบำบัดน้ำเสียทางชีวภาพพร้อมภาพประกอบ", file: "game3_foul_pool.html", maxScore: 300, icon: "🦠", color: "from-sky-400 to-indigo-500" },
-      { id: 4, title: "4. Bin It Right (คัดแยกขยะรักษ์โลก)", desc: "คัดแยกขยะ 20 ชิ้นลงถังขยะ 4 ประเภทให้ถูกต้องภายในเวลา 100 วินาที", file: "game4_bin_it_right.html", maxScore: 200, icon: "♻️", color: "from-amber-400 to-orange-500" },
-      { id: 5, title: "5. Bio-Waste to Compost (เปลี่ยนขยะเป็นปุ๋ย)", desc: "ภารกิจ 3 ขั้นตอน: ตักสาหร่าย ให้อาหารไก่ และหมักปุ๋ยชีวภาพ", file: "game5_bio.html", maxScore: 100, icon: "🌱", color: "from-lime-500 to-green-600" }
+    // จัดเรียงลำดับด่านที่ 1-5 ตามภาพที่แนบ + ด่านที่ 6 แบบประเมินความพึงพอใจ
+    const STAGES_CONFIG = [
+      {
+        stageNum: 1,
+        gameId: 1,
+        shortName: "1. Stinky Creek",
+        title: "1. Stinky Creek",
+        desc: "การบำบัดน้ำเสียทางกายภาพ - ตะลุยด่านเก็บเศษขยะ ตักขยะ และตอบคำถามหลังบทเรียนวิทยาศาสตร์ 10 ข้อ",
+        file: "game1_stinky_creek.html",
+        maxScore: 23,
+        iconClass: "fa-solid fa-mountain-sun",
+        iconColor: "text-emerald-400",
+        btnClass: "bg-cyan-500 hover:bg-cyan-400 text-slate-950",
+        btnText: "เข้าสู่ด่านที่ 1"
+      },
+      {
+        stageNum: 2,
+        gameId: 2,
+        shortName: "2. Dirty Drop",
+        title: "2. Dirty Drop",
+        desc: "การแยกสารแขวนลอย - เรียนรู้การกรอง ตกตะกอน เหวี่ยงแยก และการใช้แม่เหล็กในห้องแล็บพาสเทล",
+        file: "game2_dirty_drop.html",
+        maxScore: 6,
+        iconClass: "fa-solid fa-vial",
+        iconColor: "text-teal-300",
+        btnClass: "bg-emerald-400 hover:bg-emerald-300 text-slate-950",
+        btnText: "เข้าสู่ด่านที่ 2"
+      },
+      {
+        stageNum: 3,
+        gameId: 3,
+        shortName: "3. Foul Pool",
+        title: "3. Foul Pool",
+        desc: "การบำบัดน้ำเสียทางชีวภาพ - เกมจับคู่ภาพเครื่องมือบำบัดน้ำเสียกับหลักการทำงานทางวิทยาศาสตร์",
+        file: "game3_foul_pool.html",
+        maxScore: 300,
+        iconClass: "fa-solid fa-bacteria",
+        iconColor: "text-sky-400",
+        btnClass: "bg-sky-500 hover:bg-sky-400 text-slate-950",
+        btnText: "เข้าสู่ด่านที่ 3"
+      },
+      {
+        stageNum: 4,
+        gameId: 5,
+        shortName: "4. Bio Compost",
+        title: "4. Bio Compost",
+        desc: "เปลี่ยนขยะชีวภาพเป็นปุ๋ยหมัก - ตักสาหร่าย ให้อาหารไก่ และผสมปุ๋ยหมักชีวภาพครบ 3 สเตจ",
+        file: "game5_bio.html",
+        maxScore: 100,
+        iconClass: "fa-solid fa-seedling",
+        iconColor: "text-lime-400",
+        btnClass: "bg-emerald-500 hover:bg-emerald-400 text-slate-950",
+        btnText: "เข้าสู่ด่านที่ 4"
+      },
+      {
+        stageNum: 5,
+        gameId: 4,
+        shortName: "5. Bin It Right",
+        title: "5. Bin It Right",
+        desc: "การคัดแยกขยะถูกถัง - แยกขยะเปียก ของรีไซเคิล ของอันตราย และขยะทั่วไปก่อนหมดเวลา",
+        file: "game4_bin_it_right.html",
+        maxScore: 200,
+        iconClass: "fa-solid fa-recycle",
+        iconColor: "text-green-400",
+        btnClass: "bg-amber-500 hover:bg-amber-400 text-slate-950",
+        btnText: "เข้าสู่ด่านที่ 5"
+      }
     ];
 
     let authMode = "login";
     let currentPlayer = null;
     let leaderboardData = [];
     let isSaving = false;
-    let activeGameId = null;
 
     function hasValidGasUrl() {
       return typeof GAS_WEB_APP_URL === "string" &&
@@ -251,32 +475,31 @@
              GAS_WEB_APP_URL.trim().endsWith("/exec");
     }
 
-    // แปลงเปอร์เซ็นต์เป็นระดับความเข้าใจ
     function getUnderstandingLevel(pct, playsCount = 1) {
       if (playsCount === 0 || pct <= 0) {
-        return { label: "ยังไม่มีข้อมูล", badgeClass: "bg-slate-200 text-slate-600", textClass: "text-slate-500" };
+        return { short: "รอข้อมูล", label: "ยังไม่มีข้อมูล", badgeClass: "bg-slate-800 text-slate-400 border border-slate-700" };
       }
       if (pct >= 80) {
-        return { label: "🌟 ดีเยี่ยม (เข้าใจลึกซึ้ง)", badgeClass: "bg-emerald-100 text-emerald-800 border border-emerald-300", textClass: "text-emerald-700" };
+        return { short: "ดีเยี่ยม", label: "🌟 ดีเยี่ยม (เข้าใจลึกซึ้ง)", badgeClass: "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40" };
       }
       if (pct >= 60) {
-        return { label: "👍 ดีมาก (เข้าใจชัดเจน)", badgeClass: "bg-sky-100 text-sky-800 border border-sky-300", textClass: "text-sky-700" };
+        return { short: "ดีมาก", label: "👍 ดีมาก (เข้าใจชัดเจน)", badgeClass: "bg-sky-500/20 text-sky-300 border border-sky-500/40" };
       }
       if (pct >= 40) {
-        return { label: "📘 ปานกลาง (กำลังพัฒนา)", badgeClass: "bg-amber-100 text-amber-800 border border-amber-300", textClass: "text-amber-700" };
+        return { short: "ปานกลาง", label: "📘 ปานกลาง (กำลังพัฒนา)", badgeClass: "bg-amber-500/20 text-amber-300 border border-amber-500/40" };
       }
-      return { label: "🌱 เริ่มต้น (ควรทบทวน)", badgeClass: "bg-rose-100 text-rose-800 border border-rose-300", textClass: "text-rose-700" };
+      return { short: "เริ่มต้น", label: "🌱 เริ่มต้น (ควรทบทวน)", badgeClass: "bg-rose-500/20 text-rose-300 border border-rose-500/40" };
     }
 
     window.addEventListener("DOMContentLoaded", () => {
       updateConnectionBadge();
-      const savedSession = localStorage.getItem("sci_hub_current_user_v2");
+      const savedSession = localStorage.getItem("cfv_current_user");
       if (savedSession) {
         currentPlayer = JSON.parse(savedSession);
         showDashboard();
         if (hasValidGasUrl()) refreshData();
       } else {
-        const db = JSON.parse(localStorage.getItem("sci_hub_local_db_v2") || "{}");
+        const db = JSON.parse(localStorage.getItem("cfv_local_db") || "{}");
         leaderboardData = buildLocalTop5(db);
         if (hasValidGasUrl()) fetchLeaderboardOnly();
       }
@@ -284,13 +507,11 @@
 
     function updateConnectionBadge() {
       const badge = document.getElementById("connection-badge");
-      const syncLabel = document.getElementById("sync-status-label");
+      if (!badge) return;
       if (hasValidGasUrl()) {
-        badge.innerHTML = `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-cloud-check"></i> เชื่อมต่อ Google Sheet พร้อมใช้งาน</span>`;
-        if (syncLabel) syncLabel.innerHTML = `<span class="text-emerald-600">ซิงก์ข้อมูลกับ Google Sheet อัตโนมัติ</span>`;
+        badge.innerHTML = `<span class="text-emerald-400 font-semibold"><i class="fa-solid fa-cloud-check"></i> เชื่อมต่อฐานข้อมูล Google Sheet พร้อมใช้งาน</span>`;
       } else {
-        badge.innerHTML = `<span class="text-amber-600 font-bold"><i class="fa-solid fa-database"></i> โหมดบันทึกในเครื่อง (ยังไม่ได้ใส่ลิงก์ /exec ของ Google Sheet)</span>`;
-        if (syncLabel) syncLabel.innerHTML = `<span class="text-amber-600">บันทึกคะแนนในเครื่อง</span>`;
+        badge.innerHTML = `<span class="text-cyan-400 font-semibold"><i class="fa-solid fa-database"></i> โหมดบันทึกคะแนนในเครื่องพร้อมใช้งาน (ใส่ลิงก์ /exec เพื่อซิงก์ออนไลน์)</span>`;
       }
     }
 
@@ -308,13 +529,13 @@
       document.getElementById("auth-error").classList.add("hidden");
 
       if (mode === "login") {
-        tabLogin.className = "py-2 rounded-xl font-bold text-sm bg-white text-teal-700 shadow transition";
-        tabReg.className = "py-2 rounded-xl font-bold text-sm text-slate-500 hover:text-slate-700 transition";
-        btnText.textContent = "เข้าสู่ระบบและเริ่มเล่นเกม";
+        tabLogin.className = "py-2 rounded-xl font-bold text-sm bg-emerald-400 text-slate-950 shadow transition";
+        tabReg.className = "py-2 rounded-xl font-bold text-sm text-slate-400 hover:text-white transition";
+        btnText.textContent = "เข้าสู่ระบบและเริ่มผจญภัย";
       } else {
-        tabReg.className = "py-2 rounded-xl font-bold text-sm bg-white text-teal-700 shadow transition";
-        tabLogin.className = "py-2 rounded-xl font-bold text-sm text-slate-500 hover:text-slate-700 transition";
-        btnText.textContent = "ลงทะเบียนใหม่และเริ่มเล่นเกม";
+        tabReg.className = "py-2 rounded-xl font-bold text-sm bg-emerald-400 text-slate-950 shadow transition";
+        tabLogin.className = "py-2 rounded-xl font-bold text-sm text-slate-400 hover:text-white transition";
+        btnText.textContent = "ลงทะเบียนใหม่และเริ่มผจญภัย";
       }
     }
 
@@ -325,9 +546,8 @@
       icon.className = input.type === "password" ? "fa-solid fa-eye" : "fa-solid fa-eye-slash";
     }
 
-    // บันทึกข้อมูลลง LocalStorage (จำกัดไม่เกิน 3 ครั้ง/เกม + คำนวณค่าเฉลี่ย)
-    function saveToLocalDb(nickname, pin, gameId, score, completed) {
-      const db = JSON.parse(localStorage.getItem("sci_hub_local_db_v2") || "{}");
+    function saveToLocalDb(nickname, pin, gameId, score, completed, surveyDone = null) {
+      const db = JSON.parse(localStorage.getItem("cfv_local_db") || "{}");
       const key = nickname.toLowerCase();
       const now = new Date().toLocaleString("th-TH");
 
@@ -336,11 +556,16 @@
           nickname,
           pin: pin || "00000",
           games: [1, 2, 3, 4, 5].map(id => ({ id, playsCount: 0, history: [], avgScore: 0, completed: false })),
+          surveyDone: false,
           totalAvgScore: 0,
           understandingPct: 0,
           completedCount: 0,
           lastPlayed: now
         };
+      }
+
+      if (surveyDone === true) {
+        db[key].surveyDone = true;
       }
 
       if (gameId) {
@@ -355,22 +580,23 @@
           g.avgScore = Number((sum / g.playsCount).toFixed(2));
           if (completed) g.completed = true;
         }
-
-        let totalAvg = 0;
-        let pctSum = 0;
-        db[key].games.forEach(item => {
-          const cfg = GAMES_CONFIG.find(c => c.id === item.id);
-          totalAvg += item.avgScore;
-          pctSum += cfg ? (item.avgScore / cfg.maxScore) * 100 : 0;
-        });
-
-        db[key].totalAvgScore = Number(totalAvg.toFixed(2));
-        db[key].understandingPct = Math.round(pctSum / 5);
-        db[key].completedCount = db[key].games.filter(x => x.completed).length;
-        db[key].lastPlayed = now;
       }
 
-      localStorage.setItem("sci_hub_local_db_v2", JSON.stringify(db));
+      let totalAvg = 0;
+      let pctSum = 0;
+      db[key].games.forEach(item => {
+        const cfg = STAGES_CONFIG.find(c => c.gameId === item.id);
+        totalAvg += item.avgScore;
+        pctSum += cfg ? (item.avgScore / cfg.maxScore) * 100 : 0;
+      });
+
+      db[key].totalAvgScore = Number(totalAvg.toFixed(2));
+      db[key].understandingPct = Math.round(pctSum / 5);
+      const gamesDone = db[key].games.filter(x => x.completed).length;
+      db[key].completedCount = gamesDone + (db[key].surveyDone ? 1 : 0);
+      db[key].lastPlayed = now;
+
+      localStorage.setItem("cfv_local_db", JSON.stringify(db));
       return { limitReached: false, player: db[key], leaderboard: buildLocalTop5(db) };
     }
 
@@ -388,7 +614,7 @@
 
     async function apiCall(payload) {
       if (!hasValidGasUrl()) {
-        const db = JSON.parse(localStorage.getItem("sci_hub_local_db_v2") || "{}");
+        const db = JSON.parse(localStorage.getItem("cfv_local_db") || "{}");
         const key = payload.nickname.toLowerCase();
         if (payload.action === "register") {
           if (db[key]) return { status: "error", message: "ชื่อเล่นนี้มีผู้ใช้งานแล้ว กรุณากดเข้าสู่ระบบเดิม" };
@@ -403,6 +629,10 @@
         if (payload.action === "save_progress") {
           const res = saveToLocalDb(payload.nickname, payload.pin, payload.gameId, payload.score, payload.completed);
           if (res.limitReached) return { status: "limit_reached", message: "เล่นครบ 3 ครั้งแล้ว", ...res };
+          return { status: "ok", ...res };
+        }
+        if (payload.action === "save_survey") {
+          const res = saveToLocalDb(payload.nickname, payload.pin, null, 0, false, true);
           return { status: "ok", ...res };
         }
       }
@@ -424,8 +654,8 @@
       const rawText = await response.text();
       try {
         return JSON.parse(rawText);
-      } catch (parseErr) {
-        throw new Error("Google Apps Script ตอบกลับไม่ใช่ JSON (กรุณาเช็กสิทธิ์ Anyone และลิงก์ /exec)");
+      } catch (e) {
+        throw new Error("Google Apps Script ตอบกลับไม่ใช่ JSON (ตรวจสอบสิทธิ์ Anyone และลิงก์ /exec)");
       }
     }
 
@@ -449,11 +679,15 @@
       try {
         const res = await apiCall({ action: authMode, nickname, pin });
         if (res.status === "ok") {
-          currentPlayer = res.player;
-          currentPlayer.pin = pin;
-          leaderboardData = res.leaderboard || [];
-          saveToLocalDb(nickname, pin);
-          localStorage.setItem("sci_hub_current_user_v2", JSON.stringify(currentPlayer));
+          const localRes = saveToLocalDb(nickname, pin);
+          currentPlayer = {
+            ...localRes.player,
+            ...res.player,
+            surveyDone: Boolean(res.player.surveyDone || localRes.player.surveyDone),
+            pin
+          };
+          leaderboardData = res.leaderboard || localRes.leaderboard;
+          localStorage.setItem("cfv_current_user", JSON.stringify(currentPlayer));
           showDashboard();
         } else {
           errBox.textContent = res.message || "เกิดข้อผิดพลาด กรุณาลองใหม่";
@@ -478,10 +712,10 @@
         });
         if (res.status === "ok") {
           const pin = currentPlayer.pin;
-          currentPlayer = res.player;
-          currentPlayer.pin = pin;
+          const surveyFlag = Boolean(res.player.surveyDone || currentPlayer.surveyDone);
+          currentPlayer = { ...res.player, surveyDone: surveyFlag, pin };
           leaderboardData = res.leaderboard || leaderboardData;
-          localStorage.setItem("sci_hub_current_user_v2", JSON.stringify(currentPlayer));
+          localStorage.setItem("cfv_current_user", JSON.stringify(currentPlayer));
           renderDashboard();
           showSaveToast("อัปเดตข้อมูลล่าสุดเรียบร้อยแล้ว!");
         }
@@ -501,181 +735,273 @@
     function showDashboard() {
       document.getElementById("auth-view").classList.add("hidden");
       document.getElementById("dashboard-view").classList.remove("hidden");
-      updateConnectionBadge();
       renderDashboard();
     }
 
     function logout() {
-      localStorage.removeItem("sci_hub_current_user_v2");
+      localStorage.removeItem("cfv_current_user");
       currentPlayer = null;
       document.getElementById("dashboard-view").classList.add("hidden");
       document.getElementById("auth-view").classList.remove("hidden");
       document.getElementById("input-pin").value = "";
     }
 
+    function scrollToStats() {
+      const el = document.getElementById("stats-leaderboard-section");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+
+    function startContinuousAdventure() {
+      if (!currentPlayer) return;
+      for (const st of STAGES_CONFIG) {
+        const g = (currentPlayer.games || []).find(x => x.id === st.gameId) || { playsCount: 0, completed: false };
+        if (!g.completed && g.playsCount < MAX_PLAYS) {
+          openGame(st.gameId);
+          return;
+        }
+      }
+      if (!currentPlayer.surveyDone) {
+        openSurveyModal();
+        return;
+      }
+      for (const st of STAGES_CONFIG) {
+        const g = (currentPlayer.games || []).find(x => x.id === st.gameId) || { playsCount: 0 };
+        if (g.playsCount < MAX_PLAYS) {
+          openGame(st.gameId);
+          return;
+        }
+      }
+      showSaveToast("คุณพิชิตครบทุกด่านและครบโควตา 3 ครั้งแล้ว ยอดเยี่ยมมาก!");
+    }
+
     function renderDashboard() {
       if (!currentPlayer) return;
       document.getElementById("user-display-name").textContent = currentPlayer.nickname;
-      document.getElementById("last-played-text").textContent = "อัปเดตล่าสุด: " + (currentPlayer.lastPlayed || "-");
 
       const totalAvgScore = Number(currentPlayer.totalAvgScore || 0);
       const understandingPct = Number(currentPlayer.understandingPct || 0);
-      const completedCount = Number(currentPlayer.completedCount || 0);
-      const totalPlaysAllGames = (currentPlayer.games || []).reduce((s, g) => s + (g.playsCount || 0), 0);
+      const gamesDoneCount = (currentPlayer.games || []).filter(g => g.completed).length;
+      const surveyDone = Boolean(currentPlayer.surveyDone);
+      const totalDoneOutOf6 = gamesDoneCount + (surveyDone ? 1 : 0);
+      const totalPlaysAll = (currentPlayer.games || []).reduce((s, g) => s + (g.playsCount || 0), 0);
 
-      const overallLevel = getUnderstandingLevel(understandingPct, totalPlaysAllGames);
-
-      document.getElementById("stat-understanding-pct").textContent = `${understandingPct}%`;
-      const badgeEl = document.getElementById("stat-understanding-badge");
-      badgeEl.textContent = overallLevel.label;
-      badgeEl.className = `mt-1 inline-block text-[11px] font-extrabold px-2.5 py-0.5 rounded-full ${overallLevel.badgeClass}`;
+      const overallLvl = getUnderstandingLevel(understandingPct, totalPlaysAll);
 
       document.getElementById("stat-total-avg").textContent = totalAvgScore.toFixed(2);
-      document.getElementById("stat-completed-count").textContent = `${completedCount} / 5`;
-      document.getElementById("bar-label").textContent = `${understandingPct}%`;
-      document.getElementById("overall-progress-bar").style.width = `${Math.min(100, understandingPct)}%`;
+      document.getElementById("stat-completed-count").textContent = `${totalDoneOutOf6} / 6`;
+      document.getElementById("stat-understanding-pct").textContent = `${understandingPct}%`;
+      document.getElementById("stat-understanding-short").textContent = overallLvl.short;
 
-      // แสดงสรุปคะแนนเฉลี่ยรายเกม
-      const miniList = document.getElementById("mini-progress-list");
-      miniList.innerHTML = GAMES_CONFIG.map(g => {
-        const pGame = (currentPlayer.games || []).find(x => x.id === g.id) || { playsCount: 0, history: [], avgScore: 0, completed: false };
-        const gamePct = Math.round((pGame.avgScore / g.maxScore) * 100);
-        const lvl = getUnderstandingLevel(gamePct, pGame.playsCount);
+      const surveyStatusEl = document.getElementById("stat-survey-status");
+      if (surveyDone) {
+        surveyStatusEl.textContent = "ทำแล้ว ✓";
+        surveyStatusEl.className = "text-lg md:text-xl font-extrabold text-emerald-400 leading-tight";
+      } else {
+        surveyStatusEl.textContent = "ยังไม่ทำ";
+        surveyStatusEl.className = "text-lg md:text-xl font-extrabold text-amber-400 leading-tight";
+      }
 
+      const navPills = document.getElementById("nav-stage-pills");
+      const stagePillsHtml = STAGES_CONFIG.map(st => {
+        const g = (currentPlayer.games || []).find(x => x.id === st.gameId) || { completed: false, playsCount: 0 };
+        const isLocked = g.playsCount >= MAX_PLAYS;
+        if (g.completed) {
+          return `
+            <button onclick="${isLocked ? '' : `openGame(${st.gameId})`}" class="px-2.5 py-1 rounded-lg bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 text-xs font-bold flex items-center gap-1.5 hover:bg-emerald-900/70 transition">
+              <span>${st.shortName}</span>
+              <span class="w-4 h-4 rounded-full bg-emerald-400 text-slate-950 inline-flex items-center justify-center text-[10px]"><i class="fa-solid fa-check"></i></span>
+            </button>
+          `;
+        }
         return `
-          <div class="flex flex-wrap items-center justify-between gap-2 py-2 px-3 rounded-xl bg-slate-50 border border-slate-100">
-            <div class="min-w-0">
-              <div class="font-bold text-slate-800 truncate">${g.title}</div>
-              <div class="text-[11px] text-slate-500">
-                เล่นแล้ว <span class="font-bold text-teal-700">${pGame.playsCount}/${MAX_PLAYS} ครั้ง</span>
-                ${pGame.history.length > 0 ? `• คะแนนแต่ละครั้ง: [${pGame.history.join(", ")}]` : ""}
-              </div>
-            </div>
-            <div class="text-right shrink-0">
-              <div class="font-extrabold text-teal-700">เฉลี่ย ${pGame.avgScore.toFixed(2)} / ${g.maxScore} (${gamePct}%)</div>
-              <span class="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full ${lvl.badgeClass}">${lvl.label}</span>
-            </div>
-          </div>
+          <button onclick="${isLocked ? '' : `openGame(${st.gameId})`}" class="px-2.5 py-1 rounded-lg bg-[#131d33] border border-slate-700/80 text-slate-300 text-xs font-semibold hover:border-cyan-400/50 hover:text-white transition">
+            ${st.shortName}
+          </button>
         `;
       }).join("");
 
-      // แสดงตาราง Top 5
-      const lbContainer = document.getElementById("leaderboard-container");
-      if (!leaderboardData || leaderboardData.length === 0) {
-        lbContainer.innerHTML = `<div class="text-center text-sm text-slate-400 py-6">ยังไม่มีข้อมูลสถิติคะแนน</div>`;
-      } else {
-        const medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"];
-        lbContainer.innerHTML = leaderboardData.map((row, idx) => {
-          const isMe = row.nickname.toLowerCase() === currentPlayer.nickname.toLowerCase();
-          return `
-            <div class="flex items-center justify-between p-3 rounded-2xl border ${isMe ? 'bg-amber-50 border-amber-400 shadow-sm' : 'bg-slate-50 border-slate-100'}">
-              <div class="flex items-center gap-3">
-                <span class="text-xl">${medals[idx] || idx + 1}</span>
-                <div>
-                  <div class="font-bold text-sm text-slate-800">
-                    ${row.nickname} ${isMe ? '<span class="text-xs bg-teal-600 text-white px-2 py-0.5 rounded-full ml-1">คุณ</span>' : ''}
-                  </div>
-                  <div class="text-xs text-slate-500">คะแนนเฉลี่ยรวม ${Number(row.totalAvgScore || 0).toFixed(2)} • ผ่าน ${row.completedCount}/5 เกม</div>
-                </div>
-              </div>
-              <div class="text-right">
-                <span class="font-black text-base text-amber-600">${row.understandingPct || 0}%</span>
-                <span class="text-[11px] text-slate-400 block">ระดับความเข้าใจ</span>
-              </div>
-            </div>
-          `;
-        }).join("");
-      }
+      const surveyPillHtml = surveyDone
+        ? `<button onclick="openSurveyModal()" class="px-2.5 py-1 rounded-lg bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 text-xs font-bold flex items-center gap-1">
+             <i class="fa-solid fa-clipboard-check"></i> แบบประเมิน ✓
+           </button>`
+        : `<button onclick="openSurveyModal()" class="px-2.5 py-1 rounded-lg bg-amber-950/40 border border-amber-500/40 text-amber-300 text-xs font-bold flex items-center gap-1 hover:bg-amber-900/40 transition">
+             <i class="fa-solid fa-clipboard-list"></i> แบบประเมิน
+           </button>`;
 
-      // การ์ดเกมทั้ง 5 เกม
+      navPills.innerHTML = stagePillsHtml + surveyPillHtml;
+
       const grid = document.getElementById("games-grid");
-      grid.innerHTML = GAMES_CONFIG.map(g => {
-        const pGame = (currentPlayer.games || []).find(x => x.id === g.id) || { playsCount: 0, history: [], avgScore: 0, completed: false };
+      const gameCardsHtml = STAGES_CONFIG.map(st => {
+        const pGame = (currentPlayer.games || []).find(x => x.id === st.gameId) || { playsCount: 0, history: [], avgScore: 0, completed: false };
         const playsCount = pGame.playsCount || 0;
-        const remainingPlays = Math.max(0, MAX_PLAYS - playsCount);
         const isLocked = playsCount >= MAX_PLAYS;
-        const gamePct = Math.round((pGame.avgScore / g.maxScore) * 100);
+        const gamePct = Math.round((pGame.avgScore / st.maxScore) * 100);
         const lvl = getUnderstandingLevel(gamePct, playsCount);
 
-        const historyBadges = [0, 1, 2].map(idx => {
+        const statusBadge = pGame.completed
+          ? `<span class="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 text-xs font-bold">ผ่านแล้ว ✓</span>`
+          : `<span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400 text-xs font-semibold">กำลังเล่น</span>`;
+
+        const attemptDots = [0, 1, 2].map(idx => {
           const val = pGame.history[idx];
           if (val !== undefined) {
-            return `<span class="bg-teal-100 text-teal-800 font-bold px-2 py-0.5 rounded-lg text-[11px]">ครั้งที่ ${idx + 1}: ${val}</span>`;
+            return `<span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 border border-slate-700 text-[11px] font-semibold">ครั้ง ${idx + 1}: ${val}</span>`;
           }
-          return `<span class="bg-slate-100 text-slate-400 px-2 py-0.5 rounded-lg text-[11px]">ครั้งที่ ${idx + 1}: -</span>`;
+          return `<span class="px-2 py-0.5 rounded bg-[#0b1220] text-slate-500 border border-slate-800 text-[11px]">ครั้ง ${idx + 1}: -</span>`;
         }).join("");
 
         return `
-          <div class="bg-white rounded-3xl shadow-md border-2 ${isLocked ? 'border-slate-300' : (pGame.completed ? 'border-emerald-300' : 'border-slate-100')} overflow-hidden flex flex-col justify-between hover:shadow-xl transition">
-            <div>
-              <div class="bg-gradient-to-r ${g.color} p-4 text-white flex items-center justify-between">
-                <span class="text-3xl bg-white/20 w-12 h-12 rounded-2xl flex items-center justify-center">${g.icon}</span>
-                <div class="text-right">
-                  <span class="bg-black/25 text-white text-xs font-extrabold px-3 py-1 rounded-full block">
-                    เล่นแล้ว ${playsCount} / ${MAX_PLAYS} ครั้ง
+          <div class="dark-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="w-10 h-10 rounded-xl bg-[#0b1220] border border-slate-800 flex items-center justify-center text-lg ${st.iconColor}">
+                  <i class="${st.iconClass}"></i>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="px-2.5 py-1 rounded-full bg-[#0b1220] border border-slate-800 text-slate-300 text-[11px] font-bold">
+                    ${playsCount}/${MAX_PLAYS} ครั้ง
                   </span>
-                  <span class="text-[11px] text-white/90 font-semibold mt-1 block">
-                    ${isLocked ? 'ครบโควตา 3 ครั้งแล้ว' : `เหลือสิทธิ์เล่นอีก ${remainingPlays} ครั้ง`}
-                  </span>
+                  ${statusBadge}
                 </div>
               </div>
 
-              <div class="p-5 space-y-3">
-                <div>
-                  <h3 class="font-extrabold text-base text-slate-800 mb-1">${g.title}</h3>
-                  <p class="text-xs text-slate-500 leading-relaxed">${g.desc}</p>
-                </div>
+              <div>
+                <h3 class="text-lg font-extrabold text-white mb-1">${st.title}</h3>
+                <p class="text-xs text-slate-400 leading-relaxed min-h-[48px]">${st.desc}</p>
+              </div>
 
-                <!-- ประวัติคะแนน 3 ครั้ง -->
-                <div class="flex flex-wrap gap-1.5">
-                  ${historyBadges}
+              <div class="bg-[#0b1220]/90 rounded-xl p-3 border border-slate-800/90 space-y-2">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-slate-400">คะแนนเฉลี่ย (ความเข้าใจ):</span>
+                  <span class="font-extrabold text-emerald-400">${pGame.avgScore.toFixed(2)} / ${st.maxScore} (${gamePct}%)</span>
                 </div>
-
-                <!-- กล่องคะแนนเฉลี่ย (ระดับความเข้าใจ) -->
-                <div class="bg-teal-50/70 rounded-2xl p-3 border border-teal-200 space-y-1">
-                  <div class="flex justify-between items-center text-xs">
-                    <span class="text-teal-800 font-bold">คะแนนเฉลี่ย (ระดับความเข้าใจ):</span>
-                    <span class="font-black text-teal-700 text-sm">${pGame.avgScore.toFixed(2)} / ${g.maxScore} (${gamePct}%)</span>
-                  </div>
-                  <div class="text-right">
-                    <span class="inline-block text-[11px] font-extrabold px-2.5 py-0.5 rounded-full ${lvl.badgeClass}">${lvl.label}</span>
-                  </div>
+                <div class="flex flex-wrap items-center justify-between gap-1.5">
+                  <div class="flex flex-wrap gap-1">${attemptDots}</div>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${lvl.badgeClass}">${lvl.short}</span>
                 </div>
               </div>
             </div>
 
-            <div class="px-5 pb-5">
+            <div>
               ${isLocked
-                ? `<button disabled class="w-full py-3 bg-slate-200 text-slate-500 font-extrabold text-sm rounded-xl cursor-not-allowed flex items-center justify-center gap-2">
+                ? `<button disabled class="w-full py-2.5 rounded-xl bg-slate-800 text-slate-500 font-bold text-sm cursor-not-allowed flex items-center justify-center gap-2">
                      <i class="fa-solid fa-lock"></i> เล่นครบ 3/3 ครั้งแล้ว
                    </button>`
-                : `<button onclick="openGame(${g.id})" class="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white font-extrabold text-sm rounded-xl shadow transition flex items-center justify-center gap-2">
-                     <i class="fa-solid fa-play"></i> เข้าเล่นครั้งที่ ${playsCount + 1} / ${MAX_PLAYS}
+                : `<button onclick="openGame(${st.gameId})" class="w-full py-2.5 rounded-xl ${st.btnClass} font-extrabold text-sm shadow-md transition transform active:scale-95 flex items-center justify-center gap-2">
+                     <span>${st.btnText}</span> <i class="fa-solid fa-arrow-right"></i>
                    </button>`
               }
             </div>
           </div>
         `;
       }).join("");
+
+      const card6Html = `
+        <div class="survey-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 flex items-center justify-center text-lg">
+                <i class="fa-solid fa-clipboard-list"></i>
+              </div>
+              <span class="px-3 py-1 rounded-full ${surveyDone ? 'bg-emerald-500/15 border border-emerald-500/40 text-emerald-400' : 'bg-amber-500/15 border border-amber-500/40 text-amber-300'} text-xs font-bold">
+                ${surveyDone ? 'ประเมินแล้ว ✓' : 'ขั้นตอนสุดท้าย'}
+              </span>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-extrabold text-amber-300 mb-1">6. แบบประเมินความพึงพอใจ</h3>
+              <p class="text-xs text-slate-400 leading-relaxed min-h-[48px]">
+                ประเมินความพึงพอใจและให้ข้อเสนอแนะสำหรับการใช้นวัตกรรมสื่อ Clean Flow Village
+              </p>
+            </div>
+
+            <div class="bg-[#0b1220]/90 rounded-xl p-3 border border-slate-800/90 flex items-center justify-between text-xs">
+              <span class="text-slate-400">สถานะการส่งแบบประเมิน:</span>
+              <span class="font-extrabold ${surveyDone ? 'text-emerald-400' : 'text-amber-400'}">
+                ${surveyDone ? 'บันทึกเรียบร้อย (1/1)' : 'รอการตอบแบบประเมิน'}
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <button onclick="openSurveyModal()" class="w-full py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-slate-950 font-extrabold text-sm shadow-md transition transform active:scale-95 flex items-center justify-center gap-2">
+              <span>${surveyDone ? 'ดู/แก้ไขแบบประเมิน' : 'ทำแบบประเมิน'}</span> <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      `;
+
+      grid.innerHTML = gameCardsHtml + card6Html;
+
+      const badgeEl = document.getElementById("stat-understanding-badge");
+      badgeEl.textContent = overallLvl.label;
+      badgeEl.className = `text-xs font-extrabold px-3 py-1 rounded-full ${overallLvl.badgeClass}`;
+      document.getElementById("bar-label").textContent = `${understandingPct}%`;
+      document.getElementById("overall-progress-bar").style.width = `${Math.min(100, understandingPct)}%`;
+
+      const miniList = document.getElementById("mini-progress-list");
+      miniList.innerHTML = STAGES_CONFIG.map(st => {
+        const pGame = (currentPlayer.games || []).find(x => x.id === st.gameId) || { playsCount: 0, avgScore: 0 };
+        const gamePct = Math.round((pGame.avgScore / st.maxScore) * 100);
+        const lvl = getUnderstandingLevel(gamePct, pGame.playsCount);
+        return `
+          <div class="flex items-center justify-between gap-3 bg-[#0b1220] px-3.5 py-2.5 rounded-xl border border-slate-800/80 text-xs">
+            <div class="min-w-0">
+              <span class="font-bold text-white">${st.title}</span>
+              <span class="text-slate-500 ml-1.5">(เล่น ${pGame.playsCount}/${MAX_PLAYS} ครั้ง)</span>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <span class="font-bold text-cyan-300">${pGame.avgScore.toFixed(2)}/${st.maxScore}</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${lvl.badgeClass}">${gamePct}% • ${lvl.short}</span>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      const lbContainer = document.getElementById("leaderboard-container");
+      if (!leaderboardData || leaderboardData.length === 0) {
+        lbContainer.innerHTML = `<div class="text-center text-xs text-slate-500 py-8">ยังไม่มีข้อมูลสถิติคะแนน</div>`;
+      } else {
+        const medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"];
+        lbContainer.innerHTML = leaderboardData.map((row, idx) => {
+          const isMe = row.nickname.toLowerCase() === currentPlayer.nickname.toLowerCase();
+          return `
+            <div class="flex items-center justify-between p-3 rounded-2xl border ${isMe ? 'bg-emerald-950/40 border-emerald-500/50' : 'bg-[#0b1220] border-slate-800'}">
+              <div class="flex items-center gap-3 min-w-0">
+                <span class="text-lg shrink-0">${medals[idx] || idx + 1}</span>
+                <div class="min-w-0">
+                  <div class="font-bold text-sm text-white truncate">
+                    ${row.nickname} ${isMe ? '<span class="text-[10px] bg-emerald-400 text-slate-950 font-extrabold px-2 py-0.5 rounded-full ml-1">คุณ</span>' : ''}
+                  </div>
+                  <div class="text-[11px] text-slate-400">เฉลี่ยรวม ${Number(row.totalAvgScore || 0).toFixed(2)} คะแนน</div>
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <span class="font-extrabold text-base text-amber-400">${row.understandingPct || 0}%</span>
+                <span class="text-[10px] text-slate-400 block">ความเข้าใจ</span>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
     }
 
     function openGame(gameId) {
-      const game = GAMES_CONFIG.find(g => g.id === gameId);
-      if (!game || !currentPlayer) return;
+      const st = STAGES_CONFIG.find(g => g.gameId === gameId);
+      if (!st || !currentPlayer) return;
 
       const pGame = (currentPlayer.games || []).find(x => x.id === gameId) || { playsCount: 0 };
       if (pGame.playsCount >= MAX_PLAYS) {
-        showSaveToast("คุณเล่นเกมนี้ครบ 3 ครั้งตามกำหนดแล้ว!");
+        showSaveToast("คุณเล่นด่านนี้ครบ 3 ครั้งตามกำหนดแล้ว!");
         return;
       }
 
-      activeGameId = gameId;
-      document.getElementById("active-game-title").textContent = game.title;
+      document.getElementById("active-game-title").textContent = st.title;
       document.getElementById("modal-player-name").textContent = currentPlayer.nickname;
       document.getElementById("modal-attempt-badge").textContent = `กำลังเล่นครั้งที่ ${pGame.playsCount + 1} / ${MAX_PLAYS}`;
       document.getElementById("modal-limit-banner").classList.add("hidden");
 
-      document.getElementById("game-iframe").src = `${game.file}?attempt=${pGame.playsCount + 1}&max=${MAX_PLAYS}`;
+      document.getElementById("game-iframe").src = `${st.file}?attempt=${pGame.playsCount + 1}&max=${MAX_PLAYS}`;
       document.getElementById("game-player-modal").classList.remove("hidden");
     }
 
@@ -684,10 +1010,59 @@
         showSaveToast("กำลังบันทึกคะแนน กรุณารอ 1–2 วินาที...");
         return;
       }
-      activeGameId = null;
       document.getElementById("game-iframe").src = "";
       document.getElementById("game-player-modal").classList.add("hidden");
       renderDashboard();
+    }
+
+    function openSurveyModal() {
+      document.getElementById("survey-modal").classList.remove("hidden");
+    }
+
+    function closeSurveyModal() {
+      document.getElementById("survey-modal").classList.add("hidden");
+    }
+
+    async function submitSurvey(e) {
+      e.preventDefault();
+      if (!currentPlayer) return;
+
+      const q1 = Number(document.getElementById("q1-rating").value);
+      const q2 = Number(document.getElementById("q2-rating").value);
+      const comment = document.getElementById("q3-comment").value.trim();
+      const btn = document.getElementById("survey-submit-btn");
+
+      btn.disabled = true;
+      btn.classList.add("opacity-70");
+
+      const savedPin = currentPlayer.pin;
+      const localRes = saveToLocalDb(currentPlayer.nickname, savedPin, null, 0, false, true);
+      currentPlayer = { ...localRes.player, pin: savedPin };
+      localStorage.setItem("cfv_current_user", JSON.stringify(currentPlayer));
+
+      try {
+        const res = await apiCall({
+          action: "save_survey",
+          nickname: currentPlayer.nickname,
+          pin: savedPin,
+          q1: q1,
+          q2: q2,
+          comment: comment
+        });
+        if (res.status === "ok" && res.player) {
+          currentPlayer = { ...res.player, surveyDone: true, pin: savedPin };
+          leaderboardData = res.leaderboard || leaderboardData;
+          localStorage.setItem("cfv_current_user", JSON.stringify(currentPlayer));
+        }
+      } catch (err) {
+        showSheetAlert(err.message);
+      } finally {
+        btn.disabled = false;
+        btn.classList.remove("opacity-70");
+        closeSurveyModal();
+        renderDashboard();
+        showSaveToast("ส่งแบบประเมินความพึงพอใจสำเร็จ! (ด่านที่ 6 ผ่านแล้ว ✓)");
+      }
     }
 
     async function processGameScore(msg) {
@@ -695,10 +1070,9 @@
       const gameId = Number(msg.gameId);
       const pGame = (currentPlayer.games || []).find(x => x.id === gameId) || { playsCount: 0 };
 
-      // ป้องกันการบันทึกเกิน 3 ครั้ง หากผู้เล่นกด "เล่นอีกครั้ง" ซ้ำในหน้าต่างเกม
       if (pGame.playsCount >= MAX_PLAYS) {
         document.getElementById("modal-limit-banner").classList.remove("hidden");
-        showSaveToast(`เกมที่ ${gameId} เล่นครบ 3 ครั้งแล้ว ไม่นับคะแนนรอบเกิน`);
+        showSaveToast(`ด่านนี้เล่นครบ 3 ครั้งแล้ว ไม่นับคะแนนรอบเกิน`);
         return;
       }
 
@@ -708,13 +1082,11 @@
 
       const savedPin = currentPlayer.pin;
       const localRes = saveToLocalDb(currentPlayer.nickname, savedPin, gameId, msg.score, msg.completed);
-      currentPlayer = localRes.player;
-      currentPlayer.pin = savedPin;
+      currentPlayer = { ...localRes.player, surveyDone: Boolean(currentPlayer.surveyDone), pin: savedPin };
       leaderboardData = localRes.leaderboard;
-      localStorage.setItem("sci_hub_current_user_v2", JSON.stringify(currentPlayer));
+      localStorage.setItem("cfv_current_user", JSON.stringify(currentPlayer));
       renderDashboard();
 
-      // อัปเดตป้ายรอบการเล่นในหน้าต่าง Modal ทันที
       const updatedGame = currentPlayer.games.find(x => x.id === gameId);
       if (updatedGame) {
         if (updatedGame.playsCount >= MAX_PLAYS) {
@@ -738,10 +1110,10 @@
         });
 
         if (res.status === "ok") {
-          currentPlayer = res.player;
-          currentPlayer.pin = savedPin;
+          const surveyKeep = Boolean(currentPlayer.surveyDone || res.player.surveyDone);
+          currentPlayer = { ...res.player, surveyDone: surveyKeep, pin: savedPin };
           leaderboardData = res.leaderboard || leaderboardData;
-          localStorage.setItem("sci_hub_current_user_v2", JSON.stringify(currentPlayer));
+          localStorage.setItem("cfv_current_user", JSON.stringify(currentPlayer));
           renderDashboard();
           const gObj = currentPlayer.games.find(x => x.id === gameId);
           showSaveToast(`บันทึกครั้งที่ ${gObj.playsCount}/3 สำเร็จ! คะแนนเฉลี่ย: ${gObj.avgScore.toFixed(2)}`);
