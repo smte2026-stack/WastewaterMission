@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
     <title>เกมแยกสารแขวนลอย ม.3 - Cute Science Lab</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -32,13 +32,20 @@
         }
     </script>
     <style>
-        body {
+        * {
+            box-sizing: border-box;
+        }
+        html, body {
             font-family: 'Kanit', sans-serif;
             background: linear-gradient(135deg, #e6f4f1 0%, #edf7f5 50%, #e0f2fe 100%);
             min-height: 100vh;
+            min-height: 100dvh;
+            max-width: 100vw;
             user-select: none;
+            -webkit-user-select: none;
             overflow-x: hidden;
             position: relative;
+            margin: 0;
         }
 
         /* Animated Floating Bubbles Background (Soft Teal & Mint) */
@@ -72,64 +79,47 @@
         /* Soft Squishy & Elastic Effects for Pastel Cards */
         .draggable-item {
             cursor: grab;
-            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.2s;
-            touch-action: none;
+            transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease, border-color 0.2s;
+            touch-action: manipulation;
             will-change: transform;
         }
-        .draggable-item:hover {
-            transform: translateY(-3px) scale(1.015);
-            box-shadow: 0 10px 18px -4px rgba(0, 0, 0, 0.15);
+        @media (hover: hover) {
+            .draggable-item:hover {
+                transform: translateY(-2px) scale(1.01);
+                box-shadow: 0 10px 18px -4px rgba(0, 0, 0, 0.14);
+            }
         }
         .draggable-item:active {
             cursor: grabbing;
-            transform: scale(0.96) rotate(-1.5deg);
+            transform: scale(0.97);
         }
         .draggable-item.dragging {
-            opacity: 0.6;
-            transform: scale(0.92) rotate(2deg);
+            opacity: 0.55;
+            transform: scale(0.94) rotate(1.5deg);
         }
         .draggable-item.selected-tap {
-            ring: 4px;
-            ring-color: #0d9488;
-            transform: scale(1.03);
+            outline: 3px solid #0d9488;
+            outline-offset: 2px;
+            transform: scale(1.02);
             box-shadow: 0 12px 24px -4px rgba(13, 148, 136, 0.35);
-            animation: bounceSoft 1s infinite alternate ease-in-out;
+            animation: bounceSoft 0.9s infinite alternate ease-in-out;
         }
 
         @keyframes bounceSoft {
-            0% { transform: scale(1.02) translateY(0); }
-            100% { transform: scale(1.04) translateY(-5px); }
+            0% { transform: scale(1.01) translateY(0); }
+            100% { transform: scale(1.03) translateY(-4px); }
         }
 
         /* Soft Pastel Drop Zones */
         .drop-zone {
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .drop-zone.drag-over {
-            border-color: #0d9488;
-            background-color: #f0fdfa;
-            transform: scale(1.02);
-            box-shadow: 0 12px 24px -4px rgba(13, 148, 136, 0.25);
-        }
-
-        /* Shake animation for wrong drops */
-        @keyframes squishyShake {
-            0%, 100% { transform: translateX(0) scale(1); }
-            20% { transform: translateX(-8px) scale(0.98, 1.02); }
-            40% { transform: translateX(8px) scale(1.02, 0.98); }
-            60% { transform: translateX(-6px) scale(0.99, 1.01); }
-            80% { transform: translateX(6px) scale(1.01, 0.99); }
-        }
-        .animate-wrong {
-            animation: squishyShake 0.5s ease-in-out;
-        }
-
-        /* Notebook paper styling for Science Modal */
-        .lab-notebook {
-            background-color: #fcfdfd;
-            background-image: linear-gradient(#ccfbf1 1px, transparent 1px);
-            background-size: 100% 1.8rem;
-            line-height: 1.8rem;
+        .drop-zone.drag-over,
+        .left-drop-area.drag-over {
+            border-color: #0d9488 !important;
+            background-color: #f0fdfa !important;
+            transform: scale(1.015);
+            box-shadow: 0 12px 24px -4px rgba(13, 148, 136, 0.22);
         }
 
         #confetti-canvas {
@@ -143,7 +133,7 @@
         }
     </style>
 </head>
-<body class="p-3 md:p-6 text-slate-700 flex flex-col justify-between relative z-10">
+<body class="p-3 sm:p-4 md:p-6 text-slate-700 flex flex-col justify-between relative z-10">
 
     <!-- Floating Background Bubbles -->
     <div class="bubble-container" id="bubble-bg"></div>
@@ -151,32 +141,32 @@
     <canvas id="confetti-canvas"></canvas>
 
     <!-- Top Header Navigation -->
-    <header class="max-w-6xl mx-auto w-full bg-white/85 backdrop-blur-md rounded-3xl p-4 shadow-sm mb-6 border-2 border-teal-100 flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
-        <div class="flex items-center gap-3">
-            <div class="bg-gradient-to-tr from-teal-400 to-cyan-500 text-white p-3.5 rounded-2xl shadow-sm transform hover:rotate-6 transition">
-                <i class="fa-solid fa-flask-vial text-3xl"></i>
+    <header class="max-w-6xl mx-auto w-full bg-white/85 backdrop-blur-md rounded-3xl p-3.5 sm:p-4 shadow-sm mb-4 sm:mb-6 border-2 border-teal-100 flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4 relative z-10">
+        <div class="flex items-center gap-3 w-full md:w-auto">
+            <div class="bg-gradient-to-tr from-teal-400 to-cyan-500 text-white p-3 rounded-2xl shadow-sm shrink-0">
+                <i class="fa-solid fa-flask-vial text-2xl sm:text-3xl"></i>
             </div>
-            <div>
-                <h1 class="text-2xl md:text-3xl font-cute font-bold bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 bg-clip-text text-transparent">
+            <div class="min-w-0">
+                <h1 class="text-xl sm:text-2xl md:text-3xl font-cute font-bold bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 bg-clip-text text-transparent truncate">
                     เกมแยกสารแขวนลอย ม.3
                 </h1>
-                <p class="text-xs md:text-sm text-teal-600/80 font-medium">ห้องแล็บวิทยาศาสตร์พาสเทล • Soft Teal & Mint Theme</p>
+                <p class="text-xs sm:text-sm text-teal-600/80 font-medium truncate">ห้องแล็บวิทยาศาสตร์พาสเทล • Dirty Drop (เต็ม 100 คะแนน)</p>
             </div>
         </div>
 
-        <!-- Score & Stats Pill -->
-        <div class="flex items-center gap-4 bg-teal-50/70 px-5 py-2.5 rounded-2xl border border-teal-200/60 w-full md:w-auto justify-around">
+        <!-- Status & Stats Pill -->
+        <div class="flex items-center gap-3 sm:gap-4 bg-teal-50/70 px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl border border-teal-200/60 w-full md:w-auto justify-around">
             <div class="text-center">
-                <span class="text-xs text-teal-600/70 block font-bold uppercase tracking-wider">คะแนน</span>
-                <span id="score-text" class="text-xl md:text-2xl font-cute font-bold text-teal-700">0 / 6</span>
+                <span class="text-[11px] sm:text-xs text-teal-600/70 block font-bold uppercase tracking-wider">จัดวางแล้ว</span>
+                <span id="placed-text" class="text-lg sm:text-2xl font-cute font-bold text-teal-700">0 / 6</span>
             </div>
             <div class="h-8 w-0.5 bg-teal-200/80 rounded-full"></div>
             <div class="text-center">
-                <span class="text-xs text-teal-600/70 block font-bold uppercase tracking-wider">เวลา</span>
-                <span id="timer-text" class="text-xl md:text-2xl font-cute font-bold text-cyan-700">00:00</span>
+                <span class="text-[11px] sm:text-xs text-teal-600/70 block font-bold uppercase tracking-wider">เวลา</span>
+                <span id="timer-text" class="text-lg sm:text-2xl font-cute font-bold text-cyan-700">00:00</span>
             </div>
             <div class="h-8 w-0.5 bg-teal-200/80 rounded-full"></div>
-            <button id="reset-btn" onclick="resetGame()" class="bg-teal-600 hover:bg-teal-700 active:scale-95 text-white px-4 py-2 rounded-xl text-sm font-bold shadow-sm transition flex items-center gap-2">
+            <button id="reset-btn" onclick="resetGame()" class="bg-teal-600 hover:bg-teal-700 active:scale-95 text-white px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-sm transition flex items-center gap-1.5">
                 <i class="fa-solid fa-rotate-right"></i> เริ่มใหม่
             </button>
         </div>
@@ -185,59 +175,67 @@
     <!-- Main Interactive Area -->
     <main class="max-w-6xl mx-auto w-full flex-1 relative z-10">
         <!-- Progress Bar -->
-        <div class="w-full bg-teal-100/60 rounded-full h-3.5 mb-6 overflow-hidden p-0.5 border border-teal-200/50">
-            <div id="progress-bar" class="bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500 h-full w-0 rounded-full transition-all duration-500"></div>
+        <div class="w-full bg-teal-100/60 rounded-full h-3.5 mb-4 sm:mb-6 overflow-hidden p-0.5 border border-teal-200/50">
+            <div id="progress-bar" class="bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500 h-full w-0 rounded-full transition-all duration-300"></div>
         </div>
 
         <!-- Cute Mascot Banner -->
-        <div class="bg-white/85 backdrop-blur-md border-2 border-teal-100 rounded-3xl p-4 mb-6 shadow-sm flex items-center gap-4 relative overflow-hidden">
-            <!-- Dr. Spark SVG Mascot -->
-            <div class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 bg-teal-50 rounded-2xl p-2 flex items-center justify-center border border-teal-200/80">
+        <div class="bg-white/85 backdrop-blur-md border-2 border-teal-100 rounded-3xl p-3.5 sm:p-4 mb-5 sm:mb-6 shadow-sm flex items-center gap-3.5 sm:gap-4 relative overflow-hidden">
+            <div class="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 flex-shrink-0 bg-teal-50 rounded-2xl p-2 flex items-center justify-center border border-teal-200/80">
                 <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-sm">
-                    <!-- Cute Bear Scientist Head -->
                     <circle cx="50" cy="55" r="32" fill="#5eead4"/>
                     <circle cx="28" cy="28" r="12" fill="#5eead4"/>
                     <circle cx="28" cy="28" r="6" fill="#ccfbf1"/>
                     <circle cx="72" cy="28" r="12" fill="#5eead4"/>
                     <circle cx="72" cy="28" r="6" fill="#ccfbf1"/>
-                    <!-- Snout -->
                     <ellipse cx="50" cy="62" rx="14" ry="10" fill="#fff"/>
                     <ellipse cx="50" cy="58" rx="5" ry="3" fill="#134e4a"/>
-                    <!-- Cute Eyes -->
                     <circle cx="38" cy="48" r="4" fill="#0f766e"/>
                     <circle cx="40" cy="46" r="1.5" fill="#fff"/>
                     <circle cx="62" cy="48" r="4" fill="#0f766e"/>
                     <circle cx="64" cy="46" r="1.5" fill="#fff"/>
-                    <!-- Cheeks -->
                     <circle cx="30" cy="58" r="5" fill="#99f6e4" opacity="0.8"/>
                     <circle cx="70" cy="58" r="5" fill="#99f6e4" opacity="0.8"/>
-                    <!-- Lab Glasses -->
                     <rect x="26" y="40" width="20" height="16" rx="4" fill="none" stroke="#0f766e" stroke-width="3"/>
                     <rect x="54" y="40" width="20" height="16" rx="4" fill="none" stroke="#0f766e" stroke-width="3"/>
                     <line x1="46" y1="48" x2="54" y2="48" stroke="#0f766e" stroke-width="3"/>
                 </svg>
             </div>
-            <div class="flex-1">
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="font-cute font-bold text-teal-900 text-base md:text-lg">ดร.สปาร์ก (Dr. Spark)</span>
-                    <span class="bg-teal-100 text-teal-800 font-bold text-xs px-2.5 py-0.5 rounded-full">ผู้ช่วยแล็บสุดคิวท์</span>
+            <div class="flex-1 min-w-0">
+                <div class="flex flex-wrap items-center gap-2 mb-1">
+                    <span class="font-cute font-bold text-teal-900 text-sm sm:text-base md:text-lg">ดร.สปาร์ก (Dr. Spark)</span>
+                    <span class="bg-teal-100 text-teal-800 font-bold text-[11px] sm:text-xs px-2.5 py-0.5 rounded-full">คะแนนเต็ม 100</span>
                 </div>
-                <p id="mascot-dialogue" class="text-xs md:text-sm text-teal-800/80 font-medium">
-                    "สวัสดีครับนักเรียน! ช่วยดร.สปาร์ก ลากบัตรสารแขวนลอยไปลงในกล่องเครื่องมือแยกสารที่ถูกต้องทีนะ!"
+                <p id="mascot-dialogue" class="text-xs sm:text-sm text-teal-800/85 font-medium leading-relaxed">
+                    "ลากบัตรสารแขวนลอย (หรือแตะเลือกบนมือถือ) ไปวางในกล่องวิธีแยกสารให้ครบทั้ง 6 รายการ แล้วกดปุ่มส่งคำตอบเพื่อคำนวณคะแนนเต็ม 100 นะ!"
                 </p>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
             <!-- Left Panel: Soft Pastel Suspension Cards -->
-            <div class="lg:col-span-5 bg-white/80 backdrop-blur-md rounded-3xl p-5 shadow-sm border-2 border-teal-100 flex flex-col">
-                <h2 class="text-lg font-cute font-bold text-teal-800 mb-4 flex items-center justify-between">
-                    <span class="flex items-center gap-2"><i class="fa-solid fa-flask text-teal-500"></i> สารแขวนลอยที่รอการแยก</span>
-                    <span id="remaining-count" class="text-xs bg-teal-100/80 text-teal-700 font-bold px-3 py-1 rounded-full">เหลือ 6 รายการ</span>
-                </h2>
+            <div id="left-panel-zone" class="left-drop-area lg:col-span-5 bg-white/85 backdrop-blur-md rounded-3xl p-4 sm:p-5 shadow-sm border-2 border-teal-100 flex flex-col justify-between gap-4">
+                <div>
+                    <h2 class="text-base sm:text-lg font-cute font-bold text-teal-800 mb-3.5 flex items-center justify-between gap-2">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-flask text-teal-500"></i> สารแขวนลอยที่รอการแยก</span>
+                        <span id="remaining-count" class="text-xs bg-teal-100/80 text-teal-700 font-bold px-3 py-1 rounded-full shrink-0">เหลือ 6 รายการ</span>
+                    </h2>
 
-                <div id="draggables-container" class="space-y-3 flex-1 flex flex-col justify-start">
-                    <!-- Cards will be populated by JS -->
+                    <div id="draggables-container" class="space-y-2.5 sm:space-y-3 min-h-[120px] flex flex-col justify-start">
+                        <!-- Cards will be populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Submit Button Section -->
+                <div class="pt-3 border-t border-teal-100 space-y-2">
+                    <button id="submit-answers-btn" onclick="submitAnswers()" disabled
+                        class="w-full py-3.5 px-4 rounded-2xl font-cute font-bold text-sm sm:text-base transition flex items-center justify-center gap-2 bg-slate-200 text-slate-400 cursor-not-allowed">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span id="submit-btn-text">วางให้ครบทั้ง 6 รายการเพื่อส่งคำตอบ</span>
+                    </button>
+                    <p class="text-[11px] text-center text-teal-700/70">
+                        * สามารถลากย้ายเปลี่ยนกล่อง หรือกดปุ่ม <strong>×</strong> เพื่อนำบัตรกลับมาจัดใหม่ได้ก่อนกดส่ง
+                    </p>
                 </div>
             </div>
 
@@ -246,9 +244,8 @@
                 <!-- Zone 1: การกรอง (Filtration) -->
                 <div data-method="filtration" class="drop-zone bg-white/85 backdrop-blur-md rounded-3xl p-4 shadow-sm border-2 border-dashed border-teal-200 flex flex-col justify-between min-h-[185px]">
                     <div>
-                        <div class="flex items-center gap-3 mb-2">
+                        <div class="flex items-center gap-3 mb-2.5">
                             <div class="w-11 h-11 rounded-2xl bg-teal-50 flex items-center justify-center p-2 border border-teal-200/70 flex-shrink-0">
-                                <!-- Filter SVG Illustration -->
                                 <svg viewBox="0 0 64 64" class="w-full h-full">
                                     <polygon points="12,12 52,12 38,36 38,52 26,52 26,36" fill="#ccfbf1" stroke="#0d9488" stroke-width="2.5" stroke-linejoin="round"/>
                                     <ellipse cx="32" cy="12" rx="20" ry="4" fill="#99f6e4" stroke="#0d9488" stroke-width="2"/>
@@ -262,17 +259,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="dropped-items min-h-[70px] bg-teal-50/40 rounded-2xl p-2 border-2 border-dashed border-teal-200/60 space-y-2 flex flex-col justify-center items-center text-xs text-teal-600 font-bold">
-                        วางสารที่ใช้วิธีนี้ที่นี่
+                    <div class="dropped-items min-h-[82px] bg-teal-50/40 rounded-2xl p-2 border-2 border-dashed border-teal-200/60 space-y-2 flex flex-col justify-center">
+                        <div class="placeholder-hint text-center text-xs text-teal-600 font-bold py-3">วางสารที่ใช้วิธีนี้ที่นี่</div>
                     </div>
                 </div>
 
                 <!-- Zone 2: การตกตะกอน (Sedimentation) -->
                 <div data-method="sedimentation" class="drop-zone bg-white/85 backdrop-blur-md rounded-3xl p-4 shadow-sm border-2 border-dashed border-teal-200 flex flex-col justify-between min-h-[185px]">
                     <div>
-                        <div class="flex items-center gap-3 mb-2">
+                        <div class="flex items-center gap-3 mb-2.5">
                             <div class="w-11 h-11 rounded-2xl bg-cyan-50 flex items-center justify-center p-2 border border-cyan-200/70 flex-shrink-0">
-                                <!-- Beaker Sediment SVG -->
                                 <svg viewBox="0 0 64 64" class="w-full h-full">
                                     <rect x="16" y="16" width="32" height="38" rx="4" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
                                     <rect x="18" y="44" width="28" height="8" rx="2" fill="#cbd5e1"/>
@@ -287,17 +283,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="dropped-items min-h-[70px] bg-cyan-50/40 rounded-2xl p-2 border-2 border-dashed border-cyan-200/60 space-y-2 flex flex-col justify-center items-center text-xs text-cyan-600 font-bold">
-                        วางสารที่ใช้วิธีนี้ที่นี่
+                    <div class="dropped-items min-h-[82px] bg-cyan-50/40 rounded-2xl p-2 border-2 border-dashed border-cyan-200/60 space-y-2 flex flex-col justify-center">
+                        <div class="placeholder-hint text-center text-xs text-cyan-600 font-bold py-3">วางสารที่ใช้วิธีนี้ที่นี่</div>
                     </div>
                 </div>
 
                 <!-- Zone 3: การเหวี่ยงแยก (Centrifugation) -->
                 <div data-method="centrifugation" class="drop-zone bg-white/85 backdrop-blur-md rounded-3xl p-4 shadow-sm border-2 border-dashed border-teal-200 flex flex-col justify-between min-h-[185px]">
                     <div>
-                        <div class="flex items-center gap-3 mb-2">
+                        <div class="flex items-center gap-3 mb-2.5">
                             <div class="w-11 h-11 rounded-2xl bg-emerald-50 flex items-center justify-center p-2 border border-emerald-200/70 flex-shrink-0">
-                                <!-- Centrifuge Machine SVG -->
                                 <svg viewBox="0 0 64 64" class="w-full h-full">
                                     <circle cx="32" cy="32" r="22" fill="#ecfdf5" stroke="#059669" stroke-width="2.5"/>
                                     <circle cx="32" cy="32" r="8" fill="#34d399"/>
@@ -313,22 +308,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="dropped-items min-h-[70px] bg-emerald-50/40 rounded-2xl p-2 border-2 border-dashed border-emerald-200/60 space-y-2 flex flex-col justify-center items-center text-xs text-emerald-600 font-bold">
-                        วางสารที่ใช้วิธีนี้ที่นี่
+                    <div class="dropped-items min-h-[82px] bg-emerald-50/40 rounded-2xl p-2 border-2 border-dashed border-emerald-200/60 space-y-2 flex flex-col justify-center">
+                        <div class="placeholder-hint text-center text-xs text-emerald-600 font-bold py-3">วางสารที่ใช้วิธีนี้ที่นี่</div>
                     </div>
                 </div>
 
                 <!-- Zone 4: การใช้แม่เหล็กดูด (Magnetic Separation) -->
                 <div data-method="magnetic" class="drop-zone bg-white/85 backdrop-blur-md rounded-3xl p-4 shadow-sm border-2 border-dashed border-teal-200 flex flex-col justify-between min-h-[185px]">
                     <div>
-                        <div class="flex items-center gap-3 mb-2">
+                        <div class="flex items-center gap-3 mb-2.5">
                             <div class="w-11 h-11 rounded-2xl bg-slate-100 flex items-center justify-center p-2 border border-slate-200 flex-shrink-0">
-                                <!-- Horseshoe Magnet SVG -->
                                 <svg viewBox="0 0 64 64" class="w-full h-full">
                                     <path d="M 18,16 L 18,36 A 14,14 0 0,0 46,36 L 46,16" fill="none" stroke="#475569" stroke-width="9" stroke-linecap="square"/>
                                     <path d="M 18,16 L 18,22" stroke="#cbd5e1" stroke-width="9" stroke-linecap="square"/>
                                     <path d="M 46,16 L 46,22" stroke="#cbd5e1" stroke-width="9" stroke-linecap="square"/>
-                                    <!-- Sparkles -->
                                     <polygon points="12,12 14,8 18,10 14,12" fill="#2dd4bf"/>
                                     <polygon points="52,12 50,8 46,10 50,12" fill="#2dd4bf"/>
                                 </svg>
@@ -339,99 +332,48 @@
                             </div>
                         </div>
                     </div>
-                    <div class="dropped-items min-h-[70px] bg-slate-50 rounded-2xl p-2 border-2 border-dashed border-slate-200 space-y-2 flex flex-col justify-center items-center text-xs text-slate-500 font-bold">
-                        วางสารที่ใช้วิธีนี้ที่นี่
+                    <div class="dropped-items min-h-[82px] bg-slate-50 rounded-2xl p-2 border-2 border-dashed border-slate-200 space-y-2 flex flex-col justify-center">
+                        <div class="placeholder-hint text-center text-xs text-slate-500 font-bold py-3">วางสารที่ใช้วิธีนี้ที่นี่</div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Scientific Reason Modal (Notebook Style) -->
-    <div id="modal-correct" class="fixed inset-0 bg-teal-950/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl border-2 border-teal-200 relative overflow-hidden">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center text-2xl flex-shrink-0">
-                    <i class="fa-solid fa-square-check"></i>
-                </div>
-                <div>
-                    <h3 class="font-cute font-bold text-xl text-teal-950" id="modal-title">ถูกต้องแล้วครับ! 🎉</h3>
-                    <p id="modal-item-name" class="font-bold text-teal-700 text-sm"></p>
-                </div>
-            </div>
-            
-            <!-- Dr. Spark Notebook Section -->
-            <div class="lab-notebook rounded-2xl p-4 mb-5 border border-teal-100 text-sm text-slate-700 shadow-inner">
-                <div class="font-cute font-bold text-teal-800 mb-1 flex items-center gap-1.5">
-                    <i class="fa-solid fa-book-open text-teal-600"></i> บันทึกเหตุผลทางวิทยาศาสตร์:
-                </div>
-                <p id="modal-reason" class="font-medium leading-relaxed text-slate-700"></p>
-            </div>
-
-            <button onclick="closeCorrectModal()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-cute font-bold text-base py-3 rounded-2xl shadow-md transition active:scale-95">
-                ลุยข้อต่อไปเลย! <i class="fa-solid fa-arrow-right ml-1"></i>
-            </button>
-        </div>
-    </div>
-
-    <!-- Cute Hint Modal for Wrong Drops -->
-    <div id="modal-wrong" class="fixed inset-0 bg-teal-950/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl border-2 border-teal-200 animate-wrong">
-            <div class="flex items-center gap-3 mb-3">
-                <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-2xl flex-shrink-0">
-                    <i class="fa-solid fa-face-lightbulb"></i>
-                </div>
-                <div>
-                    <h3 class="font-cute font-bold text-xl text-teal-950">เกือบถูกแล้วนะ! 💡</h3>
-                    <p id="wrong-item-name" class="font-bold text-teal-700 text-sm"></p>
-                </div>
-            </div>
-            
-            <div class="bg-teal-50/60 border border-teal-100 rounded-2xl p-4 mb-5 text-sm text-slate-700">
-                <div class="font-cute font-bold text-teal-800 mb-1 flex items-center gap-1.5">
-                    <i class="fa-solid fa-lightbulb text-teal-500"></i> คำใบ้จาก ดร.สปาร์ก:
-                </div>
-                <p id="wrong-hint-text" class="font-medium text-teal-900/80"></p>
-            </div>
-
-            <button onclick="closeWrongModal()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-cute font-bold text-base py-3 rounded-2xl shadow-md transition active:scale-95">
-                ลองใหม่อีกครั้งนะ
-            </button>
-        </div>
-    </div>
-
-    <!-- Final Game Summary Modal -->
-    <div id="modal-summary" class="fixed inset-0 bg-teal-950/60 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl border-4 border-white text-center relative overflow-hidden">
-            <div class="w-20 h-20 bg-teal-100 text-teal-700 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-4 shadow-sm border border-teal-200">
+    <!-- Final Game Summary Modal (แสดงคะแนนเต็ม 100 โดยไม่เปิดเผยเฉลยรายข้อ) -->
+    <div id="modal-summary" class="fixed inset-0 bg-teal-950/60 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-4 hidden overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-5 sm:p-8 shadow-2xl border-4 border-white text-center relative overflow-hidden my-auto">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-teal-100 text-teal-700 rounded-3xl flex items-center justify-center text-3xl sm:text-4xl mx-auto mb-3 sm:mb-4 shadow-sm border border-teal-200">
                 <i class="fa-solid fa-award"></i>
             </div>
-            <h2 class="text-2xl md:text-3xl font-cute font-bold text-teal-950 mb-1">ยินดีด้วยเก่งมากๆ เลเวลอัพ! 🌟</h2>
-            <p class="text-teal-700/80 text-xs md:text-sm mb-5 font-medium">คุณแยกสารแขวนลอยครบถ้วนตามหลักการวิทยาศาสตร์ ม.3</p>
+            <h2 class="text-xl sm:text-2xl md:text-3xl font-cute font-bold text-teal-950 mb-1">บันทึกคำตอบเรียบร้อย! 🌟</h2>
+            <p class="text-teal-700/80 text-xs sm:text-sm mb-4 sm:mb-5 font-medium">ระบบส่งคะแนนการแยกสารแขวนลอยของคุณเข้าสู่ระบบแล้ว</p>
 
             <!-- Stats Grid -->
-            <div class="grid grid-cols-2 gap-3 mb-5">
+            <div class="grid grid-cols-2 gap-3 mb-4 sm:mb-5">
                 <div class="bg-teal-50/80 rounded-2xl p-3 border border-teal-200/80">
-                    <span class="text-xs text-teal-600/70 block font-bold uppercase">คะแนนทั้งหมด</span>
-                    <span id="final-score" class="text-2xl font-cute font-bold text-teal-700">6 / 6</span>
+                    <span class="text-[11px] sm:text-xs text-teal-600/70 block font-bold uppercase">คะแนนที่ได้</span>
+                    <span id="final-score" class="text-2xl font-cute font-bold text-teal-700 block">0 / 100</span>
+                    <span id="final-raw-detail" class="text-[11px] text-teal-600 font-semibold block mt-0.5">(ถูก 0 จาก 6 ข้อ)</span>
                 </div>
-                <div class="bg-cyan-50/80 rounded-2xl p-3 border border-cyan-200/80">
-                    <span class="text-xs text-cyan-600/70 block font-bold uppercase">เวลาที่ใช้</span>
+                <div class="bg-cyan-50/80 rounded-2xl p-3 border border-cyan-200/80 flex flex-col justify-center">
+                    <span class="text-[11px] sm:text-xs text-cyan-600/70 block font-bold uppercase">เวลาที่ใช้</span>
                     <span id="final-time" class="text-2xl font-cute font-bold text-cyan-700">00:00</span>
                 </div>
             </div>
 
             <!-- Scientific Summary Sheet -->
-            <div class="bg-teal-50/50 rounded-2xl p-4 text-left border border-teal-100 text-xs md:text-sm text-slate-700 mb-6 space-y-2">
+            <div class="bg-teal-50/50 rounded-2xl p-3.5 sm:p-4 text-left border border-teal-100 text-xs sm:text-sm text-slate-700 mb-5 space-y-1.5">
                 <div class="font-cute font-bold text-teal-900 text-sm mb-1 border-b border-teal-200/60 pb-1 flex items-center gap-1.5">
-                    <i class="fa-solid fa-book-bookmark text-teal-600"></i> สรุปความรู้เรื่องสารแขวนลอย (Suspension)
+                    <i class="fa-solid fa-book-bookmark text-teal-600"></i> ทบทวนหลักการแยกสารแขวนลอย ม.3
                 </div>
-                <p>• <strong>สารแขวนลอย:</strong> อนุภาคของแข็งมีขนาดใหญ่กว่า 10<sup>-4</sup> cm ไม่ละลายน้ำ ตกตะกอนเมื่อตั้งทิ้งไว้</p>
-                <p>• <strong>การกรอง:</strong> แยกอนุภาคของแข็งที่มีขนาดใหญ่กว่ารูพรุนของกระดาษกรอง</p>
-                <p>• <strong>การเหวี่ยงแยก:</strong> ใช้แรงหมุนเหวี่ยงความเร็วสูงแยกอนุภาคเล็กเบาที่ไม่ตกตะกอนตามธรรมชาติ</p>
+                <p>• <strong>การกรอง:</strong> แยกของแข็งที่ไม่ละลายน้ำที่มีขนาดใหญ่กว่ารูพรุนแผ่นกรอง</p>
+                <p>• <strong>การตกตะกอน:</strong> ตั้งทิ้งไว้ให้อนุภาคหนักกว่าน้ำจมลงสู่ก้นภาชนะ</p>
+                <p>• <strong>การเหวี่ยงแยก:</strong> ใช้แรงหมุนเหวี่ยงความเร็วสูงแยกอนุภาคเล็กเบา</p>
+                <p>• <strong>การใช้แม่เหล็ก:</strong> ดึงดูดสารที่มีสมบัติแม่เหล็กออกจากสารผสม</p>
             </div>
 
-            <button onclick="resetGame()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-cute font-bold py-3.5 rounded-2xl shadow-md transition active:scale-95 text-base">
+            <button onclick="resetGame()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-cute font-bold py-3 sm:py-3.5 rounded-2xl shadow-md transition active:scale-95 text-sm sm:text-base">
                 <i class="fa-solid fa-rotate-right mr-2"></i> เล่นอีกครั้ง
             </button>
         </div>
@@ -443,7 +385,7 @@
     </footer>
 
     <script>
-        /* ==================== REALISTIC COLOR SUSPENSION ITEMS WITH SVG ART ==================== */
+        /* ==================== SUSPENSION ITEMS DATA ==================== */
         const suspensionItems = [
             {
                 id: 'item-1',
@@ -451,16 +393,14 @@
                 method: 'filtration',
                 color: 'bg-emerald-900 text-amber-50 border-emerald-950 shadow-sm',
                 svgIcon: `
-                <svg viewBox="0 0 64 64" class="w-9 h-9 drop-shadow-sm">
+                <svg viewBox="0 0 64 64" class="w-8 h-8 sm:w-9 sm:h-9 drop-shadow-sm">
                     <rect x="18" y="16" width="28" height="36" rx="6" fill="#14532d" stroke="#86efac" stroke-width="2"/>
                     <path d="M 20,38 Q 32,34 44,38 L 44,50 L 20,50 Z" fill="#15803d"/>
                     <path d="M 28,26 Q 34,22 38,28" stroke="#4ade80" stroke-width="2.5" fill="none" stroke-linecap="round"/>
                     <circle cx="38" cy="28" r="1.8" fill="#86efac"/>
                     <circle cx="28" cy="34" r="1.8" fill="#4ade80"/>
                     <circle cx="36" cy="34" r="1.8" fill="#4ade80"/>
-                </svg>`,
-                reason: 'เศษใบไม้และตะกอนหยาบมีขนาดใหญ่กว่ารูพรุนของกระดาษกรอง จึงถูกกรองติดค้างบนแผ่นกรองได้สมบูรณ์',
-                hint: 'สารนี้มีเศษวัสดุชิ้นใหญ่ลอยปะปนอยู่ ลองใช้อุปกรณ์กรองกรวยแยกดูนะ!'
+                </svg>`
             },
             {
                 id: 'item-2',
@@ -468,15 +408,13 @@
                 method: 'sedimentation',
                 color: 'bg-amber-900 text-amber-50 border-amber-950 shadow-sm',
                 svgIcon: `
-                <svg viewBox="0 0 64 64" class="w-9 h-9 drop-shadow-sm">
+                <svg viewBox="0 0 64 64" class="w-8 h-8 sm:w-9 sm:h-9 drop-shadow-sm">
                     <rect x="18" y="16" width="28" height="36" rx="6" fill="#78350f" stroke="#fde68a" stroke-width="2"/>
                     <path d="M 20,32 Q 32,30 44,32 L 44,50 L 20,50 Z" fill="#451a03"/>
                     <circle cx="27" cy="24" r="1.8" fill="#fde68a"/>
                     <circle cx="37" cy="24" r="1.8" fill="#fde68a"/>
                     <path d="M 30,27 Q 32,29 34,27" stroke="#fde68a" stroke-width="1.2" fill="none"/>
-                </svg>`,
-                reason: 'อนุภาคดินโคลนมีขนาดใหญ่และหนาแน่น เมื่อวางตั้งทิ้งไว้เฉยๆ แรงโน้มถ่วงจะดึงดูดให้ตกตะกอนนอนก้น',
-                hint: 'ถ้านำน้ำขุ่นนี้วางตั้งทิ้งไว้นิ่งๆ สักพัก แรงโน้มถ่วงจะช่วยให้น้ำใสขึ้นนะ!'
+                </svg>`
             },
             {
                 id: 'item-3',
@@ -484,14 +422,12 @@
                 method: 'centrifugation',
                 color: 'bg-rose-700 text-white border-rose-900 shadow-sm',
                 svgIcon: `
-                <svg viewBox="0 0 64 64" class="w-9 h-9 drop-shadow-sm">
+                <svg viewBox="0 0 64 64" class="w-8 h-8 sm:w-9 sm:h-9 drop-shadow-sm">
                     <rect x="24" y="14" width="16" height="38" rx="8" fill="#be123c" stroke="#fecdd3" stroke-width="2"/>
                     <path d="M 26,30 Q 32,28 38,30 L 38,44 A 6,6 0 0,1 26,44 Z" fill="#881337"/>
                     <circle cx="29" cy="22" r="1.5" fill="#fff"/>
                     <circle cx="35" cy="22" r="1.5" fill="#fff"/>
-                </svg>`,
-                reason: 'เซลล์เม็ดเลือดมีขนาดเล็กมากและเบาเกินกว่าจะตกตะกอนได้เอง ต้องใช้เครื่องเหวี่ยงแยกหมุนเหวี่ยงความเร็วสูง',
-                hint: 'เม็ดเลือดในพลาสมาเล็กมากและตกตะกอนยาก ต้องใช้เครื่องหมุนเหวี่ยงแยกความเร็วสูงช่วย!'
+                </svg>`
             },
             {
                 id: 'item-4',
@@ -499,14 +435,12 @@
                 method: 'filtration',
                 color: 'bg-amber-100 text-amber-950 border-amber-300 font-semibold shadow-sm',
                 svgIcon: `
-                <svg viewBox="0 0 64 64" class="w-9 h-9 drop-shadow-sm">
+                <svg viewBox="0 0 64 64" class="w-8 h-8 sm:w-9 sm:h-9 drop-shadow-sm">
                     <rect x="20" y="16" width="24" height="34" rx="5" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
                     <path d="M 22,26 Q 32,24 42,26 L 42,48 L 22,48 Z" fill="#fde68a"/>
                     <circle cx="28" cy="21" r="1.8" fill="#78350f"/>
                     <circle cx="36" cy="21" r="1.8" fill="#78350f"/>
-                </svg>`,
-                reason: 'กากถั่วเหลืองต้มมีลักษณะเป็นของแข็งไม่ละลายน้ำ การใช้ผ้าขาวบางหรือกระดาษกรองจะแยกกากออกได้อย่างหมดจด',
-                hint: 'เวลาทำน้ำนมถั่วเหลือง เราจะใช้ผ้าขาวบางแยกกากถั่วเหลืองออก ลองใช้วิธีนั้นสิ!'
+                </svg>`
             },
             {
                 id: 'item-5',
@@ -514,14 +448,12 @@
                 method: 'magnetic',
                 color: 'bg-slate-800 text-slate-100 border-slate-950 shadow-sm',
                 svgIcon: `
-                <svg viewBox="0 0 64 64" class="w-9 h-9 drop-shadow-sm">
+                <svg viewBox="0 0 64 64" class="w-8 h-8 sm:w-9 sm:h-9 drop-shadow-sm">
                     <ellipse cx="32" cy="38" rx="20" ry="10" fill="#334155" stroke="#94a3b8" stroke-width="2"/>
                     <circle cx="26" cy="36" r="1.8" fill="#cbd5e1"/>
                     <circle cx="34" cy="40" r="1.8" fill="#cbd5e1"/>
                     <circle cx="38" cy="35" r="1.5" fill="#cbd5e1"/>
-                </svg>`,
-                reason: 'ผงตะไบเหล็กมีสมบัติทางแม่เหล็ก จึงถูกแรงแม่เหล็กดึงดูดแยกออกจากทรายได้อย่างรวดเร็ว',
-                hint: 'มีส่วนประกอบหนึ่งที่เป็นสารแม่เหล็ก สามารถดึงดูดด้วยแม่เหล็กได้นะ!'
+                </svg>`
             },
             {
                 id: 'item-6',
@@ -529,22 +461,22 @@
                 method: 'sedimentation',
                 color: 'bg-stone-50 text-stone-900 border-stone-300 font-semibold shadow-sm',
                 svgIcon: `
-                <svg viewBox="0 0 64 64" class="w-9 h-9 drop-shadow-sm">
+                <svg viewBox="0 0 64 64" class="w-8 h-8 sm:w-9 sm:h-9 drop-shadow-sm">
                     <rect x="18" y="16" width="28" height="36" rx="6" fill="#ffffff" stroke="#78716c" stroke-width="2"/>
                     <rect x="20" y="40" width="24" height="10" rx="3" fill="#e7e5e4"/>
                     <circle cx="28" cy="28" r="1.8" fill="#292524"/>
                     <circle cx="36" cy="28" r="1.8" fill="#292524"/>
-                </svg>`,
-                reason: 'แป้งมันไม่ละลายในน้ำเย็น มีความหนาแน่นสูงกว่าน้ำ จึงตั้งทิ้งไว้ให้ตกตะกอนแยกชั้นที่ก้นภาชนะได้',
-                hint: 'ลองนึกถึงตอนผสมแป้งกับน้ำเย็นแล้วตั้งทิ้งไว้ แป้งจะจมลงไปอยู่ที่ก้นแก้ว!'
+                </svg>`
             }
         ];
 
+        const MAX_SCALED_SCORE = 100;
+
         /* ==================== STATE VARIABLES ==================== */
-        let score = 0;
         let timerSeconds = 0;
         let timerInterval = null;
         let selectedElement = null;
+        let hasSubmitted = false;
 
         /* ==================== BUBBLE BACKGROUND GENERATOR ==================== */
         function createBackgroundBubbles() {
@@ -563,7 +495,7 @@
             }
         }
 
-        /* ==================== WEB AUDIO SYNTHESIS ==================== */
+        /* ==================== WEB AUDIO SYNTHESIS (NEUTRAL SOUNDS) ==================== */
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         let audioCtx = null;
 
@@ -583,37 +515,26 @@
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
 
-                if (type === 'correct') {
+                if (type === 'place') {
                     const now = audioCtx.currentTime;
                     osc.type = 'sine';
-                    osc.frequency.setValueAtTime(523.25, now);
-                    osc.frequency.setValueAtTime(659.25, now + 0.08);
-                    osc.frequency.setValueAtTime(783.99, now + 0.16);
-                    osc.frequency.setValueAtTime(1046.50, now + 0.24);
-                    gain.gain.setValueAtTime(0.2, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.45);
+                    osc.frequency.setValueAtTime(520, now);
+                    osc.frequency.exponentialRampToValueAtTime(660, now + 0.09);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.14);
                     osc.start(now);
-                    osc.stop(now + 0.45);
-                } else if (type === 'wrong') {
-                    const now = audioCtx.currentTime;
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(220, now);
-                    osc.frequency.exponentialRampToValueAtTime(110, now + 0.25);
-                    gain.gain.setValueAtTime(0.25, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-                    osc.start(now);
-                    osc.stop(now + 0.3);
-                } else if (type === 'win') {
+                    osc.stop(now + 0.14);
+                } else if (type === 'finish') {
                     const now = audioCtx.currentTime;
                     osc.type = 'sine';
-                    const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+                    const notes = [523.25, 659.25, 783.99, 1046.50];
                     notes.forEach((freq, idx) => {
                         osc.frequency.setValueAtTime(freq, now + idx * 0.1);
                     });
-                    gain.gain.setValueAtTime(0.25, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
+                    gain.gain.setValueAtTime(0.22, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.7);
                     osc.start(now);
-                    osc.stop(now + 0.8);
+                    osc.stop(now + 0.7);
                 }
             } catch (e) {
                 console.log("Audio play error:", e);
@@ -655,27 +576,35 @@
                 card.id = item.id;
                 card.draggable = true;
                 card.dataset.method = item.method;
-                card.className = `draggable-item ${item.color} p-3 rounded-2xl shadow-sm flex items-center justify-between border hover:border-teal-300`;
+                card.className = `draggable-item ${item.color} p-2.5 sm:p-3 rounded-2xl shadow-sm flex items-center justify-between gap-2 border hover:border-teal-300`;
                 
                 card.innerHTML = `
-                    <div class="flex items-center gap-3 pointer-events-none">
-                        <div class="w-11 h-11 rounded-xl bg-white/80 flex items-center justify-center p-1 border border-black/5">
+                    <div class="flex items-center gap-2.5 sm:gap-3 pointer-events-none min-w-0">
+                        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white/85 flex items-center justify-center p-1 border border-black/5 shrink-0">
                             ${item.svgIcon}
                         </div>
-                        <span class="font-cute font-bold text-sm md:text-base">${item.name}</span>
+                        <span class="font-cute font-bold text-xs sm:text-sm md:text-base leading-snug">${item.name}</span>
                     </div>
-                    <i class="fa-solid fa-grip-dots-vertical opacity-40 text-sm mr-1"></i>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <button type="button" title="นำออกจากกล่อง" onclick="returnCardToLeft(event, '${item.id}')"
+                            class="remove-placed-btn hidden w-7 h-7 rounded-full bg-black/25 hover:bg-black/40 text-white text-xs items-center justify-center transition">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                        <i class="fa-solid fa-grip-dots-vertical opacity-45 text-sm mr-1"></i>
+                    </div>
                 `;
 
-                // Event Listeners
                 card.addEventListener('dragstart', handleDragStart);
                 card.addEventListener('dragend', handleDragEnd);
-                card.addEventListener('click', () => handleMobileSelect(card, item));
+                card.addEventListener('click', (e) => {
+                    if (e.target.closest('.remove-placed-btn')) return;
+                    handleMobileSelect(card, item);
+                });
 
                 container.appendChild(card);
             });
 
-            updateRemainingCount();
+            updatePlacementState();
         }
 
         function setupDropZones() {
@@ -685,22 +614,36 @@
                 zone.addEventListener('dragleave', handleDragLeave);
                 zone.addEventListener('drop', handleDrop);
 
-                zone.addEventListener('click', () => {
-                    if (selectedElement) {
-                        const targetMethod = zone.dataset.method;
-                        const itemMethod = selectedElement.dataset.method;
-                        const itemId = selectedElement.id;
-                        const itemData = suspensionItems.find(i => i.id === itemId);
-
-                        verifyMatch(itemMethod, targetMethod, selectedElement, zone, itemData);
+                zone.addEventListener('click', (e) => {
+                    if (e.target.closest('.draggable-item')) return;
+                    if (selectedElement && !hasSubmitted) {
+                        placeCardInZone(selectedElement, zone);
                         clearSelection();
                     }
                 });
             });
+
+            const leftPanel = document.getElementById('left-panel-zone');
+            leftPanel.addEventListener('dragover', handleDragOver);
+            leftPanel.addEventListener('dragleave', handleDragLeave);
+            leftPanel.addEventListener('drop', (e) => {
+                e.preventDefault();
+                leftPanel.classList.remove('drag-over');
+                if (hasSubmitted) return;
+                const id = e.dataTransfer.getData('text/plain');
+                const draggedEl = document.getElementById(id);
+                if (draggedEl) {
+                    moveCardToLeftPanel(draggedEl);
+                }
+            });
         }
 
-        /* ==================== DRAG & DROP ENGINE ==================== */
+        /* ==================== DRAG & DROP ENGINE (ไม่มีเฉลยถูก/ผิด) ==================== */
         function handleDragStart(e) {
+            if (hasSubmitted) {
+                e.preventDefault();
+                return;
+            }
             initAudio();
             e.dataTransfer.setData('text/plain', e.target.id);
             e.target.classList.add('dragging');
@@ -713,7 +656,9 @@
 
         function handleDragOver(e) {
             e.preventDefault();
-            e.currentTarget.classList.add('drag-over');
+            if (!hasSubmitted) {
+                e.currentTarget.classList.add('drag-over');
+            }
         }
 
         function handleDragLeave(e) {
@@ -724,22 +669,19 @@
             e.preventDefault();
             const zone = e.currentTarget;
             zone.classList.remove('drag-over');
+            if (hasSubmitted) return;
 
             const id = e.dataTransfer.getData('text/plain');
             const draggedEl = document.getElementById(id);
             if (!draggedEl) return;
 
-            const itemMethod = draggedEl.dataset.method;
-            const targetMethod = zone.dataset.method;
-            const itemData = suspensionItems.find(i => i.id === id);
-
-            verifyMatch(itemMethod, targetMethod, draggedEl, zone, itemData);
+            placeCardInZone(draggedEl, zone);
         }
 
         /* ==================== TOUCH & SELECTION FALLBACK ==================== */
         function handleMobileSelect(card, item) {
+            if (hasSubmitted) return;
             initAudio();
-            if (card.classList.contains('locked')) return;
 
             if (selectedElement === card) {
                 clearSelection();
@@ -747,7 +689,7 @@
                 clearSelection();
                 selectedElement = card;
                 card.classList.add('selected-tap');
-                updateMascotText(`คุณเลือก "${item.name}" แล้ว! แตะเลือกกล่องอุปกรณ์แยกสารทางขวาได้เลย`);
+                updateMascotText(`เลือก "${item.name}" แล้ว! แตะเลือกกล่องวิธีแยกสารที่ต้องการวางได้เลย`);
             }
         }
 
@@ -762,91 +704,155 @@
             document.getElementById('mascot-dialogue').innerText = `"${text}"`;
         }
 
-        /* ==================== VERIFICATION & GAME LOGIC ==================== */
-        function verifyMatch(itemMethod, targetMethod, element, zone, itemData) {
-            if (itemMethod === targetMethod) {
-                playSound('correct');
-                score++;
-                updateScoreDisplay();
+        /* ==================== PLACEMENT LOGIC ==================== */
+        function placeCardInZone(element, zone) {
+            playSound('place');
 
-                element.classList.remove('draggable-item', 'selected-tap');
-                element.classList.add('locked', 'opacity-90', 'scale-95', 'my-1');
-                element.draggable = false;
+            const droppedBox = zone.querySelector('.dropped-items');
+            const placeholder = droppedBox.querySelector('.placeholder-hint');
+            if (placeholder) placeholder.classList.add('hidden');
 
-                const droppedBox = zone.querySelector('.dropped-items');
-                if (droppedBox.innerText.includes('วางสารที่ใช้วิธีนี้ที่นี่')) {
-                    droppedBox.innerHTML = '';
-                }
-                droppedBox.appendChild(element);
-
-                updateMascotText(`ยอดเยี่ยมมาก! แยก "${itemData.name}" ได้ถูกต้องตามหลักการครับ`);
-                showCorrectModal(itemData);
-
-                if (score === suspensionItems.length) {
-                    setTimeout(triggerWin, 600);
-                }
-            } else {
-                playSound('wrong');
-                element.classList.add('animate-wrong');
-                setTimeout(() => element.classList.remove('animate-wrong'), 500);
-
-                updateMascotText(`เอ๊ะ... "${itemData.name}" ยังไม่เหมาะกับวิธีนี้ ลองอ่านคำใบ้นะครับ`);
-                showWrongModal(itemData);
+            const removeBtn = element.querySelector('.remove-placed-btn');
+            if (removeBtn) {
+                removeBtn.classList.remove('hidden');
+                removeBtn.classList.add('flex');
             }
-            updateRemainingCount();
+
+            droppedBox.appendChild(element);
+
+            const itemData = suspensionItems.find(i => i.id === element.id);
+            updatePlacementState();
+
+            const placedCount = getPlacedCount();
+            if (placedCount === suspensionItems.length) {
+                updateMascotText(`วางครบทั้ง ${suspensionItems.length} รายการแล้ว! ตรวจสอบความเรียบร้อยแล้วกดปุ่ม "ส่งคำตอบและบันทึกคะแนน" ได้เลยครับ`);
+            } else if (itemData) {
+                updateMascotText(`วาง "${itemData.name}" ลงในกล่องเรียบร้อย! สามารถลากย้ายกล่องได้จนกว่าจะกดส่งคำตอบ`);
+            }
         }
 
-        function updateScoreDisplay() {
-            document.getElementById('score-text').innerText = `${score} / ${suspensionItems.length}`;
-            const percent = (score / suspensionItems.length) * 100;
-            document.getElementById('progress-bar').style.width = `${percent}%`;
+        function returnCardToLeft(event, cardId) {
+            event.stopPropagation();
+            if (hasSubmitted) return;
+            const card = document.getElementById(cardId);
+            if (card) {
+                clearSelection();
+                moveCardToLeftPanel(card);
+            }
         }
 
-        function updateRemainingCount() {
-            const remaining = suspensionItems.length - score;
+        function moveCardToLeftPanel(card) {
+            playSound('place');
+            const removeBtn = card.querySelector('.remove-placed-btn');
+            if (removeBtn) {
+                removeBtn.classList.add('hidden');
+                removeBtn.classList.remove('flex');
+            }
+            document.getElementById('draggables-container').appendChild(card);
+            updatePlacementState();
+            updateMascotText('นำบัตรกลับมาที่รายการด้านซ้ายแล้ว เลือกกล่องวิธีแยกสารใหม่ได้เลยครับ');
+        }
+
+        function getPlacedCount() {
+            let count = 0;
+            document.querySelectorAll('.drop-zone .draggable-item').forEach(() => count++);
+            return count;
+        }
+
+        function updatePlacementState() {
+            const placedCount = getPlacedCount();
+            const remaining = suspensionItems.length - placedCount;
+
+            document.getElementById('placed-text').innerText = `${placedCount} / ${suspensionItems.length}`;
             document.getElementById('remaining-count').innerText = `เหลือ ${remaining} รายการ`;
+
+            const percent = (placedCount / suspensionItems.length) * 100;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                const itemsInZone = zone.querySelectorAll('.draggable-item').length;
+                const hint = zone.querySelector('.placeholder-hint');
+                if (hint) {
+                    if (itemsInZone === 0) hint.classList.remove('hidden');
+                    else hint.classList.add('hidden');
+                }
+            });
+
+            const leftContainer = document.getElementById('draggables-container');
+            const existingEmptyNote = leftContainer.querySelector('.empty-left-note');
+            if (remaining === 0) {
+                if (!existingEmptyNote) {
+                    const note = document.createElement('div');
+                    note.className = 'empty-left-note text-center py-6 px-3 rounded-2xl bg-teal-50/80 border-2 border-dashed border-teal-200 text-teal-800 text-xs sm:text-sm font-semibold';
+                    note.innerHTML = '<i class="fa-solid fa-circle-check text-teal-600 text-xl block mb-1"></i>จัดวางครบทั้ง 6 รายการแล้ว!<br>กดปุ่มส่งคำตอบด้านล่างได้เลย';
+                    leftContainer.appendChild(note);
+                }
+            } else if (existingEmptyNote) {
+                existingEmptyNote.remove();
+            }
+
+            const submitBtn = document.getElementById('submit-answers-btn');
+            const submitText = document.getElementById('submit-btn-text');
+            if (placedCount === suspensionItems.length) {
+                submitBtn.disabled = false;
+                submitBtn.className = 'w-full py-3.5 px-4 rounded-2xl font-cute font-bold text-sm sm:text-base transition flex items-center justify-center gap-2 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white shadow-lg shadow-teal-500/25 active:scale-95 cursor-pointer';
+                submitText.innerText = 'ส่งคำตอบและบันทึกคะแนน';
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.className = 'w-full py-3.5 px-4 rounded-2xl font-cute font-bold text-sm sm:text-base transition flex items-center justify-center gap-2 bg-slate-200 text-slate-400 cursor-not-allowed';
+                submitText.innerText = `วางอีก ${remaining} รายการเพื่อส่งคำตอบ`;
+            }
         }
 
-        /* ==================== MODALS & CONFETTI ==================== */
-        function showCorrectModal(item) {
-            document.getElementById('modal-item-name').innerText = `สาร: ${item.name}`;
-            document.getElementById('modal-reason').innerText = item.reason;
-            document.getElementById('modal-correct').classList.remove('hidden');
-        }
+        /* ==================== SUBMIT & SCORE CALCULATION (6 ข้อ -> เต็ม 100 คะแนน) ==================== */
+        function submitAnswers() {
+            if (hasSubmitted) return;
+            const placedCount = getPlacedCount();
+            if (placedCount < suspensionItems.length) {
+                updateMascotText(`กรุณาวางบัตรสารแขวนลอยให้ครบทั้ง ${suspensionItems.length} รายการก่อนกดส่งคำตอบนะครับ`);
+                return;
+            }
 
-        function closeCorrectModal() {
-            document.getElementById('modal-correct').classList.add('hidden');
-        }
-
-        function showWrongModal(item) {
-            document.getElementById('wrong-item-name').innerText = `สาร: ${item.name}`;
-            document.getElementById('wrong-hint-text').innerText = item.hint;
-            document.getElementById('modal-wrong').classList.remove('hidden');
-        }
-
-        function closeWrongModal() {
-            document.getElementById('modal-wrong').classList.add('hidden');
-        }
-
-        function triggerWin() {
+            hasSubmitted = true;
             clearInterval(timerInterval);
-            playSound('win');
+            clearSelection();
+            playSound('finish');
 
-            document.getElementById('final-score').innerText = `${score} / ${suspensionItems.length}`;
+            // นับจำนวนข้อที่วางถูกต้อง (เต็ม 6) แล้วเทียบเป็นคะแนนเต็ม 100
+            let correctCount = 0;
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                const targetMethod = zone.dataset.method;
+                zone.querySelectorAll('.draggable-item').forEach(card => {
+                    if (card.dataset.method === targetMethod) {
+                        correctCount++;
+                    }
+                    card.draggable = false;
+                    const removeBtn = card.querySelector('.remove-placed-btn');
+                    if (removeBtn) removeBtn.classList.add('hidden');
+                });
+            });
+
+            const scaledScore = Math.round((correctCount / suspensionItems.length) * MAX_SCALED_SCORE);
+
+            document.getElementById('final-score').innerText = `${scaledScore} / ${MAX_SCALED_SCORE}`;
+            document.getElementById('final-raw-detail').innerText = `(แยกถูกต้อง ${correctCount} จาก ${suspensionItems.length} รายการ)`;
+
             const mins = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
             const secs = (timerSeconds % 60).toString().padStart(2, '0');
             document.getElementById('final-time').innerText = `${mins}:${secs}`;
 
-            launchConfetti();
+            if (scaledScore > 0) {
+                launchConfetti();
+            }
             document.getElementById('modal-summary').classList.remove('hidden');
 
-            // ส่งผลคะแนนกลับไปยังหน้าหลัก (index.html) เพื่อบันทึกความก้าวหน้าและอัปเดต Top 5
+            // ส่งผลคะแนนเต็ม 100 กลับไปยังหน้าหลัก (index.html)
             if (window.parent && window.parent !== window) {
                 window.parent.postMessage({
                     type: "SCIENCE_GAME_RESULT",
                     gameId: 2,
                     gameName: "Dirty Drop",
-                    score: score,
+                    score: scaledScore,
                     completed: true,
                     timeUsed: timerSeconds
                 }, "*");
@@ -854,18 +860,15 @@
         }
 
         function resetGame() {
-            score = 0;
-            updateScoreDisplay();
-            closeCorrectModal();
-            closeWrongModal();
+            hasSubmitted = false;
+            clearSelection();
             document.getElementById('modal-summary').classList.add('hidden');
 
-            const zoneBoxes = document.querySelectorAll('.dropped-items');
-            zoneBoxes.forEach(box => {
-                box.innerHTML = 'วางสารที่ใช้วิธีนี้ที่นี่';
+            document.querySelectorAll('.dropped-items').forEach(box => {
+                box.innerHTML = '<div class="placeholder-hint text-center text-xs text-teal-600 font-bold py-3">วางสารที่ใช้วิธีนี้ที่นี่</div>';
             });
 
-            updateMascotText('สวัสดีครับนักเรียน! ช่วยดร.สปาร์ก ลากบัตรสารแขวนลอยไปลงในกล่องเครื่องมือแยกสารที่ถูกต้องทีนะ!');
+            updateMascotText('ลากบัตรสารแขวนลอย (หรือแตะเลือกบนมือถือ) ไปวางในกล่องวิธีแยกสารให้ครบทั้ง 6 รายการ แล้วกดปุ่มส่งคำตอบเพื่อคำนวณคะแนนเต็ม 100 นะ!');
             renderDraggables();
             startTimer();
         }
@@ -879,7 +882,7 @@
             const particles = [];
             const colors = ['#2dd4bf', '#38bdf8', '#34d399', '#a7f3d0', '#bfdbfe'];
 
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 90; i++) {
                 particles.push({
                     x: canvas.width / 2,
                     y: canvas.height / 2,
@@ -887,7 +890,7 @@
                     vy: (Math.random() - 0.7) * 12,
                     size: Math.random() * 8 + 4,
                     color: colors[Math.floor(Math.random() * colors.length)],
-                    life: 100
+                    life: 95
                 });
             }
 
