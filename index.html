@@ -62,7 +62,7 @@
           ชุดเกมการเรียนรู้วิทยาศาสตร์ ม.3
         </span>
         <h1 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Clean Flow Village</h1>
-        <p class="text-xs md:text-sm text-slate-400 mt-1">การบำบัดน้ำเสีย &amp; การจัดการสิ่งแวดล้อม (เล่นได้ด่านละ 3 ครั้ง)</p>
+        <p class="text-xs md:text-sm text-slate-400 mt-1">การบำบัดน้ำเสีย &amp; การจัดการสิ่งแวดล้อม (ด่านละ 100 คะแนน • เล่นได้ 3 ครั้ง)</p>
       </div>
 
       <div class="grid grid-cols-2 bg-[#0b1220] p-1 rounded-2xl mb-5 border border-slate-800">
@@ -81,7 +81,7 @@
             <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500">
               <i class="fa-solid fa-user"></i>
             </span>
-            <input type="text" id="input-nickname" required maxlength="20" placeholder="เช่น พลอยใส, กัปตัน"
+            <input type="text" id="input-nickname" required maxlength="20" placeholder="เช่น น้องน้ำใส, กัปตันวิทย์"
               class="w-full pl-10 pr-4 py-3 rounded-xl bg-[#0b1220] border border-slate-700 text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none font-medium">
           </div>
         </div>
@@ -163,13 +163,13 @@
       <section class="hero-banner rounded-3xl p-6 md:p-9 relative overflow-hidden">
         <div class="relative z-10 max-w-3xl space-y-4">
           <div class="inline-flex items-center gap-2 bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-semibold px-3.5 py-1 rounded-full">
-            ชุดเกมการเรียนรู้วิทยาศาสตร์ ม.3
+            ชุดเกมการเรียนรู้วิทยาศาสตร์ ม.3 (ด่านละ 100 คะแนน)
           </div>
           <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
             Clean Flow Village
           </h1>
           <p class="text-slate-300 text-sm md:text-base leading-relaxed">
-            ยินดีต้อนรับสู่นวัตกรรมการเรียนรู้การบำบัดน้ำเสียและการจัดการสิ่งแวดล้อม ร่วมผจญภัยผ่าน 5 ภารกิจหลัก และร่วมตอบแบบประเมินความพึงพอใจเพื่อสะสมคะแนนรวม!
+            ยินดีต้อนรับสู่นวัตกรรมการเรียนรู้การบำบัดน้ำเสียและการจัดการสิ่งแวดล้อม ร่วมผจญภัยผ่าน 5 ภารกิจหลัก (เต็มด่านละ 100 คะแนน) และร่วมตอบแบบประเมินความพึงพอใจเพื่อสะสมคะแนนรวม!
           </p>
 
           <div class="pt-2 flex flex-wrap items-center gap-3">
@@ -192,7 +192,7 @@
             <i class="fa-solid fa-star"></i>
           </div>
           <div class="min-w-0">
-            <div class="text-[11px] text-slate-400 font-medium truncate">คะแนนเฉลี่ยรวม (3 ครั้ง)</div>
+            <div class="text-[11px] text-slate-400 font-medium truncate">คะแนนเฉลี่ยรวม (เต็ม 500)</div>
             <div id="stat-total-avg" class="text-xl md:text-2xl font-extrabold text-amber-400 leading-tight">0.00</div>
           </div>
         </div>
@@ -245,7 +245,7 @@
             <span>ด่านการเรียนรู้ทั้งหมด (6 ด่าน)</span>
           </h2>
           <span class="text-xs text-slate-400">
-            * แต่ละเกมเล่นได้สูงสุด <strong class="text-emerald-400">3 ครั้ง</strong> เพื่อคำนวณคะแนนเฉลี่ยวัดระดับความเข้าใจ
+            * ทุกด่านคิดคะแนนเต็ม <strong class="text-cyan-300">100 คะแนน</strong> และเล่นได้สูงสุด <strong class="text-emerald-400">3 ครั้ง</strong>
           </span>
         </div>
 
@@ -396,7 +396,8 @@
 
     const MAX_PLAYS = 3;
 
-    // จัดเรียงลำดับเกม (1-5) + ด่านที่ 6 แบบประเมินความพึงพอใจ
+    // ทุกด่านมีคะแนนเต็มแสดงผลเป็น 100 คะแนน (maxScore: 100)
+    // rawMaxScore ใช้แปลงคะแนนดิบที่แต่ละเกมส่งมาให้เป็นสเกลเต็ม 100 อัตโนมัติ
     const STAGES_CONFIG = [
       {
         stageNum: 1,
@@ -406,6 +407,7 @@
         desc: "การบำบัดน้ำเสียทางกายภาพ - ตะลุยด่านเก็บเศษขยะ ตักขยะ และตอบคำถามหลังบทเรียนวิทยาศาสตร์ 10 ข้อ",
         file: "game1_stinky_creek.html",
         maxScore: 100,
+        rawMaxScore: 100, // game1 ส่งคะแนนเต็ม 100 มาแล้ว
         iconClass: "fa-solid fa-mountain-sun",
         iconColor: "text-emerald-400",
         btnClass: "bg-cyan-500 hover:bg-cyan-400 text-slate-950",
@@ -418,7 +420,8 @@
         title: "2. Dirty Drop",
         desc: "การแยกสารแขวนลอย - เรียนรู้การกรอง ตกตะกอน เหวี่ยงแยก และการใช้แม่เหล็กในห้องแล็บพาสเทล",
         file: "game2_dirty_drop.html",
-        maxScore: 6,
+        maxScore: 100,
+        rawMaxScore: 6,   // แปลงจากคะแนนดิบ 6 -> เต็ม 100 คะแนน
         iconClass: "fa-solid fa-vial",
         iconColor: "text-teal-300",
         btnClass: "bg-emerald-400 hover:bg-emerald-300 text-slate-950",
@@ -431,7 +434,8 @@
         title: "3. Foul Pool",
         desc: "การบำบัดน้ำเสียทางชีวภาพ - เกมจับคู่ภาพเครื่องมือบำบัดน้ำเสียกับหลักการทำงานทางวิทยาศาสตร์",
         file: "game3_foul_pool.html",
-        maxScore: 300,
+        maxScore: 100,
+        rawMaxScore: 300, // แปลงจากคะแนนดิบ 300 -> เต็ม 100 คะแนน
         iconClass: "fa-solid fa-bacteria",
         iconColor: "text-sky-400",
         btnClass: "bg-sky-500 hover:bg-sky-400 text-slate-950",
@@ -445,6 +449,7 @@
         desc: "เปลี่ยนขยะชีวภาพเป็นปุ๋ยหมัก - ตักสาหร่าย ให้อาหารไก่ และผสมปุ๋ยหมักชีวภาพครบ 3 สเตจ",
         file: "game5_bio.html",
         maxScore: 100,
+        rawMaxScore: 26,  // แปลงจากคะแนนดิบ 26 -> เต็ม 100 คะแนน
         iconClass: "fa-solid fa-seedling",
         iconColor: "text-lime-400",
         btnClass: "bg-emerald-500 hover:bg-emerald-400 text-slate-950",
@@ -457,7 +462,8 @@
         title: "5. Bin It Right",
         desc: "การคัดแยกขยะถูกถัง - แยกขยะเปียก ของรีไซเคิล ของอันตราย และขยะทั่วไปก่อนหมดเวลา",
         file: "game4_bin_it_right.html",
-        maxScore: 200,
+        maxScore: 100,
+        rawMaxScore: 200, // แปลงจากคะแนนดิบ 200 -> เต็ม 100 คะแนน
         iconClass: "fa-solid fa-recycle",
         iconColor: "text-green-400",
         btnClass: "bg-amber-500 hover:bg-amber-400 text-slate-950",
@@ -470,7 +476,18 @@
     let leaderboardData = [];
     let isSaving = false;
 
-    // ฟังก์ชันปรับโครงสร้างข้อมูล games ให้เป็น Array 5 เกมที่ถูกต้องเสมอ (ป้องกันข้อมูลเก่าค้างรูปแบบ)
+    // ฟังก์ชันแปลงคะแนนดิบของแต่ละเกมเป็นสเกล 0 - 100 คะแนน
+    function normalizeScoreTo100(gameId, rawScore) {
+      const cfg = STAGES_CONFIG.find(c => c.gameId === Number(gameId));
+      const rawMax = cfg ? Number(cfg.rawMaxScore || 100) : 100;
+      const numericScore = Math.max(0, Number(rawScore || 0));
+      if (rawMax === 100) {
+        return Math.min(100, Math.round(numericScore));
+      }
+      return Math.min(100, Math.round((numericScore / rawMax) * 100));
+    }
+
+    // ฟังก์ชันปรับโครงสร้างข้อมูล games ให้เป็น Array 5 เกมที่ถูกต้องเสมอ
     function normalizeGamesArray(rawGames) {
       let parsed = rawGames;
       if (typeof parsed === "string") {
@@ -581,7 +598,7 @@
       icon.className = input.type === "password" ? "fa-solid fa-eye" : "fa-solid fa-eye-slash";
     }
 
-    function saveToLocalDb(nickname, pin, gameId, score, completed, surveyDone = null) {
+    function saveToLocalDb(nickname, pin, gameId, scaledScore100, completed, surveyDone = null) {
       const db = JSON.parse(localStorage.getItem("cfv_local_db") || "{}");
       const key = nickname.toLowerCase();
       const now = new Date().toLocaleString("th-TH");
@@ -611,7 +628,7 @@
           if (g.playsCount >= MAX_PLAYS) {
             return { limitReached: true, player: db[key], leaderboard: buildLocalTop5(db) };
           }
-          g.history.push(Number(score));
+          g.history.push(Number(scaledScore100));
           g.playsCount = g.history.length;
           const sum = g.history.reduce((a, b) => a + b, 0);
           g.avgScore = Number((sum / g.playsCount).toFixed(2));
@@ -622,9 +639,8 @@
       let totalAvg = 0;
       let pctSum = 0;
       db[key].games.forEach(item => {
-        const cfg = STAGES_CONFIG.find(c => c.gameId === item.id);
         totalAvg += Number(item.avgScore || 0);
-        pctSum += cfg ? Math.min(100, (Number(item.avgScore || 0) / cfg.maxScore) * 100) : 0;
+        pctSum += Math.min(100, Number(item.avgScore || 0)); // เต็ม 100 ทุกด่าน
       });
 
       db[key].totalAvgScore = Number(totalAvg.toFixed(2));
@@ -871,7 +887,7 @@
 
       navPills.innerHTML = stagePillsHtml + surveyPillHtml;
 
-      // การ์ด 6 ด่าน
+      // การ์ด 6 ด่าน (ทุกด่านเต็ม 100 คะแนน)
       const grid = document.getElementById("games-grid");
       const gameCardsHtml = STAGES_CONFIG.map(st => {
         const pGame = gamesList.find(x => x.id === st.gameId) || { playsCount: 0, history: [], avgScore: 0, completed: false };
@@ -879,7 +895,7 @@
         const avgVal = Number(pGame.avgScore || 0);
         const historyArr = Array.isArray(pGame.history) ? pGame.history : [];
         const isLocked = playsCount >= MAX_PLAYS;
-        const gamePct = Math.min(100, Math.round((avgVal / st.maxScore) * 100));
+        const gamePct = Math.min(100, Math.round((avgVal / 100) * 100));
         const lvl = getUnderstandingLevel(gamePct, playsCount);
 
         const statusBadge = pGame.completed
@@ -916,8 +932,8 @@
 
               <div class="bg-[#0b1220]/90 rounded-xl p-3 border border-slate-800/90 space-y-2">
                 <div class="flex items-center justify-between text-xs">
-                  <span class="text-slate-400">คะแนนเฉลี่ย (ความเข้าใจ):</span>
-                  <span class="font-extrabold text-emerald-400">${avgVal.toFixed(2)} / ${st.maxScore} (${gamePct}%)</span>
+                  <span class="text-slate-400">คะแนนเฉลี่ย (เต็ม 100):</span>
+                  <span class="font-extrabold text-emerald-400">${avgVal.toFixed(2)} / 100 (${gamePct}%)</span>
                 </div>
                 <div class="flex flex-wrap items-center justify-between gap-1.5">
                   <div class="flex flex-wrap gap-1">${attemptDots}</div>
@@ -983,12 +999,13 @@
       document.getElementById("bar-label").textContent = `${understandingPct}%`;
       document.getElementById("overall-progress-bar").style.width = `${Math.min(100, understandingPct)}%`;
 
+      // สรุปรายด่าน: ทุกด่านแสดงเต็ม 100 คะแนน (0.00/100)
       const miniList = document.getElementById("mini-progress-list");
       miniList.innerHTML = STAGES_CONFIG.map(st => {
         const pGame = gamesList.find(x => x.id === st.gameId) || { playsCount: 0, avgScore: 0 };
         const playsCount = Number(pGame.playsCount || 0);
         const avgVal = Number(pGame.avgScore || 0);
-        const gamePct = Math.min(100, Math.round((avgVal / st.maxScore) * 100));
+        const gamePct = Math.min(100, Math.round((avgVal / 100) * 100));
         const lvl = getUnderstandingLevel(gamePct, playsCount);
         return `
           <div class="flex items-center justify-between gap-3 bg-[#0b1220] px-3.5 py-2.5 rounded-xl border border-slate-800/80 text-xs">
@@ -997,7 +1014,7 @@
               <span class="text-slate-500 ml-1.5">(เล่น ${playsCount}/${MAX_PLAYS} ครั้ง)</span>
             </div>
             <div class="flex items-center gap-2 shrink-0">
-              <span class="font-bold text-cyan-300">${avgVal.toFixed(2)}/${st.maxScore}</span>
+              <span class="font-bold text-cyan-300">${avgVal.toFixed(2)}/100</span>
               <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${lvl.badgeClass}">${gamePct}% • ${lvl.short}</span>
             </div>
           </div>
@@ -1019,7 +1036,7 @@
                   <div class="font-bold text-sm text-white truncate">
                     ${row.nickname} ${isMe ? '<span class="text-[10px] bg-emerald-400 text-slate-950 font-extrabold px-2 py-0.5 rounded-full ml-1">คุณ</span>' : ''}
                   </div>
-                  <div class="text-[11px] text-slate-400">เฉลี่ยรวม ${Number(row.totalAvgScore || 0).toFixed(2)} คะแนน</div>
+                  <div class="text-[11px] text-slate-400">เฉลี่ยรวม ${Number(row.totalAvgScore || 0).toFixed(2)} / 500</div>
                 </div>
               </div>
               <div class="text-right shrink-0">
@@ -1124,12 +1141,15 @@
         return;
       }
 
+      // แปลงคะแนนของทุกเกมให้เป็นสเกลเต็ม 100 คะแนนทันที
+      const scaledScore100 = normalizeScoreTo100(gameId, msg.score);
+
       isSaving = true;
       document.getElementById("close-game-text").textContent = "กำลังคำนวณคะแนนเฉลี่ย...";
-      showSaveToast(`กำลังบันทึกครั้งที่ ${pGame.playsCount + 1}/3 (${msg.score} คะแนน)...`);
+      showSaveToast(`กำลังบันทึกครั้งที่ ${pGame.playsCount + 1}/3 (${scaledScore100} / 100 คะแนน)...`);
 
       const savedPin = currentPlayer.pin;
-      const localRes = saveToLocalDb(currentPlayer.nickname, savedPin, gameId, msg.score, msg.completed);
+      const localRes = saveToLocalDb(currentPlayer.nickname, savedPin, gameId, scaledScore100, msg.completed);
       currentPlayer = { ...localRes.player, games: normalizeGamesArray(localRes.player.games), surveyDone: Boolean(currentPlayer.surveyDone), pin: savedPin };
       leaderboardData = localRes.leaderboard;
       localStorage.setItem("cfv_current_user", JSON.stringify(currentPlayer));
@@ -1152,7 +1172,7 @@
           pin: savedPin,
           gameId: gameId,
           gameName: msg.gameName,
-          score: msg.score,
+          score: scaledScore100, // ส่งคะแนนเต็ม 100 เข้า Google Sheets
           completed: msg.completed,
           timeUsed: msg.timeUsed || 0
         });
@@ -1165,7 +1185,7 @@
           localStorage.setItem("cfv_current_user", JSON.stringify(currentPlayer));
           renderDashboard();
           const gObj = currentPlayer.games.find(x => x.id === gameId);
-          showSaveToast(`บันทึกครั้งที่ ${gObj.playsCount}/3 สำเร็จ! คะแนนเฉลี่ย: ${gObj.avgScore.toFixed(2)}`);
+          showSaveToast(`บันทึกครั้งที่ ${gObj.playsCount}/3 สำเร็จ! คะแนนเฉลี่ย: ${gObj.avgScore.toFixed(2)} / 100`);
         } else if (res.status === "limit_reached") {
           document.getElementById("modal-limit-banner").classList.remove("hidden");
           showSaveToast(res.message);
