@@ -958,6 +958,18 @@
             }
 
             document.getElementById('end-modal').classList.remove('hidden');
+
+            // ส่งผลคะแนนกลับไปยังหน้าหลัก (index.html) เพื่อบันทึกความก้าวหน้าและอัปเดต Top 5
+            if (window.parent && window.parent !== window) {
+                window.parent.postMessage({
+                    type: "SCIENCE_GAME_RESULT",
+                    gameId: 3,
+                    gameName: "Foul Pool",
+                    score: score,
+                    completed: true,
+                    timeUsed: timerSeconds
+                }, "*");
+            }
         }
 
         function initBubbleCanvas() {
@@ -1003,24 +1015,5 @@
             animateBubbles();
         }
     </script>
-        <script>
-  window.addEventListener("DOMContentLoaded", () => {
-    const endModal = document.getElementById("end-modal");
-    if (!endModal) return;
-
-    new MutationObserver(() => {
-      if (!endModal.classList.contains("hidden") && window.parent && window.parent !== window) {
-        window.parent.postMessage({
-          type: "SCIENCE_GAME_RESULT",
-          gameId: 3,
-          gameName: "Foul Pool",
-          score: typeof score !== "undefined" ? score : (parseInt(document.getElementById("final-score").textContent) || 0),
-          completed: true,
-          timeUsed: typeof timerSeconds !== "undefined" ? timerSeconds : 0
-        }, "*");
-      }
-    }).observe(endModal, { attributes: true, attributeFilter: ["class"] });
-  });
-</script>
 </body>
 </html>
