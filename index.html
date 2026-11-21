@@ -26,6 +26,9 @@
         </div>
         <h1 class="text-2xl md:text-3xl font-extrabold text-teal-900">Science Quest M.3</h1>
         <p class="text-sm text-slate-500 mt-1">ตะลุย 5 ภารกิจเกมวิทยาศาสตร์และการจัดการสิ่งแวดล้อม</p>
+        <div class="mt-2 inline-block bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold px-3 py-1 rounded-full">
+          <i class="fa-solid fa-circle-info"></i> เล่นได้เกมละ 3 ครั้ง • วัดระดับความเข้าใจจากคะแนนเฉลี่ย
+        </div>
       </div>
 
       <div class="grid grid-cols-2 bg-slate-100 p-1 rounded-2xl mb-5">
@@ -86,14 +89,13 @@
         </div>
         <div>
           <h1 class="text-xl md:text-2xl font-extrabold text-teal-900">ศูนย์รวมเกมวิทยาศาสตร์ ม.3</h1>
-          <p class="text-xs md:text-sm text-slate-500">สวัสดีคุณ <span id="user-display-name" class="font-bold text-teal-700"></span> • <span id="sync-status-label" class="font-semibold"></span></p>
+          <p class="text-xs md:text-sm text-slate-500">
+            สวัสดีคุณ <span id="user-display-name" class="font-bold text-teal-700"></span> • <span id="sync-status-label" class="font-semibold"></span>
+          </p>
         </div>
       </div>
 
       <div class="flex flex-wrap items-center gap-2">
-        <button onclick="testScoreSync()" class="px-3 py-2 bg-amber-50 hover:bg-amber-100 text-amber-800 font-bold text-xs rounded-xl border border-amber-300 transition flex items-center gap-1.5" title="กดเพื่อทดสอบส่งคะแนนเข้าตาราง">
-          <i class="fa-solid fa-vial"></i> ทดสอบส่งคะแนน
-        </button>
         <button onclick="refreshData()" class="px-3 py-2 bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold text-xs rounded-xl border border-sky-200 transition flex items-center gap-1.5">
           <i class="fa-solid fa-rotate"></i> รีเฟรชข้อมูล
         </button>
@@ -105,40 +107,48 @@
 
     <!-- กล่องแจ้งเตือนข้อผิดพลาดการเชื่อมต่อ Google Sheet (ถ้ามี) -->
     <div id="sheet-alert-box" class="hidden bg-rose-50 border-2 border-rose-300 text-rose-800 p-4 rounded-2xl text-xs md:text-sm space-y-1">
-      <div class="font-extrabold flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation text-rose-600"></i> แจ้งเตือนการเชื่อมต่อ Google Sheet:</div>
+      <div class="font-extrabold flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation text-rose-600"></i> แจ้งเตือนระบบ:</div>
       <p id="sheet-alert-msg"></p>
     </div>
 
-    <!-- รายงานความก้าวหน้าของผู้เล่น & สถิติ Top 5 -->
+    <!-- รายงานระดับความเข้าใจของผู้เล่น & สถิติ Top 5 -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       
+      <!-- รายงานคะแนนเฉลี่ยและระดับความเข้าใจ -->
       <section class="lg:col-span-7 bg-white rounded-3xl p-5 md:p-6 shadow-md border-2 border-teal-100 flex flex-col justify-between">
         <div>
-          <div class="flex items-center justify-between mb-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
             <h2 class="text-lg font-extrabold text-teal-900 flex items-center gap-2">
-              <i class="fa-solid fa-chart-line text-teal-500"></i> รายงานความก้าวหน้าของคุณ
+              <i class="fa-solid fa-brain text-teal-500"></i> คะแนนระดับความเข้าใจของคุณ (เฉลี่ยจาก 3 ครั้ง)
             </h2>
-            <span id="last-played-text" class="text-xs text-slate-400">เล่นล่าสุด: -</span>
+            <span id="last-played-text" class="text-xs text-slate-400">อัปเดตล่าสุด: -</span>
           </div>
 
-          <div class="grid grid-cols-3 gap-3 mb-5">
-            <div class="bg-teal-50 p-3.5 rounded-2xl border border-teal-200 text-center">
-              <span class="text-xs text-teal-700 font-bold block">คะแนนรวมสะสม</span>
-              <span id="stat-total-score" class="text-2xl md:text-3xl font-black text-teal-700">0</span>
+          <!-- 3 การ์ดสรุปผล -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
+            <div class="bg-gradient-to-br from-teal-50 to-emerald-50 p-3.5 rounded-2xl border-2 border-teal-200 text-center">
+              <span class="text-xs text-teal-800 font-bold block">คะแนนระดับความเข้าใจรวม</span>
+              <span id="stat-understanding-pct" class="text-2xl md:text-3xl font-black text-teal-700">0%</span>
+              <span id="stat-understanding-badge" class="mt-1 inline-block text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-600">ยังไม่มีข้อมูล</span>
             </div>
+
             <div class="bg-sky-50 p-3.5 rounded-2xl border border-sky-200 text-center">
-              <span class="text-xs text-sky-700 font-bold block">ผ่านภารกิจแล้ว</span>
-              <span id="stat-completed-count" class="text-2xl md:text-3xl font-black text-sky-700">0 / 5</span>
+              <span class="text-xs text-sky-700 font-bold block">ผลรวมคะแนนเฉลี่ย 5 เกม</span>
+              <span id="stat-total-avg" class="text-2xl md:text-3xl font-black text-sky-700">0.00</span>
+              <span class="text-[11px] text-sky-600 block mt-1">เต็ม 629 คะแนนเฉลี่ย</span>
             </div>
+
             <div class="bg-amber-50 p-3.5 rounded-2xl border border-amber-200 text-center">
-              <span class="text-xs text-amber-700 font-bold block">ความสำเร็จรวม</span>
-              <span id="stat-percent" class="text-2xl md:text-3xl font-black text-amber-600">0%</span>
+              <span class="text-xs text-amber-700 font-bold block">ภารกิจที่ผ่านแล้ว</span>
+              <span id="stat-completed-count" class="text-2xl md:text-3xl font-black text-amber-600">0 / 5</span>
+              <span class="text-[11px] text-amber-700 block mt-1">เล่นได้สูงสุดเกมละ 3 ครั้ง</span>
             </div>
           </div>
 
+          <!-- แถบวัดระดับความเข้าใจ -->
           <div class="mb-4">
             <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
-              <span>แถบความก้าวหน้าการเรียนรู้ครบทั้ง 5 เกม</span>
+              <span>มาตรวัดระดับความเข้าใจภาพรวมทั้ง 5 บทเรียน</span>
               <span id="bar-label">0%</span>
             </div>
             <div class="w-full h-4 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
@@ -147,13 +157,15 @@
           </div>
         </div>
 
+        <!-- สรุปคะแนนเฉลี่ยรายเกม -->
         <div id="mini-progress-list" class="space-y-2 pt-3 border-t border-slate-100 text-xs"></div>
       </section>
 
+      <!-- สถิติผู้เล่นระดับความเข้าใจสูงสุด 5 อันดับ -->
       <section class="lg:col-span-5 bg-white rounded-3xl p-5 md:p-6 shadow-md border-2 border-amber-200">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-lg font-extrabold text-amber-800 flex items-center gap-2">
-            <i class="fa-solid fa-trophy text-amber-500"></i> ผู้เล่นคะแนนสูงสุด 5 อันดับ
+            <i class="fa-solid fa-trophy text-amber-500"></i> ระดับความเข้าใจสูงสุด 5 อันดับ
           </h2>
           <span class="text-xs bg-amber-100 text-amber-800 font-bold px-2.5 py-1 rounded-full">Top 5</span>
         </div>
@@ -167,9 +179,11 @@
 
     <!-- รายการเกมทั้ง 5 เกม -->
     <section>
-      <h2 class="text-xl font-extrabold text-slate-800 mb-4 flex items-center gap-2">
-        <i class="fa-solid fa-layer-group text-teal-600"></i> เลือกด่านเกมวิทยาศาสตร์ทั้ง 5 เกม
-      </h2>
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+        <h2 class="text-xl font-extrabold text-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-layer-group text-teal-600"></i> เลือกด่านเกมวิทยาศาสตร์ทั้ง 5 เกม (จำกัดเกมละ 3 ครั้ง)
+        </h2>
+      </div>
       <div id="games-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
     </section>
 
@@ -177,17 +191,29 @@
 
   <!-- ==================== 3. หน้าต่างเล่นเกม (Modal Iframe เต็มจอ) ==================== -->
   <div id="game-player-modal" class="hidden fixed inset-0 z-50 bg-slate-950 flex flex-col">
-    <div class="bg-slate-900 text-white px-4 py-2.5 flex items-center justify-between border-b border-slate-700">
+    <div class="bg-slate-900 text-white px-4 py-2.5 flex flex-wrap items-center justify-between gap-2 border-b border-slate-700">
       <div class="flex items-center gap-3">
         <button id="btn-close-game" onclick="closeGameModal()" class="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs md:text-sm rounded-xl transition flex items-center gap-1.5">
-          <i class="fa-solid fa-arrow-left"></i> <span id="close-game-text">กลับหน้าหลัก & ดูความก้าวหน้า</span>
+          <i class="fa-solid fa-arrow-left"></i> <span id="close-game-text">กลับหน้าหลัก & ดูคะแนนเฉลี่ย</span>
         </button>
         <span id="active-game-title" class="font-bold text-sm md:text-base text-cyan-300 truncate">กำลังเล่นเกม...</span>
       </div>
-      <div class="text-xs text-slate-300 hidden sm:block">
-        ผู้เล่น: <span id="modal-player-name" class="font-bold text-emerald-400"></span>
+      <div class="flex items-center gap-3 text-xs">
+        <span id="modal-attempt-badge" class="bg-teal-900 text-teal-200 border border-teal-600 px-3 py-1 rounded-full font-bold">
+          ครั้งที่ 1 / 3
+        </span>
+        <span class="text-slate-300 hidden sm:inline">
+          ผู้เล่น: <span id="modal-player-name" class="font-bold text-emerald-400"></span>
+        </span>
       </div>
     </div>
+
+    <!-- แถบแจ้งเตือนเมื่อเล่นครบ 3 ครั้งแล้วขณะอยู่ในหน้าต่างเกม -->
+    <div id="modal-limit-banner" class="hidden bg-rose-600 text-white px-4 py-2.5 text-center text-xs md:text-sm font-extrabold flex items-center justify-center gap-2">
+      <i class="fa-solid fa-lock"></i>
+      <span>คุณเล่นเกมนี้ครบ 3 ครั้งตามกำหนดแล้ว! ระบบได้คำนวณคะแนนเฉลี่ยเรียบร้อย กรุณากดปุ่ม "กลับหน้าหลัก" ด้านบนซ้าย</span>
+    </div>
+
     <iframe id="game-iframe" src="" class="w-full flex-1 border-0 bg-white"></iframe>
   </div>
 
@@ -203,6 +229,8 @@
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyg96XFdSxUz05hOjgs75jAj_9VV3-q8Il_k9AOa2_jLgUsRh8llBkEpKWev1PpZHgZ/exec";
     // =========================================================================
 
+    const MAX_PLAYS = 3;
+
     const GAMES_CONFIG = [
       { id: 1, title: "1. Stinky Creek (บำบัดน้ำเสียทางกายภาพ)", desc: "ผจญภัยเก็บกล่องคำถาม 10 ข้อ ตะลุยด่านฟื้นฟูลำธารน้ำเสียทางกายภาพ ม.3", file: "game1_stinky_creek.html", maxScore: 23, icon: "🌊", color: "from-cyan-500 to-teal-600" },
       { id: 2, title: "2. Dirty Drop (แยกสารแขวนลอย)", desc: "ห้องแล็บพาสเทล ลากสารแขวนลอยทั้ง 6 ชนิดลงอุปกรณ์แยกสารที่ถูกต้อง", file: "game2_dirty_drop.html", maxScore: 6, icon: "🧪", color: "from-teal-400 to-emerald-500" },
@@ -215,20 +243,40 @@
     let currentPlayer = null;
     let leaderboardData = [];
     let isSaving = false;
+    let activeGameId = null;
 
     function hasValidGasUrl() {
-      return typeof GAS_WEB_APP_URL === "string" && GAS_WEB_APP_URL.trim().startsWith("https://script.google.com/") && GAS_WEB_APP_URL.trim().endsWith("/exec");
+      return typeof GAS_WEB_APP_URL === "string" &&
+             GAS_WEB_APP_URL.trim().startsWith("https://script.google.com/") &&
+             GAS_WEB_APP_URL.trim().endsWith("/exec");
+    }
+
+    // แปลงเปอร์เซ็นต์เป็นระดับความเข้าใจ
+    function getUnderstandingLevel(pct, playsCount = 1) {
+      if (playsCount === 0 || pct <= 0) {
+        return { label: "ยังไม่มีข้อมูล", badgeClass: "bg-slate-200 text-slate-600", textClass: "text-slate-500" };
+      }
+      if (pct >= 80) {
+        return { label: "🌟 ดีเยี่ยม (เข้าใจลึกซึ้ง)", badgeClass: "bg-emerald-100 text-emerald-800 border border-emerald-300", textClass: "text-emerald-700" };
+      }
+      if (pct >= 60) {
+        return { label: "👍 ดีมาก (เข้าใจชัดเจน)", badgeClass: "bg-sky-100 text-sky-800 border border-sky-300", textClass: "text-sky-700" };
+      }
+      if (pct >= 40) {
+        return { label: "📘 ปานกลาง (กำลังพัฒนา)", badgeClass: "bg-amber-100 text-amber-800 border border-amber-300", textClass: "text-amber-700" };
+      }
+      return { label: "🌱 เริ่มต้น (ควรทบทวน)", badgeClass: "bg-rose-100 text-rose-800 border border-rose-300", textClass: "text-rose-700" };
     }
 
     window.addEventListener("DOMContentLoaded", () => {
       updateConnectionBadge();
-      const savedSession = localStorage.getItem("sci_hub_current_user");
+      const savedSession = localStorage.getItem("sci_hub_current_user_v2");
       if (savedSession) {
         currentPlayer = JSON.parse(savedSession);
         showDashboard();
         if (hasValidGasUrl()) refreshData();
       } else {
-        const db = JSON.parse(localStorage.getItem("sci_hub_local_db") || "{}");
+        const db = JSON.parse(localStorage.getItem("sci_hub_local_db_v2") || "{}");
         leaderboardData = buildLocalTop5(db);
         if (hasValidGasUrl()) fetchLeaderboardOnly();
       }
@@ -241,8 +289,8 @@
         badge.innerHTML = `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-cloud-check"></i> เชื่อมต่อ Google Sheet พร้อมใช้งาน</span>`;
         if (syncLabel) syncLabel.innerHTML = `<span class="text-emerald-600">ซิงก์ข้อมูลกับ Google Sheet อัตโนมัติ</span>`;
       } else {
-        badge.innerHTML = `<span class="text-amber-600 font-bold"><i class="fa-solid fa-database"></i> บันทึกคะแนนในเครื่อง (ยังไม่ได้ใส่ลิงก์ /exec ของ Google Sheet)</span>`;
-        if (syncLabel) syncLabel.innerHTML = `<span class="text-amber-600">โหมดบันทึกในเครื่อง (ยังไม่ได้ใส่ URL /exec)</span>`;
+        badge.innerHTML = `<span class="text-amber-600 font-bold"><i class="fa-solid fa-database"></i> โหมดบันทึกในเครื่อง (ยังไม่ได้ใส่ลิงก์ /exec ของ Google Sheet)</span>`;
+        if (syncLabel) syncLabel.innerHTML = `<span class="text-amber-600">บันทึกคะแนนในเครื่อง</span>`;
       }
     }
 
@@ -277,46 +325,70 @@
       icon.className = input.type === "password" ? "fa-solid fa-eye" : "fa-solid fa-eye-slash";
     }
 
-    // บันทึกลงเครื่องเสมอเป็นฐานสำรอง และซิงก์กับ Google Sheet ถ้ามี URL
+    // บันทึกข้อมูลลง LocalStorage (จำกัดไม่เกิน 3 ครั้ง/เกม + คำนวณค่าเฉลี่ย)
     function saveToLocalDb(nickname, pin, gameId, score, completed) {
-      const db = JSON.parse(localStorage.getItem("sci_hub_local_db") || "{}");
+      const db = JSON.parse(localStorage.getItem("sci_hub_local_db_v2") || "{}");
       const key = nickname.toLowerCase();
       const now = new Date().toLocaleString("th-TH");
+
       if (!db[key]) {
         db[key] = {
           nickname,
           pin: pin || "00000",
-          games: [1, 2, 3, 4, 5].map(id => ({ id, bestScore: 0, completed: false })),
-          totalScore: 0,
+          games: [1, 2, 3, 4, 5].map(id => ({ id, playsCount: 0, history: [], avgScore: 0, completed: false })),
+          totalAvgScore: 0,
+          understandingPct: 0,
           completedCount: 0,
           lastPlayed: now
         };
       }
+
       if (gameId) {
         const g = db[key].games.find(x => x.id === Number(gameId));
         if (g) {
-          if (Number(score) > g.bestScore) g.bestScore = Number(score);
+          if (g.playsCount >= MAX_PLAYS) {
+            return { limitReached: true, player: db[key], leaderboard: buildLocalTop5(db) };
+          }
+          g.history.push(Number(score));
+          g.playsCount = g.history.length;
+          const sum = g.history.reduce((a, b) => a + b, 0);
+          g.avgScore = Number((sum / g.playsCount).toFixed(2));
           if (completed) g.completed = true;
         }
-        db[key].totalScore = db[key].games.reduce((s, x) => s + x.bestScore, 0);
+
+        let totalAvg = 0;
+        let pctSum = 0;
+        db[key].games.forEach(item => {
+          const cfg = GAMES_CONFIG.find(c => c.id === item.id);
+          totalAvg += item.avgScore;
+          pctSum += cfg ? (item.avgScore / cfg.maxScore) * 100 : 0;
+        });
+
+        db[key].totalAvgScore = Number(totalAvg.toFixed(2));
+        db[key].understandingPct = Math.round(pctSum / 5);
         db[key].completedCount = db[key].games.filter(x => x.completed).length;
         db[key].lastPlayed = now;
       }
-      localStorage.setItem("sci_hub_local_db", JSON.stringify(db));
-      return { player: db[key], leaderboard: buildLocalTop5(db) };
+
+      localStorage.setItem("sci_hub_local_db_v2", JSON.stringify(db));
+      return { limitReached: false, player: db[key], leaderboard: buildLocalTop5(db) };
     }
 
     function buildLocalTop5(db) {
       return Object.values(db)
-        .map(u => ({ nickname: u.nickname, totalScore: u.totalScore, completedCount: u.completedCount }))
-        .sort((a, b) => b.totalScore - a.totalScore || b.completedCount - a.completedCount)
+        .map(u => ({
+          nickname: u.nickname,
+          totalAvgScore: u.totalAvgScore || 0,
+          understandingPct: u.understandingPct || 0,
+          completedCount: u.completedCount || 0
+        }))
+        .sort((a, b) => b.understandingPct - a.understandingPct || b.totalAvgScore - a.totalAvgScore)
         .slice(0, 5);
     }
 
     async function apiCall(payload) {
-      // 1) ถ้ายังไม่มีลิงก์ Google Sheet ให้ใช้ระบบบันทึกในเครื่องทันที
       if (!hasValidGasUrl()) {
-        const db = JSON.parse(localStorage.getItem("sci_hub_local_db") || "{}");
+        const db = JSON.parse(localStorage.getItem("sci_hub_local_db_v2") || "{}");
         const key = payload.nickname.toLowerCase();
         if (payload.action === "register") {
           if (db[key]) return { status: "error", message: "ชื่อเล่นนี้มีผู้ใช้งานแล้ว กรุณากดเข้าสู่ระบบเดิม" };
@@ -330,13 +402,16 @@
         }
         if (payload.action === "save_progress") {
           const res = saveToLocalDb(payload.nickname, payload.pin, payload.gameId, payload.score, payload.completed);
+          if (res.limitReached) return { status: "limit_reached", message: "เล่นครบ 3 ครั้งแล้ว", ...res };
           return { status: "ok", ...res };
         }
       }
 
-      // 2) ถ้ามีลิงก์ Google Sheet ให้ส่งข้อมูลไป Google Apps Script
       if (payload.action === "save_progress") {
-        saveToLocalDb(payload.nickname, payload.pin, payload.gameId, payload.score, payload.completed);
+        const localCheck = saveToLocalDb(payload.nickname, payload.pin, payload.gameId, payload.score, payload.completed);
+        if (localCheck.limitReached) {
+          return { status: "limit_reached", message: "คุณเล่นเกมนี้ครบ 3 ครั้งแล้ว", ...localCheck };
+        }
       }
 
       const response = await fetch(GAS_WEB_APP_URL.trim(), {
@@ -350,7 +425,7 @@
       try {
         return JSON.parse(rawText);
       } catch (parseErr) {
-        throw new Error("Google Apps Script ตอบกลับไม่ใช่ JSON (กรุณาเช็กว่าตั้งค่า Who has access = Anyone และใช้ลิงก์ลงท้าย /exec)");
+        throw new Error("Google Apps Script ตอบกลับไม่ใช่ JSON (กรุณาเช็กสิทธิ์ Anyone และลิงก์ /exec)");
       }
     }
 
@@ -378,7 +453,7 @@
           currentPlayer.pin = pin;
           leaderboardData = res.leaderboard || [];
           saveToLocalDb(nickname, pin);
-          localStorage.setItem("sci_hub_current_user", JSON.stringify(currentPlayer));
+          localStorage.setItem("sci_hub_current_user_v2", JSON.stringify(currentPlayer));
           showDashboard();
         } else {
           errBox.textContent = res.message || "เกิดข้อผิดพลาด กรุณาลองใหม่";
@@ -406,7 +481,7 @@
           currentPlayer = res.player;
           currentPlayer.pin = pin;
           leaderboardData = res.leaderboard || leaderboardData;
-          localStorage.setItem("sci_hub_current_user", JSON.stringify(currentPlayer));
+          localStorage.setItem("sci_hub_current_user_v2", JSON.stringify(currentPlayer));
           renderDashboard();
           showSaveToast("อัปเดตข้อมูลล่าสุดเรียบร้อยแล้ว!");
         }
@@ -423,18 +498,6 @@
       } catch (e) {}
     }
 
-    // ปุ่มทดสอบส่งคะแนนจำลองเข้าสู่ระบบ
-    async function testScoreSync() {
-      if (!currentPlayer) return;
-      await processGameScore({
-        gameId: 1,
-        gameName: "Stinky Creek (ทดสอบ)",
-        score: 10,
-        completed: true,
-        timeUsed: 30
-      });
-    }
-
     function showDashboard() {
       document.getElementById("auth-view").classList.add("hidden");
       document.getElementById("dashboard-view").classList.remove("hidden");
@@ -443,7 +506,7 @@
     }
 
     function logout() {
-      localStorage.removeItem("sci_hub_current_user");
+      localStorage.removeItem("sci_hub_current_user_v2");
       currentPlayer = null;
       document.getElementById("dashboard-view").classList.add("hidden");
       document.getElementById("auth-view").classList.remove("hidden");
@@ -455,35 +518,48 @@
       document.getElementById("user-display-name").textContent = currentPlayer.nickname;
       document.getElementById("last-played-text").textContent = "อัปเดตล่าสุด: " + (currentPlayer.lastPlayed || "-");
 
-      const totalScore = currentPlayer.totalScore || 0;
-      const completedCount = currentPlayer.completedCount || 0;
-      const percent = Math.round((completedCount / 5) * 100);
+      const totalAvgScore = Number(currentPlayer.totalAvgScore || 0);
+      const understandingPct = Number(currentPlayer.understandingPct || 0);
+      const completedCount = Number(currentPlayer.completedCount || 0);
+      const totalPlaysAllGames = (currentPlayer.games || []).reduce((s, g) => s + (g.playsCount || 0), 0);
 
-      document.getElementById("stat-total-score").textContent = totalScore;
+      const overallLevel = getUnderstandingLevel(understandingPct, totalPlaysAllGames);
+
+      document.getElementById("stat-understanding-pct").textContent = `${understandingPct}%`;
+      const badgeEl = document.getElementById("stat-understanding-badge");
+      badgeEl.textContent = overallLevel.label;
+      badgeEl.className = `mt-1 inline-block text-[11px] font-extrabold px-2.5 py-0.5 rounded-full ${overallLevel.badgeClass}`;
+
+      document.getElementById("stat-total-avg").textContent = totalAvgScore.toFixed(2);
       document.getElementById("stat-completed-count").textContent = `${completedCount} / 5`;
-      document.getElementById("stat-percent").textContent = `${percent}%`;
-      document.getElementById("bar-label").textContent = `${percent}%`;
-      document.getElementById("overall-progress-bar").style.width = `${percent}%`;
+      document.getElementById("bar-label").textContent = `${understandingPct}%`;
+      document.getElementById("overall-progress-bar").style.width = `${Math.min(100, understandingPct)}%`;
 
+      // แสดงสรุปคะแนนเฉลี่ยรายเกม
       const miniList = document.getElementById("mini-progress-list");
       miniList.innerHTML = GAMES_CONFIG.map(g => {
-        const pGame = (currentPlayer.games || []).find(x => x.id === g.id) || { bestScore: 0, completed: false };
-        const statusBadge = pGame.completed
-          ? `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> ผ่านแล้ว</span>`
-          : (pGame.bestScore > 0
-              ? `<span class="text-amber-600 font-bold"><i class="fa-solid fa-spinner"></i> กำลังเล่น</span>`
-              : `<span class="text-slate-400">ยังไม่เริ่ม</span>`);
+        const pGame = (currentPlayer.games || []).find(x => x.id === g.id) || { playsCount: 0, history: [], avgScore: 0, completed: false };
+        const gamePct = Math.round((pGame.avgScore / g.maxScore) * 100);
+        const lvl = getUnderstandingLevel(gamePct, pGame.playsCount);
+
         return `
-          <div class="flex items-center justify-between py-1.5 px-2.5 rounded-lg bg-slate-50">
-            <span class="font-semibold text-slate-700 truncate pr-2">${g.title}</span>
-            <div class="flex items-center gap-3 shrink-0">
-              <span class="font-bold text-teal-700">${pGame.bestScore} คะแนน</span>
-              ${statusBadge}
+          <div class="flex flex-wrap items-center justify-between gap-2 py-2 px-3 rounded-xl bg-slate-50 border border-slate-100">
+            <div class="min-w-0">
+              <div class="font-bold text-slate-800 truncate">${g.title}</div>
+              <div class="text-[11px] text-slate-500">
+                เล่นแล้ว <span class="font-bold text-teal-700">${pGame.playsCount}/${MAX_PLAYS} ครั้ง</span>
+                ${pGame.history.length > 0 ? `• คะแนนแต่ละครั้ง: [${pGame.history.join(", ")}]` : ""}
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="font-extrabold text-teal-700">เฉลี่ย ${pGame.avgScore.toFixed(2)} / ${g.maxScore} (${gamePct}%)</div>
+              <span class="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full ${lvl.badgeClass}">${lvl.label}</span>
             </div>
           </div>
         `;
       }).join("");
 
+      // แสดงตาราง Top 5
       const lbContainer = document.getElementById("leaderboard-container");
       if (!leaderboardData || leaderboardData.length === 0) {
         lbContainer.innerHTML = `<div class="text-center text-sm text-slate-400 py-6">ยังไม่มีข้อมูลสถิติคะแนน</div>`;
@@ -499,43 +575,84 @@
                   <div class="font-bold text-sm text-slate-800">
                     ${row.nickname} ${isMe ? '<span class="text-xs bg-teal-600 text-white px-2 py-0.5 rounded-full ml-1">คุณ</span>' : ''}
                   </div>
-                  <div class="text-xs text-slate-500">ผ่านแล้ว ${row.completedCount}/5 เกม</div>
+                  <div class="text-xs text-slate-500">คะแนนเฉลี่ยรวม ${Number(row.totalAvgScore || 0).toFixed(2)} • ผ่าน ${row.completedCount}/5 เกม</div>
                 </div>
               </div>
               <div class="text-right">
-                <span class="font-black text-base text-amber-600">${row.totalScore}</span>
-                <span class="text-xs text-slate-400 block">คะแนน</span>
+                <span class="font-black text-base text-amber-600">${row.understandingPct || 0}%</span>
+                <span class="text-[11px] text-slate-400 block">ระดับความเข้าใจ</span>
               </div>
             </div>
           `;
         }).join("");
       }
 
+      // การ์ดเกมทั้ง 5 เกม
       const grid = document.getElementById("games-grid");
       grid.innerHTML = GAMES_CONFIG.map(g => {
-        const pGame = (currentPlayer.games || []).find(x => x.id === g.id) || { bestScore: 0, completed: false };
+        const pGame = (currentPlayer.games || []).find(x => x.id === g.id) || { playsCount: 0, history: [], avgScore: 0, completed: false };
+        const playsCount = pGame.playsCount || 0;
+        const remainingPlays = Math.max(0, MAX_PLAYS - playsCount);
+        const isLocked = playsCount >= MAX_PLAYS;
+        const gamePct = Math.round((pGame.avgScore / g.maxScore) * 100);
+        const lvl = getUnderstandingLevel(gamePct, playsCount);
+
+        const historyBadges = [0, 1, 2].map(idx => {
+          const val = pGame.history[idx];
+          if (val !== undefined) {
+            return `<span class="bg-teal-100 text-teal-800 font-bold px-2 py-0.5 rounded-lg text-[11px]">ครั้งที่ ${idx + 1}: ${val}</span>`;
+          }
+          return `<span class="bg-slate-100 text-slate-400 px-2 py-0.5 rounded-lg text-[11px]">ครั้งที่ ${idx + 1}: -</span>`;
+        }).join("");
+
         return `
-          <div class="bg-white rounded-3xl shadow-md border-2 ${pGame.completed ? 'border-emerald-300' : 'border-slate-100'} overflow-hidden flex flex-col justify-between hover:shadow-xl transition">
+          <div class="bg-white rounded-3xl shadow-md border-2 ${isLocked ? 'border-slate-300' : (pGame.completed ? 'border-emerald-300' : 'border-slate-100')} overflow-hidden flex flex-col justify-between hover:shadow-xl transition">
             <div>
               <div class="bg-gradient-to-r ${g.color} p-4 text-white flex items-center justify-between">
                 <span class="text-3xl bg-white/20 w-12 h-12 rounded-2xl flex items-center justify-center">${g.icon}</span>
-                ${pGame.completed
-                  ? '<span class="bg-white text-emerald-700 text-xs font-extrabold px-3 py-1 rounded-full shadow"><i class="fa-solid fa-check"></i> ผ่านด่านแล้ว</span>'
-                  : '<span class="bg-black/20 text-white text-xs font-bold px-3 py-1 rounded-full">รอพิชิตภารกิจ</span>'}
+                <div class="text-right">
+                  <span class="bg-black/25 text-white text-xs font-extrabold px-3 py-1 rounded-full block">
+                    เล่นแล้ว ${playsCount} / ${MAX_PLAYS} ครั้ง
+                  </span>
+                  <span class="text-[11px] text-white/90 font-semibold mt-1 block">
+                    ${isLocked ? 'ครบโควตา 3 ครั้งแล้ว' : `เหลือสิทธิ์เล่นอีก ${remainingPlays} ครั้ง`}
+                  </span>
+                </div>
               </div>
-              <div class="p-5">
-                <h3 class="font-extrabold text-base text-slate-800 mb-1">${g.title}</h3>
-                <p class="text-xs text-slate-500 leading-relaxed mb-4">${g.desc}</p>
-                <div class="bg-slate-50 rounded-xl p-2.5 flex justify-between items-center text-xs border border-slate-100">
-                  <span class="text-slate-500 font-semibold">คะแนนสูงสุดของคุณ:</span>
-                  <span class="font-black text-teal-700 text-sm">${pGame.bestScore} / ${g.maxScore}</span>
+
+              <div class="p-5 space-y-3">
+                <div>
+                  <h3 class="font-extrabold text-base text-slate-800 mb-1">${g.title}</h3>
+                  <p class="text-xs text-slate-500 leading-relaxed">${g.desc}</p>
+                </div>
+
+                <!-- ประวัติคะแนน 3 ครั้ง -->
+                <div class="flex flex-wrap gap-1.5">
+                  ${historyBadges}
+                </div>
+
+                <!-- กล่องคะแนนเฉลี่ย (ระดับความเข้าใจ) -->
+                <div class="bg-teal-50/70 rounded-2xl p-3 border border-teal-200 space-y-1">
+                  <div class="flex justify-between items-center text-xs">
+                    <span class="text-teal-800 font-bold">คะแนนเฉลี่ย (ระดับความเข้าใจ):</span>
+                    <span class="font-black text-teal-700 text-sm">${pGame.avgScore.toFixed(2)} / ${g.maxScore} (${gamePct}%)</span>
+                  </div>
+                  <div class="text-right">
+                    <span class="inline-block text-[11px] font-extrabold px-2.5 py-0.5 rounded-full ${lvl.badgeClass}">${lvl.label}</span>
+                  </div>
                 </div>
               </div>
             </div>
+
             <div class="px-5 pb-5">
-              <button onclick="openGame(${g.id})" class="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white font-extrabold text-sm rounded-xl shadow transition flex items-center justify-center gap-2">
-                <i class="fa-solid fa-play"></i> ${pGame.completed ? 'เล่นซ้ำเพื่อทำสถิติใหม่' : 'เข้าเล่นเกมนี้'}
-              </button>
+              ${isLocked
+                ? `<button disabled class="w-full py-3 bg-slate-200 text-slate-500 font-extrabold text-sm rounded-xl cursor-not-allowed flex items-center justify-center gap-2">
+                     <i class="fa-solid fa-lock"></i> เล่นครบ 3/3 ครั้งแล้ว
+                   </button>`
+                : `<button onclick="openGame(${g.id})" class="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white font-extrabold text-sm rounded-xl shadow transition flex items-center justify-center gap-2">
+                     <i class="fa-solid fa-play"></i> เข้าเล่นครั้งที่ ${playsCount + 1} / ${MAX_PLAYS}
+                   </button>`
+              }
             </div>
           </div>
         `;
@@ -544,10 +661,21 @@
 
     function openGame(gameId) {
       const game = GAMES_CONFIG.find(g => g.id === gameId);
-      if (!game) return;
+      if (!game || !currentPlayer) return;
+
+      const pGame = (currentPlayer.games || []).find(x => x.id === gameId) || { playsCount: 0 };
+      if (pGame.playsCount >= MAX_PLAYS) {
+        showSaveToast("คุณเล่นเกมนี้ครบ 3 ครั้งตามกำหนดแล้ว!");
+        return;
+      }
+
+      activeGameId = gameId;
       document.getElementById("active-game-title").textContent = game.title;
       document.getElementById("modal-player-name").textContent = currentPlayer.nickname;
-      document.getElementById("game-iframe").src = game.file;
+      document.getElementById("modal-attempt-badge").textContent = `กำลังเล่นครั้งที่ ${pGame.playsCount + 1} / ${MAX_PLAYS}`;
+      document.getElementById("modal-limit-banner").classList.add("hidden");
+
+      document.getElementById("game-iframe").src = `${game.file}?attempt=${pGame.playsCount + 1}&max=${MAX_PLAYS}`;
       document.getElementById("game-player-modal").classList.remove("hidden");
     }
 
@@ -556,6 +684,7 @@
         showSaveToast("กำลังบันทึกคะแนน กรุณารอ 1–2 วินาที...");
         return;
       }
+      activeGameId = null;
       document.getElementById("game-iframe").src = "";
       document.getElementById("game-player-modal").classList.add("hidden");
       renderDashboard();
@@ -563,25 +692,45 @@
 
     async function processGameScore(msg) {
       if (!currentPlayer) return;
-      isSaving = true;
-      document.getElementById("close-game-text").textContent = "กำลังบันทึกคะแนน...";
-      showSaveToast(`กำลังบันทึกคะแนนเกมที่ ${msg.gameId} (${msg.score} คะแนน)...`);
+      const gameId = Number(msg.gameId);
+      const pGame = (currentPlayer.games || []).find(x => x.id === gameId) || { playsCount: 0 };
 
-      // อัปเดตหน้าจอทันทีด้วยข้อมูลในเครื่องก่อน เพื่อไม่ให้คะแนนหายแม้เน็ตช้า
-      const localRes = saveToLocalDb(currentPlayer.nickname, currentPlayer.pin, msg.gameId, msg.score, msg.completed);
+      // ป้องกันการบันทึกเกิน 3 ครั้ง หากผู้เล่นกด "เล่นอีกครั้ง" ซ้ำในหน้าต่างเกม
+      if (pGame.playsCount >= MAX_PLAYS) {
+        document.getElementById("modal-limit-banner").classList.remove("hidden");
+        showSaveToast(`เกมที่ ${gameId} เล่นครบ 3 ครั้งแล้ว ไม่นับคะแนนรอบเกิน`);
+        return;
+      }
+
+      isSaving = true;
+      document.getElementById("close-game-text").textContent = "กำลังคำนวณคะแนนเฉลี่ย...";
+      showSaveToast(`กำลังบันทึกครั้งที่ ${pGame.playsCount + 1}/3 (${msg.score} คะแนน)...`);
+
       const savedPin = currentPlayer.pin;
+      const localRes = saveToLocalDb(currentPlayer.nickname, savedPin, gameId, msg.score, msg.completed);
       currentPlayer = localRes.player;
       currentPlayer.pin = savedPin;
       leaderboardData = localRes.leaderboard;
-      localStorage.setItem("sci_hub_current_user", JSON.stringify(currentPlayer));
+      localStorage.setItem("sci_hub_current_user_v2", JSON.stringify(currentPlayer));
       renderDashboard();
+
+      // อัปเดตป้ายรอบการเล่นในหน้าต่าง Modal ทันที
+      const updatedGame = currentPlayer.games.find(x => x.id === gameId);
+      if (updatedGame) {
+        if (updatedGame.playsCount >= MAX_PLAYS) {
+          document.getElementById("modal-attempt-badge").textContent = `ครบ ${MAX_PLAYS} / ${MAX_PLAYS} ครั้งแล้ว`;
+          document.getElementById("modal-limit-banner").classList.remove("hidden");
+        } else {
+          document.getElementById("modal-attempt-badge").textContent = `บันทึกแล้ว ${updatedGame.playsCount}/${MAX_PLAYS} ครั้ง (เหลืออีก ${MAX_PLAYS - updatedGame.playsCount} ครั้ง)`;
+        }
+      }
 
       try {
         const res = await apiCall({
           action: "save_progress",
           nickname: currentPlayer.nickname,
           pin: savedPin,
-          gameId: msg.gameId,
+          gameId: gameId,
           gameName: msg.gameName,
           score: msg.score,
           completed: msg.completed,
@@ -592,18 +741,21 @@
           currentPlayer = res.player;
           currentPlayer.pin = savedPin;
           leaderboardData = res.leaderboard || leaderboardData;
-          localStorage.setItem("sci_hub_current_user", JSON.stringify(currentPlayer));
+          localStorage.setItem("sci_hub_current_user_v2", JSON.stringify(currentPlayer));
           renderDashboard();
-          showSaveToast(`บันทึกคะแนนเกมที่ ${msg.gameId} (${msg.score} คะแนน) สำเร็จ!`);
+          const gObj = currentPlayer.games.find(x => x.id === gameId);
+          showSaveToast(`บันทึกครั้งที่ ${gObj.playsCount}/3 สำเร็จ! คะแนนเฉลี่ย: ${gObj.avgScore.toFixed(2)}`);
+        } else if (res.status === "limit_reached") {
+          document.getElementById("modal-limit-banner").classList.remove("hidden");
+          showSaveToast(res.message);
         } else {
-          showSheetAlert(res.message || "Google Sheet ตอบกลับผิดพลาด");
+          showSheetAlert(res.message || "เกิดข้อผิดพลาดในการบันทึกข้อมูล");
         }
       } catch (e) {
         showSheetAlert(e.message);
-        showSaveToast(`บันทึกคะแนนในเครื่องแล้ว (${msg.score} คะแนน)`);
       } finally {
         isSaving = false;
-        document.getElementById("close-game-text").textContent = "กลับหน้าหลัก & ดูความก้าวหน้า";
+        document.getElementById("close-game-text").textContent = "กลับหน้าหลัก & ดูคะแนนเฉลี่ย";
       }
     }
 
@@ -617,7 +769,7 @@
       const toast = document.getElementById("save-toast");
       document.getElementById("save-toast-text").textContent = text;
       toast.classList.remove("hidden");
-      setTimeout(() => toast.classList.add("hidden"), 4000);
+      setTimeout(() => toast.classList.add("hidden"), 4500);
     }
   </script>
 </body>
