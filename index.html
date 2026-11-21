@@ -28,7 +28,6 @@
         <p class="text-sm text-slate-500 mt-1">ตะลุย 5 ภารกิจเกมวิทยาศาสตร์และการจัดการสิ่งแวดล้อม</p>
       </div>
 
-      <!-- แถบสลับโหมด เข้าสู่ระบบ / ลงทะเบียนใหม่ -->
       <div class="grid grid-cols-2 bg-slate-100 p-1 rounded-2xl mb-5">
         <button id="tab-login" onclick="switchAuthMode('login')" class="py-2 rounded-xl font-bold text-sm bg-white text-teal-700 shadow transition">
           เข้าสู่ระบบเดิม
@@ -62,7 +61,6 @@
               <i id="pin-eye-icon" class="fa-solid fa-eye"></i>
             </button>
           </div>
-          <p class="text-xs text-slate-400 mt-1">* ใช้รหัสผ่าน 5 หลักนี้เพื่อเข้ากลับมาเล่นต่อได้ตลอดเวลา</p>
         </div>
 
         <div id="auth-error" class="hidden bg-rose-50 border border-rose-200 text-rose-600 text-xs font-bold p-3 rounded-xl"></div>
@@ -88,24 +86,32 @@
         </div>
         <div>
           <h1 class="text-xl md:text-2xl font-extrabold text-teal-900">ศูนย์รวมเกมวิทยาศาสตร์ ม.3</h1>
-          <p class="text-xs md:text-sm text-slate-500">สวัสดีคุณ <span id="user-display-name" class="font-bold text-teal-700"></span> • เข้าเล่นและบันทึกความก้าวหน้าอัตโนมัติ</p>
+          <p class="text-xs md:text-sm text-slate-500">สวัสดีคุณ <span id="user-display-name" class="font-bold text-teal-700"></span> • <span id="sync-status-label" class="font-semibold"></span></p>
         </div>
       </div>
 
-      <div class="flex items-center gap-3">
-        <button onclick="refreshData()" class="px-3.5 py-2 bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold text-xs md:text-sm rounded-xl border border-sky-200 transition flex items-center gap-1.5">
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="testScoreSync()" class="px-3 py-2 bg-amber-50 hover:bg-amber-100 text-amber-800 font-bold text-xs rounded-xl border border-amber-300 transition flex items-center gap-1.5" title="กดเพื่อทดสอบส่งคะแนนเข้าตาราง">
+          <i class="fa-solid fa-vial"></i> ทดสอบส่งคะแนน
+        </button>
+        <button onclick="refreshData()" class="px-3 py-2 bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold text-xs rounded-xl border border-sky-200 transition flex items-center gap-1.5">
           <i class="fa-solid fa-rotate"></i> รีเฟรชข้อมูล
         </button>
-        <button onclick="logout()" class="px-3.5 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs md:text-sm rounded-xl border border-rose-200 transition flex items-center gap-1.5">
+        <button onclick="logout()" class="px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs rounded-xl border border-rose-200 transition flex items-center gap-1.5">
           <i class="fa-solid fa-right-from-bracket"></i> ออกจากระบบ
         </button>
       </div>
     </header>
 
+    <!-- กล่องแจ้งเตือนข้อผิดพลาดการเชื่อมต่อ Google Sheet (ถ้ามี) -->
+    <div id="sheet-alert-box" class="hidden bg-rose-50 border-2 border-rose-300 text-rose-800 p-4 rounded-2xl text-xs md:text-sm space-y-1">
+      <div class="font-extrabold flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation text-rose-600"></i> แจ้งเตือนการเชื่อมต่อ Google Sheet:</div>
+      <p id="sheet-alert-msg"></p>
+    </div>
+
     <!-- รายงานความก้าวหน้าของผู้เล่น & สถิติ Top 5 -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       
-      <!-- รายงานความก้าวหน้าส่วนบุคคล (7 คอลัมน์) -->
       <section class="lg:col-span-7 bg-white rounded-3xl p-5 md:p-6 shadow-md border-2 border-teal-100 flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between mb-4">
@@ -141,11 +147,9 @@
           </div>
         </div>
 
-        <!-- สรุปสถานะรายเกมแบบย่อ -->
         <div id="mini-progress-list" class="space-y-2 pt-3 border-t border-slate-100 text-xs"></div>
       </section>
 
-      <!-- สถิติผู้เล่นคะแนนสูงสุด 5 อันดับ (5 คอลัมน์) -->
       <section class="lg:col-span-5 bg-white rounded-3xl p-5 md:p-6 shadow-md border-2 border-amber-200">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-lg font-extrabold text-amber-800 flex items-center gap-2">
@@ -155,7 +159,7 @@
         </div>
 
         <div id="leaderboard-container" class="space-y-2.5">
-          <div class="text-center text-sm text-slate-400 py-8">กำลังโหลดอันดับคะแนน...</div>
+          <div class="text-center text-sm text-slate-400 py-8">ยังไม่มีข้อมูลสถิติคะแนน</div>
         </div>
       </section>
 
@@ -175,8 +179,8 @@
   <div id="game-player-modal" class="hidden fixed inset-0 z-50 bg-slate-950 flex flex-col">
     <div class="bg-slate-900 text-white px-4 py-2.5 flex items-center justify-between border-b border-slate-700">
       <div class="flex items-center gap-3">
-        <button onclick="closeGameModal()" class="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs md:text-sm rounded-xl transition flex items-center gap-1.5">
-          <i class="fa-solid fa-arrow-left"></i> กลับหน้าหลัก & ดูความก้าวหน้า
+        <button id="btn-close-game" onclick="closeGameModal()" class="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs md:text-sm rounded-xl transition flex items-center gap-1.5">
+          <i class="fa-solid fa-arrow-left"></i> <span id="close-game-text">กลับหน้าหลัก & ดูความก้าวหน้า</span>
         </button>
         <span id="active-game-title" class="font-bold text-sm md:text-base text-cyan-300 truncate">กำลังเล่นเกม...</span>
       </div>
@@ -190,66 +194,31 @@
   <!-- แจ้งเตือนเมื่อบันทึกคะแนนสำเร็จ -->
   <div id="save-toast" class="hidden fixed bottom-5 right-5 z-50 bg-emerald-600 text-white px-5 py-3 rounded-2xl shadow-2xl font-bold text-sm flex items-center gap-2">
     <i class="fa-solid fa-circle-check text-xl"></i>
-    <span id="save-toast-text">บันทึกคะแนนลง Google Sheet เรียบร้อยแล้ว!</span>
+    <span id="save-toast-text">บันทึกคะแนนเรียบร้อยแล้ว!</span>
   </div>
 
   <script>
     // =========================================================================
-    // ใส่ URL ของ Google Apps Script Web App ที่ Deploy แล้วตรงนี้:
-    const GAS_WEB_APP_URL = ""; 
+    // วาง URL ของ Google Apps Script Web App (ต้องลงท้ายด้วย /exec) ตรงนี้:
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyg96XFdSxUz05hOjgs75jAj_9VV3-q8Il_k9AOa2_jLgUsRh8llBkEpKWev1PpZHgZ/exec";
     // =========================================================================
 
     const GAMES_CONFIG = [
-      {
-        id: 1,
-        title: "1. Stinky Creek (บำบัดน้ำเสียทางกายภาพ)",
-        desc: "ผจญภัยเก็บกล่องคำถาม 10 ข้อ ตะลุยด่านฟื้นฟูลำธารน้ำเสียทางกายภาพ ม.3",
-        file: "game1_stinky_creek.html",
-        maxScore: 23,
-        icon: "🌊",
-        color: "from-cyan-500 to-teal-600"
-      },
-      {
-        id: 2,
-        title: "2. Dirty Drop (แยกสารแขวนลอย)",
-        desc: "ห้องแล็บพาสเทล ลากสารแขวนลอยทั้ง 6 ชนิดลงอุปกรณ์แยกสารที่ถูกต้อง",
-        file: "game2_dirty_drop.html",
-        maxScore: 6,
-        icon: "🧪",
-        color: "from-teal-400 to-emerald-500"
-      },
-      {
-        id: 3,
-        title: "3. Foul Pool (บำบัดน้ำเสียทางชีวภาพ)",
-        desc: "จับคู่กระบวนการและเครื่องมือบำบัดน้ำเสียทางชีวภาพพร้อมภาพประกอบ",
-        file: "game3_foul_pool.html",
-        maxScore: 300,
-        icon: "🦠",
-        color: "from-sky-400 to-indigo-500"
-      },
-      {
-        id: 4,
-        title: "4. Bin It Right (คัดแยกขยะรักษ์โลก)",
-        desc: "คัดแยกขยะ 20 ชิ้นลงถังขยะ 4 ประเภทให้ถูกต้องภายในเวลา 100 วินาที",
-        file: "game4_bin_it_right.html",
-        maxScore: 200,
-        icon: "♻️",
-        color: "from-amber-400 to-orange-500"
-      },
-      {
-        id: 5,
-        title: "5. Bio-Waste to Compost (เปลี่ยนขยะเป็นปุ๋ย)",
-        desc: "ภารกิจ 3 ขั้นตอน: ตักสาหร่าย ให้อาหารไก่ และหมักปุ๋ยชีวภาพ",
-        file: "game5_bio.html",
-        maxScore: 100,
-        icon: "🌱",
-        color: "from-lime-500 to-green-600"
-      }
+      { id: 1, title: "1. Stinky Creek (บำบัดน้ำเสียทางกายภาพ)", desc: "ผจญภัยเก็บกล่องคำถาม 10 ข้อ ตะลุยด่านฟื้นฟูลำธารน้ำเสียทางกายภาพ ม.3", file: "game1_stinky_creek.html", maxScore: 23, icon: "🌊", color: "from-cyan-500 to-teal-600" },
+      { id: 2, title: "2. Dirty Drop (แยกสารแขวนลอย)", desc: "ห้องแล็บพาสเทล ลากสารแขวนลอยทั้ง 6 ชนิดลงอุปกรณ์แยกสารที่ถูกต้อง", file: "game2_dirty_drop.html", maxScore: 6, icon: "🧪", color: "from-teal-400 to-emerald-500" },
+      { id: 3, title: "3. Foul Pool (บำบัดน้ำเสียทางชีวภาพ)", desc: "จับคู่กระบวนการและเครื่องมือบำบัดน้ำเสียทางชีวภาพพร้อมภาพประกอบ", file: "game3_foul_pool.html", maxScore: 300, icon: "🦠", color: "from-sky-400 to-indigo-500" },
+      { id: 4, title: "4. Bin It Right (คัดแยกขยะรักษ์โลก)", desc: "คัดแยกขยะ 20 ชิ้นลงถังขยะ 4 ประเภทให้ถูกต้องภายในเวลา 100 วินาที", file: "game4_bin_it_right.html", maxScore: 200, icon: "♻️", color: "from-amber-400 to-orange-500" },
+      { id: 5, title: "5. Bio-Waste to Compost (เปลี่ยนขยะเป็นปุ๋ย)", desc: "ภารกิจ 3 ขั้นตอน: ตักสาหร่าย ให้อาหารไก่ และหมักปุ๋ยชีวภาพ", file: "game5_bio.html", maxScore: 100, icon: "🌱", color: "from-lime-500 to-green-600" }
     ];
 
     let authMode = "login";
     let currentPlayer = null;
     let leaderboardData = [];
+    let isSaving = false;
+
+    function hasValidGasUrl() {
+      return typeof GAS_WEB_APP_URL === "string" && GAS_WEB_APP_URL.trim().startsWith("https://script.google.com/") && GAS_WEB_APP_URL.trim().endsWith("/exec");
+    }
 
     window.addEventListener("DOMContentLoaded", () => {
       updateConnectionBadge();
@@ -257,19 +226,30 @@
       if (savedSession) {
         currentPlayer = JSON.parse(savedSession);
         showDashboard();
-        refreshData();
+        if (hasValidGasUrl()) refreshData();
       } else {
-        fetchLeaderboardOnly();
+        const db = JSON.parse(localStorage.getItem("sci_hub_local_db") || "{}");
+        leaderboardData = buildLocalTop5(db);
+        if (hasValidGasUrl()) fetchLeaderboardOnly();
       }
     });
 
     function updateConnectionBadge() {
       const badge = document.getElementById("connection-badge");
-      if (GAS_WEB_APP_URL && GAS_WEB_APP_URL.startsWith("http")) {
-        badge.innerHTML = `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-cloud-check"></i> เชื่อมต่อฐานข้อมูล Google Sheet พร้อมใช้งาน</span>`;
+      const syncLabel = document.getElementById("sync-status-label");
+      if (hasValidGasUrl()) {
+        badge.innerHTML = `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-cloud-check"></i> เชื่อมต่อ Google Sheet พร้อมใช้งาน</span>`;
+        if (syncLabel) syncLabel.innerHTML = `<span class="text-emerald-600">ซิงก์ข้อมูลกับ Google Sheet อัตโนมัติ</span>`;
       } else {
-        badge.innerHTML = `<span class="text-amber-600 font-bold"><i class="fa-solid fa-triangle-exclamation"></i> โหมดทดสอบในเครื่อง (กรุณาใส่ GAS_WEB_APP_URL เพื่อซิงก์ Google Sheet)</span>`;
+        badge.innerHTML = `<span class="text-amber-600 font-bold"><i class="fa-solid fa-database"></i> บันทึกคะแนนในเครื่อง (ยังไม่ได้ใส่ลิงก์ /exec ของ Google Sheet)</span>`;
+        if (syncLabel) syncLabel.innerHTML = `<span class="text-amber-600">โหมดบันทึกในเครื่อง (ยังไม่ได้ใส่ URL /exec)</span>`;
       }
+    }
+
+    function showSheetAlert(msg) {
+      const box = document.getElementById("sheet-alert-box");
+      document.getElementById("sheet-alert-msg").textContent = msg;
+      box.classList.remove("hidden");
     }
 
     function switchAuthMode(mode) {
@@ -293,72 +273,37 @@
     function togglePinVisibility() {
       const input = document.getElementById("input-pin");
       const icon = document.getElementById("pin-eye-icon");
-      if (input.type === "password") {
-        input.type = "text";
-        icon.className = "fa-solid fa-eye-slash";
-      } else {
-        input.type = "password";
-        icon.className = "fa-solid fa-eye";
-      }
+      input.type = input.type === "password" ? "text" : "password";
+      icon.className = input.type === "password" ? "fa-solid fa-eye" : "fa-solid fa-eye-slash";
     }
 
-    async function apiCall(payload) {
-      // หากใส่ URL ของ Google Apps Script แล้ว ให้ส่งข้อมูลไปที่ Google Sheet
-      if (GAS_WEB_APP_URL && GAS_WEB_APP_URL.startsWith("http")) {
-        const res = await fetch(GAS_WEB_APP_URL, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(payload)
-        });
-        return await res.json();
-      }
-
-      // Fallback: โหมดจำลองใน LocalStorage กรณียังไม่ได้ใส่ลิงก์ Google Sheet
-      return localFallbackApi(payload);
-    }
-
-    function localFallbackApi(payload) {
+    // บันทึกลงเครื่องเสมอเป็นฐานสำรอง และซิงก์กับ Google Sheet ถ้ามี URL
+    function saveToLocalDb(nickname, pin, gameId, score, completed) {
       const db = JSON.parse(localStorage.getItem("sci_hub_local_db") || "{}");
+      const key = nickname.toLowerCase();
       const now = new Date().toLocaleString("th-TH");
-
-      if (payload.action === "register") {
-        const key = payload.nickname.toLowerCase();
-        if (db[key]) return { status: "error", message: "ชื่อเล่นนี้มีผู้ใช้งานแล้ว กรุณาใช้ชื่ออื่นหรือกดเข้าสู่ระบบ" };
+      if (!db[key]) {
         db[key] = {
-          nickname: payload.nickname,
-          pin: payload.pin,
+          nickname,
+          pin: pin || "00000",
           games: [1, 2, 3, 4, 5].map(id => ({ id, bestScore: 0, completed: false })),
           totalScore: 0,
           completedCount: 0,
           lastPlayed: now
         };
-        localStorage.setItem("sci_hub_local_db", JSON.stringify(db));
-        return { status: "ok", player: db[key], leaderboard: buildLocalTop5(db) };
       }
-
-      if (payload.action === "login") {
-        const key = payload.nickname.toLowerCase();
-        const user = db[key];
-        if (!user) return { status: "error", message: "ไม่พบชื่อเล่นนี้ในระบบ กรุณาลงทะเบียนใหม่" };
-        if (user.pin !== payload.pin) return { status: "error", message: "รหัสผ่าน 5 หลักไม่ถูกต้อง" };
-        return { status: "ok", player: user, leaderboard: buildLocalTop5(db) };
-      }
-
-      if (payload.action === "save_progress") {
-        const key = payload.nickname.toLowerCase();
-        const user = db[key];
-        if (!user) return { status: "error", message: "ไม่พบข้อมูลผู้เล่น" };
-        const g = user.games.find(x => x.id === Number(payload.gameId));
+      if (gameId) {
+        const g = db[key].games.find(x => x.id === Number(gameId));
         if (g) {
-          if (Number(payload.score) > g.bestScore) g.bestScore = Number(payload.score);
-          if (payload.completed) g.completed = true;
+          if (Number(score) > g.bestScore) g.bestScore = Number(score);
+          if (completed) g.completed = true;
         }
-        user.totalScore = user.games.reduce((sum, x) => sum + x.bestScore, 0);
-        user.completedCount = user.games.filter(x => x.completed).length;
-        user.lastPlayed = now;
-        localStorage.setItem("sci_hub_local_db", JSON.stringify(db));
-        return { status: "ok", player: user, leaderboard: buildLocalTop5(db) };
+        db[key].totalScore = db[key].games.reduce((s, x) => s + x.bestScore, 0);
+        db[key].completedCount = db[key].games.filter(x => x.completed).length;
+        db[key].lastPlayed = now;
       }
+      localStorage.setItem("sci_hub_local_db", JSON.stringify(db));
+      return { player: db[key], leaderboard: buildLocalTop5(db) };
     }
 
     function buildLocalTop5(db) {
@@ -366,6 +311,47 @@
         .map(u => ({ nickname: u.nickname, totalScore: u.totalScore, completedCount: u.completedCount }))
         .sort((a, b) => b.totalScore - a.totalScore || b.completedCount - a.completedCount)
         .slice(0, 5);
+    }
+
+    async function apiCall(payload) {
+      // 1) ถ้ายังไม่มีลิงก์ Google Sheet ให้ใช้ระบบบันทึกในเครื่องทันที
+      if (!hasValidGasUrl()) {
+        const db = JSON.parse(localStorage.getItem("sci_hub_local_db") || "{}");
+        const key = payload.nickname.toLowerCase();
+        if (payload.action === "register") {
+          if (db[key]) return { status: "error", message: "ชื่อเล่นนี้มีผู้ใช้งานแล้ว กรุณากดเข้าสู่ระบบเดิม" };
+          const res = saveToLocalDb(payload.nickname, payload.pin);
+          return { status: "ok", ...res };
+        }
+        if (payload.action === "login") {
+          if (!db[key]) return { status: "error", message: "ไม่พบชื่อเล่นนี้ กรุณากดแท็บ 'ลงทะเบียนใหม่' ก่อน" };
+          if (db[key].pin !== payload.pin) return { status: "error", message: "รหัสผ่าน 5 หลักไม่ถูกต้อง" };
+          return { status: "ok", player: db[key], leaderboard: buildLocalTop5(db) };
+        }
+        if (payload.action === "save_progress") {
+          const res = saveToLocalDb(payload.nickname, payload.pin, payload.gameId, payload.score, payload.completed);
+          return { status: "ok", ...res };
+        }
+      }
+
+      // 2) ถ้ามีลิงก์ Google Sheet ให้ส่งข้อมูลไป Google Apps Script
+      if (payload.action === "save_progress") {
+        saveToLocalDb(payload.nickname, payload.pin, payload.gameId, payload.score, payload.completed);
+      }
+
+      const response = await fetch(GAS_WEB_APP_URL.trim(), {
+        method: "POST",
+        redirect: "follow",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+
+      const rawText = await response.text();
+      try {
+        return JSON.parse(rawText);
+      } catch (parseErr) {
+        throw new Error("Google Apps Script ตอบกลับไม่ใช่ JSON (กรุณาเช็กว่าตั้งค่า Who has access = Anyone และใช้ลิงก์ลงท้าย /exec)");
+      }
     }
 
     async function handleAuthSubmit(e) {
@@ -376,7 +362,6 @@
       const btn = document.getElementById("auth-submit-btn");
 
       errBox.classList.add("hidden");
-
       if (!/^\d{5}$/.test(pin)) {
         errBox.textContent = "รหัสผ่านต้องเป็นตัวเลข 5 หลักเท่านั้น";
         errBox.classList.remove("hidden");
@@ -392,6 +377,7 @@
           currentPlayer = res.player;
           currentPlayer.pin = pin;
           leaderboardData = res.leaderboard || [];
+          saveToLocalDb(nickname, pin);
           localStorage.setItem("sci_hub_current_user", JSON.stringify(currentPlayer));
           showDashboard();
         } else {
@@ -399,7 +385,7 @@
           errBox.classList.remove("hidden");
         }
       } catch (err) {
-        errBox.textContent = "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้: " + err.message;
+        errBox.textContent = err.message;
         errBox.classList.remove("hidden");
       } finally {
         btn.disabled = false;
@@ -419,28 +405,40 @@
           const pin = currentPlayer.pin;
           currentPlayer = res.player;
           currentPlayer.pin = pin;
-          leaderboardData = res.leaderboard || [];
+          leaderboardData = res.leaderboard || leaderboardData;
           localStorage.setItem("sci_hub_current_user", JSON.stringify(currentPlayer));
           renderDashboard();
+          showSaveToast("อัปเดตข้อมูลล่าสุดเรียบร้อยแล้ว!");
         }
       } catch (e) {
-        console.error(e);
+        showSheetAlert(e.message);
       }
     }
 
     async function fetchLeaderboardOnly() {
-      if (GAS_WEB_APP_URL && GAS_WEB_APP_URL.startsWith("http")) {
-        try {
-          const res = await fetch(GAS_WEB_APP_URL + "?action=leaderboard");
-          const data = await res.json();
-          if (data.status === "ok") leaderboardData = data.leaderboard;
-        } catch (e) {}
-      }
+      try {
+        const res = await fetch(GAS_WEB_APP_URL.trim() + "?action=leaderboard", { redirect: "follow" });
+        const data = await res.json();
+        if (data.status === "ok") leaderboardData = data.leaderboard;
+      } catch (e) {}
+    }
+
+    // ปุ่มทดสอบส่งคะแนนจำลองเข้าสู่ระบบ
+    async function testScoreSync() {
+      if (!currentPlayer) return;
+      await processGameScore({
+        gameId: 1,
+        gameName: "Stinky Creek (ทดสอบ)",
+        score: 10,
+        completed: true,
+        timeUsed: 30
+      });
     }
 
     function showDashboard() {
       document.getElementById("auth-view").classList.add("hidden");
       document.getElementById("dashboard-view").classList.remove("hidden");
+      updateConnectionBadge();
       renderDashboard();
     }
 
@@ -467,7 +465,6 @@
       document.getElementById("bar-label").textContent = `${percent}%`;
       document.getElementById("overall-progress-bar").style.width = `${percent}%`;
 
-      // รายการความก้าวหน้าย่อ 5 เกม
       const miniList = document.getElementById("mini-progress-list");
       miniList.innerHTML = GAMES_CONFIG.map(g => {
         const pGame = (currentPlayer.games || []).find(x => x.id === g.id) || { bestScore: 0, completed: false };
@@ -477,7 +474,7 @@
               ? `<span class="text-amber-600 font-bold"><i class="fa-solid fa-spinner"></i> กำลังเล่น</span>`
               : `<span class="text-slate-400">ยังไม่เริ่ม</span>`);
         return `
-          <div class="flex items-center justify-between py-1 px-2 rounded-lg bg-slate-50">
+          <div class="flex items-center justify-between py-1.5 px-2.5 rounded-lg bg-slate-50">
             <span class="font-semibold text-slate-700 truncate pr-2">${g.title}</span>
             <div class="flex items-center gap-3 shrink-0">
               <span class="font-bold text-teal-700">${pGame.bestScore} คะแนน</span>
@@ -487,7 +484,6 @@
         `;
       }).join("");
 
-      // ตาราง Top 5
       const lbContainer = document.getElementById("leaderboard-container");
       if (!leaderboardData || leaderboardData.length === 0) {
         lbContainer.innerHTML = `<div class="text-center text-sm text-slate-400 py-6">ยังไม่มีข้อมูลสถิติคะแนน</div>`;
@@ -515,7 +511,6 @@
         }).join("");
       }
 
-      // การ์ดเลือกเล่นทั้ง 5 เกม
       const grid = document.getElementById("games-grid");
       grid.innerHTML = GAMES_CONFIG.map(g => {
         const pGame = (currentPlayer.games || []).find(x => x.id === g.id) || { bestScore: 0, completed: false };
@@ -557,20 +552,35 @@
     }
 
     function closeGameModal() {
+      if (isSaving) {
+        showSaveToast("กำลังบันทึกคะแนน กรุณารอ 1–2 วินาที...");
+        return;
+      }
       document.getElementById("game-iframe").src = "";
       document.getElementById("game-player-modal").classList.add("hidden");
-      refreshData();
+      renderDashboard();
     }
 
-    // รับผลคะแนนที่ส่งมาจากไฟล์เกมทั้ง 5 ไฟล์ผ่าน postMessage
-    window.addEventListener("message", async (event) => {
-      const msg = event.data;
-      if (!msg || msg.type !== "SCIENCE_GAME_RESULT" || !currentPlayer) return;
+    async function processGameScore(msg) {
+      if (!currentPlayer) return;
+      isSaving = true;
+      document.getElementById("close-game-text").textContent = "กำลังบันทึกคะแนน...";
+      showSaveToast(`กำลังบันทึกคะแนนเกมที่ ${msg.gameId} (${msg.score} คะแนน)...`);
+
+      // อัปเดตหน้าจอทันทีด้วยข้อมูลในเครื่องก่อน เพื่อไม่ให้คะแนนหายแม้เน็ตช้า
+      const localRes = saveToLocalDb(currentPlayer.nickname, currentPlayer.pin, msg.gameId, msg.score, msg.completed);
+      const savedPin = currentPlayer.pin;
+      currentPlayer = localRes.player;
+      currentPlayer.pin = savedPin;
+      leaderboardData = localRes.leaderboard;
+      localStorage.setItem("sci_hub_current_user", JSON.stringify(currentPlayer));
+      renderDashboard();
 
       try {
         const res = await apiCall({
           action: "save_progress",
           nickname: currentPlayer.nickname,
+          pin: savedPin,
           gameId: msg.gameId,
           gameName: msg.gameName,
           score: msg.score,
@@ -579,17 +589,28 @@
         });
 
         if (res.status === "ok") {
-          const pin = currentPlayer.pin;
           currentPlayer = res.player;
-          currentPlayer.pin = pin;
+          currentPlayer.pin = savedPin;
           leaderboardData = res.leaderboard || leaderboardData;
           localStorage.setItem("sci_hub_current_user", JSON.stringify(currentPlayer));
           renderDashboard();
           showSaveToast(`บันทึกคะแนนเกมที่ ${msg.gameId} (${msg.score} คะแนน) สำเร็จ!`);
+        } else {
+          showSheetAlert(res.message || "Google Sheet ตอบกลับผิดพลาด");
         }
       } catch (e) {
-        console.error("Save error:", e);
+        showSheetAlert(e.message);
+        showSaveToast(`บันทึกคะแนนในเครื่องแล้ว (${msg.score} คะแนน)`);
+      } finally {
+        isSaving = false;
+        document.getElementById("close-game-text").textContent = "กลับหน้าหลัก & ดูความก้าวหน้า";
       }
+    }
+
+    window.addEventListener("message", async (event) => {
+      const msg = event.data;
+      if (!msg || msg.type !== "SCIENCE_GAME_RESULT") return;
+      await processGameScore(msg);
     });
 
     function showSaveToast(text) {
