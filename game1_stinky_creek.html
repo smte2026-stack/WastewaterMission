@@ -1431,6 +1431,14 @@
                     player.vx = -4;
                 } else {
                     triggerVictory();
+                    window.parent.postMessage({
+  type: "SCIENCE_GAME_RESULT",
+  gameId: 1,
+  gameName: "Stinky Creek",
+  score: score,
+  completed: true,
+  timeUsed: timerSeconds
+}, "*");
                 }
             }
         }
